@@ -10,9 +10,7 @@ using Lexicon;
 /// </summary>
 static class InputProcessor
 {
-    /// <summary>
-    /// Strings that are removed during tokenization.
-    /// </summary>
+    /// <summary>Strings that are removed during tokenization.</summary>
     static string[] removableTokens = new string[] { "the", "a", "an", "of" };
 
     /// <summary>

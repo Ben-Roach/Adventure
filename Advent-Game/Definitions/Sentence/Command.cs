@@ -8,17 +8,18 @@ namespace Sentence
     class Command : INode
     {
         public string OrigToken { get; }
-        /// <summary>Contains the method associated with the Command.</summary>
+        /// <summary>The method to call on behalf of the <see cref="Command"/>.</summary>
         public Action ActionDelegate { get; }
 
         /// <summary>
-        /// Create a new Command INode with an associated actionDelegate.
+        /// Create a new <see cref="Command"/>.
         /// </summary>
-        /// <param name="actionDelegate">The method associated with the Command.</param>
+        /// <param name="actionDelegate">The method to call on behalf of the <see cref="Command"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown when origToken or actionDelegate is null.</exception>
         public Command(string origToken, Action actionDelegate)
         {
-            OrigToken = origToken;
-            ActionDelegate = actionDelegate;
+            OrigToken = origToken != null ? origToken : throw new ArgumentNullException("Attempted to create a Command with a null origToken.");
+            ActionDelegate = actionDelegate != null ? actionDelegate : throw new ArgumentNullException("Attempted to create a Command with a null delegate.");
         }
     }
 }
