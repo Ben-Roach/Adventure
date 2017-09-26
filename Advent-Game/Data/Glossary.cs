@@ -7,12 +7,12 @@ namespace Lexicon
     /// <summary>
     /// Contains collections with all known words, and all data associated with them.
     /// </summary>
-    static class Glossaries
+    public class Glossary
     {
         /// <summary>
         /// All known Verbs, with their associated syntaxes and verb action methods.
         /// </summary>
-        public static Glossary<VerbSyntax[]> Verbs { get; } = new Glossary<VerbSyntax[]>(typeof(Verb))
+        public GlossarySection<VerbSyntax[]> Verbs { get; } = new GlossarySection<VerbSyntax[]>(typeof(Verb))
         {
             { new[] { "take", "grab" }, new[] {
                 new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular)
@@ -32,7 +32,7 @@ namespace Lexicon
         /// <summary>
         /// All known Commands, with their associated command action methods.
         /// </summary>
-        public static Glossary<Action> Commands = new Glossary<Action>(typeof(Command))
+        public GlossarySection<Action> Commands { get; } = new GlossarySection<Action>(typeof(Command))
         {
             { new[] { "commands" }, null },
             { new[] { "credits" }, null },
@@ -45,7 +45,7 @@ namespace Lexicon
         /// <summary>
         /// All other predetermined words.
         /// </summary>
-        public static Glossary<string> Particles = new Glossary<string>(typeof(Particle))
+        public GlossarySection<string> Particles { get; } = new GlossarySection<string>(typeof(Particle))
         {
             { new[] { "and", "&", "then" }, "and" },
             // Remember that the following particles are similar to some directions:
@@ -58,7 +58,7 @@ namespace Lexicon
         /// <summary>
         /// All words representing directions.
         /// </summary>
-        public static Glossary<string> Directions = new Glossary<string>(typeof(Direction))
+        public GlossarySection<string> Directions { get; } = new GlossarySection<string>(typeof(Direction))
         {
             { new[] { "north", "n" }, "N" },
             { new[] { "east", "e" }, "E" },
@@ -78,12 +78,16 @@ namespace Lexicon
         /// <summary>
         /// Set of noun strings, derived from WorldObjects. Will change as WorldObjects are created and changed.
         /// </summary>
-        public static HashSet<string> Nouns { get; private set; } = new HashSet<string>();
+        public HashSet<string> Nouns { get; private set; } = new HashSet<string>();
 
         /// <summary>
         /// Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.
         /// </summary>
-        public static HashSet<string> Adjectives { get; private set; } = new HashSet<string>();
-    }
+        public HashSet<string> Adjectives { get; private set; } = new HashSet<string>();
 
+        public Glossary()
+        {
+
+        }
+    }
 }

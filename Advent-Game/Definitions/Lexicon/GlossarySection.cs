@@ -15,7 +15,7 @@ namespace Lexicon
     /// PartOfSpeech, and is intended to fill the unique property(ies) of the resulting INode object.
     /// </remarks>
     /// <typeparam name="T">The Type of the data associated with each word group.</typeparam>
-    class Glossary<T> : IEnumerable<Tuple<string[], T>>
+    public class GlossarySection<T> : IEnumerable<Tuple<string[], T>>
     {
         private List<Tuple<string[], T>> baseCollection;
         /// <summary>The part of speech of the Glossary.</summary>
@@ -26,7 +26,7 @@ namespace Lexicon
         /// </summary>
         /// <param name="partOfSpeech">The part of speech of the Glossary. Must be an INode type.</param>
         /// <param name="entries">An enumerable KeyValuePair collection where each Key (word group) has an associated object of type T as its Value.</param>
-        public Glossary(Type partOfSpeech)
+        public GlossarySection(Type partOfSpeech)
         {
             Debug.Assert(typeof(Sentence.INode).IsAssignableFrom(partOfSpeech));
             PartOfSpeech = partOfSpeech;

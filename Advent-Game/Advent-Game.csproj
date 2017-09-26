@@ -62,7 +62,7 @@
     <Compile Include="Definitions\Flags\LocFlags.cs" />
     <Compile Include="Definitions\Flags\PropFlags.cs" />
     <Compile Include="Definitions\Flags\SyntFlags.cs" />
-    <Compile Include="Definitions\Lexicon\Glossary.cs" />
+    <Compile Include="Definitions\Lexicon\GlossarySection.cs" />
     <Compile Include="Definitions\Lexicon\VerbSyntax.cs" />
     <Compile Include="Definitions\Sentence\Adjective.cs" />
     <Compile Include="Definitions\Sentence\Command.cs" />
@@ -74,7 +74,7 @@
     <Compile Include="Definitions\Sentence\UnknownWord.cs" />
     <Compile Include="Definitions\Sentence\Verb.cs" />
     <Compile Include="Definitions\World\Entity.cs" />
-    <Compile Include="Data\Glossaries.cs" />
+    <Compile Include="Data\Glossary.cs" />
     <Compile Include="Definitions\World\Location.cs" />
     <Compile Include="Definitions\World\Prop.cs" />
     <Compile Include="Logic\InputProcessor.cs" />

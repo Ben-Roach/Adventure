@@ -10,43 +10,13 @@ using Lexicon;
 /// </summary>
 static class InputProcessor
 {
-    /// <summary>Strings that are removed during tokenization.</summary>
-    static string[] removableTokens = new string[] { "the", "a", "an", "of" };
-
-    /// <summary>
-    /// Conducts the tokenization, parsing, and interpretation of the player's input.
-    /// </summary>
-    /// <param name="inputString">The player's raw input as a string.</param>
-    public static void Process(string inputString)
-    {
-        // TOKENIZATION -- Split input string into a list of strings, while removing unnecessary words and invalid strings.
-        bool validInput = Tokenize(inputString, out List<string> tokens);
-        if (!validInput)
-            return;
-
-        // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-        List<INode> sentence = new List<INode>();
-        foreach (string token in tokens)
-        {
-            sentence.Add(CreateNodeFromToken(token));
-        }
-        sentence = CollectAdjectives(sentence);
-        sentence = CollectNouns(sentence);
-
-        // COMPREHENSION -- Validate sentence structure and word usage, and attempt to act upon all action words.
-        Interpret(sentence);
-
-        // WRAP-UP
-        ObjectDumper.Dump(sentence);
-    }
-
     /// <summary>
     /// Removes invalid characters from inputString, splits it into a List, and removes unnecessary words.
     /// </summary>
     /// <param name="inputString">The player's raw input as a string.</param>
     /// <param name="outputList">A filtered and tokenized list derived from inputString.</param>
     /// <returns>True if inputString is valid, else false.</returns>
-    static bool Tokenize(string inputString, out List<string> outputList)
+    public static bool Tokenize(string inputString, string[] removableTokens, out List<string> outputList)
     {
         // Check for empty input
         if (inputString == "")
@@ -94,36 +64,36 @@ static class InputProcessor
     /// </summary>
     /// <param name="token">A word input by the player.</param>
     /// <returns>An INode that represents the token.</returns>
-    static INode CreateNodeFromToken(string token)
+    public static INode CreateNodeFromToken(string token, Glossary glossary)
     {
         string tokenLower = token.ToLower();
-        foreach (Tuple<string[], VerbSyntax[]> entry in Glossaries.Verbs)
+        foreach (Tuple<string[], VerbSyntax[]> entry in glossary.Verbs)
         {
             if (entry.Item1.Contains(tokenLower))
                 return new Verb(tokenLower, entry.Item2);
         }
-        foreach (Tuple<string[], Action> entry in Glossaries.Commands)
+        foreach (Tuple<string[], Action> entry in glossary.Commands)
         {
             if (entry.Item1.Contains(tokenLower))
                 return new Command(tokenLower, entry.Item2);
         }
-        foreach (Tuple<string[], string> entry in Glossaries.Particles)
+        foreach (Tuple<string[], string> entry in glossary.Particles)
         {
             if (entry.Item1.Contains(tokenLower))
                 return new Particle(tokenLower, entry.Item2);
         }
-        foreach (Tuple<string[], string> entry in Glossaries.Directions)
+        foreach (Tuple<string[], string> entry in glossary.Directions)
         {
             if (entry.Item1.Contains(tokenLower))
                 return new Direction(tokenLower, entry.Item2);
         }
         // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
-        foreach (string entry in Glossaries.Nouns)
+        foreach (string entry in glossary.Nouns)
         {
             if (entry == tokenLower)
                 return new Noun(token);
         }
-        foreach (string entry in Glossaries.Adjectives)
+        foreach (string entry in glossary.Adjectives)
         {
             if (entry == tokenLower)
                 return new Adjective(token);
@@ -135,7 +105,7 @@ static class InputProcessor
     /// Collects Adjectives contiguous to each Noun, and adds them to the respective Noun.
     /// </summary>
     /// <returns>The sentence with Adjectives collected into their respective Nouns.</returns>
-    static List<INode> CollectAdjectives(List<INode> inputSentence)
+    public static List<INode> CollectAdjectives(List<INode> inputSentence)
     {
         List<Adjective> adjectiveList = new List<Adjective>();
         for (int i = 0; i < inputSentence.Count; i++)
@@ -187,7 +157,7 @@ static class InputProcessor
     /// Collects chained Nouns (those with single "and" Particles between them) into a NounCollection.
     /// </summary>
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
-    static List<INode> CollectNouns(List<INode> inputSentence)
+    public static List<INode> CollectNouns(List<INode> inputSentence)
     {
         List<INode> newSentence = new List<INode>();
         List<Noun> nounList = new List<Noun>();
@@ -214,9 +184,9 @@ static class InputProcessor
     }
 
     /// <summary>
-    /// Attempts to interpret the constructed sentence.
+    /// Attempts to comprehend a constructed sentence.
     /// </summary>
-    static void Interpret(List<INode> inputSentence)
+    public static void Comprehend(List<INode> inputSentence)
     {
         for (int i = 0; i < inputSentence.Count; i++)
         {

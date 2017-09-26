@@ -6,7 +6,7 @@ namespace Lexicon
     /// <summary>
     /// A glossary element that represents a valid Verb usage.
     /// </summary>
-    class VerbSyntax
+    public class VerbSyntax
     {
         /// <summary>Contains wildcards (asterisks) and/or specific word lemmas as an array of strings.</summary>
         public string[] Syntax { get; }
