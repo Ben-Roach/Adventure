@@ -3,6 +3,7 @@ using SentenceStructure;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 class Game
 {
@@ -27,7 +28,7 @@ class Game
             {
                 Console.WriteLine(InterpretSentence(sentence));
             }
-            ObjectDumper.Dump(sentence);
+            ObjectDumper.Dump(typeof(Sentence).GetField("baseList", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(sentence));
         }
     }
 

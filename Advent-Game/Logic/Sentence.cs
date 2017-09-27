@@ -12,9 +12,6 @@ public class Sentence
 {
     private List<INode> baseList;
 
-    /// <summary>The contained <see cref="INode"/> objects.</summary>
-    public List<INode> NodeList { get { return baseList; } }
-
     /// <summary>
     /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
     /// </summary>
