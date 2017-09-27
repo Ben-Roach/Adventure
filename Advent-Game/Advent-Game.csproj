@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ADVENT</RootNamespace>
     <AssemblyName>ADVENT</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -27,6 +27,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -59,24 +60,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug\ObjectDumper.cs" />
-    <Compile Include="Definitions\Flags\LocFlags.cs" />
-    <Compile Include="Definitions\Flags\PropFlags.cs" />
     <Compile Include="Definitions\Flags\SyntFlags.cs" />
     <Compile Include="Definitions\Lexicon\GlossarySection.cs" />
     <Compile Include="Definitions\Lexicon\VerbSyntax.cs" />
-    <Compile Include="Definitions\Sentence\Adjective.cs" />
-    <Compile Include="Definitions\Sentence\Command.cs" />
-    <Compile Include="Definitions\Sentence\Direction.cs" />
+    <Compile Include="Definitions\SentenceStructure\Adjective.cs" />
+    <Compile Include="Definitions\SentenceStructure\Command.cs" />
+    <Compile Include="Definitions\SentenceStructure\Direction.cs" />
     <Compile Include="Definitions\Interfaces\INode.cs" />
-    <Compile Include="Definitions\Sentence\Noun.cs" />
-    <Compile Include="Definitions\Sentence\Particle.cs" />
-    <Compile Include="Definitions\Sentence\NounCollection.cs" />
-    <Compile Include="Definitions\Sentence\UnknownWord.cs" />
-    <Compile Include="Definitions\Sentence\Verb.cs" />
+    <Compile Include="Definitions\SentenceStructure\Noun.cs" />
+    <Compile Include="Definitions\SentenceStructure\Particle.cs" />
+    <Compile Include="Definitions\SentenceStructure\NounCollection.cs" />
+    <Compile Include="Definitions\SentenceStructure\UnknownWord.cs" />
+    <Compile Include="Definitions\SentenceStructure\Verb.cs" />
     <Compile Include="Definitions\World\Entity.cs" />
     <Compile Include="Data\Glossary.cs" />
-    <Compile Include="Definitions\World\Location.cs" />
-    <Compile Include="Definitions\World\Prop.cs" />
     <Compile Include="Logic\Sentence.cs" />
     <Compile Include="Logic\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

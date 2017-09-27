@@ -12,21 +12,21 @@ public class Sentence
 {
     private List<INode> baseList;
 
-    /// <summary></summary>
+    /// <summary>The contained <see cref="INode"/> objects.</summary>
     public List<INode> NodeList { get { return baseList; } }
 
     /// <summary>
-    /// 
+    /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
     /// </summary>
-    /// <param name="inputString"></param>
-    /// <param name="removableWords"></param>
-    /// <param name="glossary"></param>
-    /// <param name="errorMessage"></param>
+    /// <param name="inputString">The string input by the player.</param>
+    /// <param name="removableWords">Words that can be removed from <paramref name="inputString"/> before building the <see cref="Sentence"/>.</param>
+    /// <param name="glossary">Used to look up and validate each word in <paramref name="inputString"/>.</param>
+    /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
     public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
     {
         baseList = new List<INode>();
 
-        // TOKENIZATION -- Split input string into a list of strings, while removing unnecessary words and invalid strings.
+        // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
         List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
         if (errorMessage != null)
             return;
@@ -41,12 +41,12 @@ public class Sentence
     }
 
     /// <summary>
-    /// Removes invalid characters from inputString, splits it into a List, and removes unnecessary words. Returns the List.
+    /// Removes invalid characters from <paramref name="inputString"/>, splits it into a list, and removes unnecessary words.
     /// </summary>
-    /// <param name="inputString">The player's raw input as a string.</param>
-    /// <param name="removableTokens"></param>
-    /// <param name="errorMessage"></param>
-    /// <returns>True if inputString is valid, else false.</returns>
+    /// <param name="inputString">The string input by the player.</param>
+    /// <param name="removableTokens">The array of removable words.</param>
+    /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
+    /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
     private List<string> Tokenize(string inputString, string[] removableTokens, out string errorMessage)
     {
         // Check for empty input
@@ -83,16 +83,16 @@ public class Sentence
             errorMessage = "I'm pretty sure that isn't a sentence.";
             return null;
         }
-        // Input passed initial validation
+        // Input passed validation
         errorMessage = null;
         return outputList;
     }
 
     /// <summary>
-    /// Creates and returns a list of INodes representing a sentence, derived from tokens.
+    /// Creates an <see cref="INode"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
     /// </summary>
     /// <param name="token">A word input by the player.</param>
-    /// <returns>An INode that represents the token.</returns>
+    /// <returns>An <see cref="INode"/> that represents the <paramref name="token"/>.</returns>
     private INode CreateNodeFromToken(string token, Glossary glossary)
     {
         string tokenLower = token.ToLower();
@@ -131,9 +131,9 @@ public class Sentence
     }
 
     /// <summary>
-    /// Collects Adjectives contiguous to each Noun, and adds them to the respective Noun.
+    /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
+    /// and replaces the <see cref="Noun"/> with one containing the <see cref="Adjective"/> objects.
     /// </summary>
-    /// <returns>The sentence with Adjectives collected into their respective Nouns.</returns>
     private void CollectAdjectives()
     {
         List<Adjective> adjectiveList = new List<Adjective>();
@@ -182,7 +182,8 @@ public class Sentence
     }
 
     /// <summary>
-    /// Collects chained Nouns (those with single "and" Particles between them) into a NounCollection.
+    /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with conjunction
+    /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
     /// </summary>
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
     private void CollectNouns()
@@ -209,40 +210,5 @@ public class Sentence
                 newList.Add(baseList[i]);
         }
         baseList = new List<INode>(newList);
-    }
-
-    /// <summary>
-    /// Attempts to comprehend a constructed sentence.
-    /// </summary>
-    public string Comprehend()
-    {
-        for (int i = 0; i < baseList.Count; i++)
-        {
-            if (baseList[i] is Particle && ((Particle)baseList[i]).Lemma == "and")
-                continue;
-
-            else if (baseList[i] is Command command)
-                command.ActionDelegate();
-
-            else if (baseList[i] is Verb verb)
-            {
-                List<VerbSyntax> syntaxList = verb.Syntaxes.ToList();
-                // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
-                // match, throw syntax out. Once all syntaxes have been checked: if there are no potentialy correct syntaxes, use the current word in the error message.
-                // Otherwise, go with the longest potentially correct syntax. Only go with an empty syntax if all other syntaxes were thrown out on the first check,
-                // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
-            }
-
-            else if (baseList[i] is UnknownWord)
-            {
-                return "I don't understand the word \"" + baseList[i].OrigToken + "\".";
-            }
-
-            else
-            {
-                return "You lost me at \"" + baseList[i].OrigToken + "\".";
-            }
-        }
-        return "Something weird happened. Maybe try that again?";
     }
 }

@@ -2,7 +2,7 @@
 namespace SentenceStructure
 {
     /// <summary>
-    /// Represents an interpretable lexical unit in a sentence.
+    /// Represents an interpretable lexical unit in a <see cref="Sentence"/>.
     /// </summary>
     public interface INode
     {

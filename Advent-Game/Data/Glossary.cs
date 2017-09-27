@@ -13,13 +13,13 @@ namespace Lexicon
         public HashSet<string> Nouns { get; private set; }
         /// <summary>Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
         public HashSet<string> Adjectives { get; private set; }
-        /// <summary>All known Verbs, with their associated syntaxes and verb action methods.</summary>
+        /// <summary>All known verbs, each with an associated <see cref="VerbSyntax"/> array.</summary>
         public GlossarySection<VerbSyntax[]> Verbs { get; }
         /// <summary>All words representing directions.</summary>
         public GlossarySection<string> Directions { get; }
         /// <summary>All other predetermined words.</summary>
         public GlossarySection<string> Particles { get; }
-        /// <summary>All known Commands, with their associated command action methods.</summary>
+        /// <summary>All known commands, each with an associated delegate.</summary>
         public GlossarySection<Action> Commands { get; }
 
         public Glossary()
@@ -60,6 +60,7 @@ namespace Lexicon
             };
             Particles = new GlossarySection<string>(typeof(Particle))
             {
+                // The below particle is considered a conjunction when chaining Nouns.
                 { new[] { "and", "&", "then" }, "and" },
                 // Remember that the following particles are similar to some directions:
                 { new[] { "in", "inside" }, "in" },
