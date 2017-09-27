@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Represents a word used by the player for extradiegetic game control.

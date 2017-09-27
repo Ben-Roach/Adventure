@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Lexicon;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Used as the basis of performing actions on behalf of the player.

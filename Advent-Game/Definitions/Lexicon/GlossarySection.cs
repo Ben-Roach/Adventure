@@ -28,7 +28,7 @@ namespace Lexicon
         /// <param name="entries">An enumerable KeyValuePair collection where each Key (word group) has an associated object of type T as its Value.</param>
         public GlossarySection(Type partOfSpeech)
         {
-            Debug.Assert(typeof(Sentence.INode).IsAssignableFrom(partOfSpeech));
+            Debug.Assert(typeof(SentenceStructure.INode).IsAssignableFrom(partOfSpeech));
             PartOfSpeech = partOfSpeech;
             baseCollection = new List<Tuple<string[], T>>();
         }

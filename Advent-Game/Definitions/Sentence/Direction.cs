@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Represents a word used by the player primarily for movement.

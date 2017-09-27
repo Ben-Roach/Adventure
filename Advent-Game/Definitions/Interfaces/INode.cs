@@ -1,5 +1,5 @@
 ﻿
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Represents an interpretable lexical unit in a sentence.

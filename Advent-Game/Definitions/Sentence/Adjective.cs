@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Added to <see cref="Noun.ContainedAdjectives"/> to make the <see cref="Noun"/> more specific.

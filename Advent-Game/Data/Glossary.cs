@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sentence;
+using SentenceStructure;
 
 namespace Lexicon
 {
@@ -78,16 +78,17 @@ namespace Lexicon
         /// <summary>
         /// Set of noun strings, derived from WorldObjects. Will change as WorldObjects are created and changed.
         /// </summary>
-        public HashSet<string> Nouns { get; private set; } = new HashSet<string>();
+        public HashSet<string> Nouns { get; private set; }
 
         /// <summary>
         /// Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.
         /// </summary>
-        public HashSet<string> Adjectives { get; private set; } = new HashSet<string>();
+        public HashSet<string> Adjectives { get; private set; }
 
         public Glossary()
         {
-
+            Nouns = new HashSet<string>();
+            Adjectives = new HashSet<string>();
         }
     }
 }

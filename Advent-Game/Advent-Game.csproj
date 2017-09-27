@@ -77,7 +77,7 @@
     <Compile Include="Data\Glossary.cs" />
     <Compile Include="Definitions\World\Location.cs" />
     <Compile Include="Definitions\World\Prop.cs" />
-    <Compile Include="Logic\InputProcessor.cs" />
+    <Compile Include="Logic\Sentence.cs" />
     <Compile Include="Logic\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

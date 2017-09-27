@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Used for sentence and syntax structure.

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Represents a collection of nouns used collectively by the player.

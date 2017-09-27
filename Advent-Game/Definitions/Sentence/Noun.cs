@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sentence
+namespace SentenceStructure
 {
     /// <summary>
     /// Used as the basis of specifying and finding diegetic game objects.

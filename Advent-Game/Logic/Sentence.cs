@@ -2,28 +2,58 @@
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using Sentence;
+using SentenceStructure;
 using Lexicon;
 
 /// <summary>
-/// Parses and interprets player input.
+/// 
 /// </summary>
-static class InputProcessor
+public class Sentence
 {
+    private List<INode> baseList;
+
+    /// <summary></summary>
+    public List<INode> NodeList { get { return baseList; } }
+
     /// <summary>
-    /// Removes invalid characters from inputString, splits it into a List, and removes unnecessary words.
+    /// 
+    /// </summary>
+    /// <param name="inputString"></param>
+    /// <param name="removableWords"></param>
+    /// <param name="glossary"></param>
+    /// <param name="errorMessage"></param>
+    public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
+    {
+        baseList = new List<INode>();
+
+        // TOKENIZATION -- Split input string into a list of strings, while removing unnecessary words and invalid strings.
+        List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
+        if (errorMessage != null)
+            return;
+
+        // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
+        foreach (string token in tokenList)
+        {
+            baseList.Add(CreateNodeFromToken(token, glossary));
+        }
+        CollectAdjectives();
+        CollectNouns();
+    }
+
+    /// <summary>
+    /// Removes invalid characters from inputString, splits it into a List, and removes unnecessary words. Returns the List.
     /// </summary>
     /// <param name="inputString">The player's raw input as a string.</param>
-    /// <param name="outputList">A filtered and tokenized list derived from inputString.</param>
+    /// <param name="removableTokens"></param>
+    /// <param name="errorMessage"></param>
     /// <returns>True if inputString is valid, else false.</returns>
-    public static bool Tokenize(string inputString, string[] removableTokens, out List<string> outputList)
+    private List<string> Tokenize(string inputString, string[] removableTokens, out string errorMessage)
     {
         // Check for empty input
         if (inputString == "")
         {
-            Console.WriteLine("Speak up, please.");
-            outputList = null;
-            return false;
+            errorMessage = "Speak up, please.";
+            return null;
         }
         // Remove invalid characters
         StringBuilder strBuilder = new StringBuilder();
@@ -33,15 +63,14 @@ static class InputProcessor
                 strBuilder.Append(letter);
         }
         // Check if any valid characters remain
-        string temp = strBuilder.ToString();
-        if (temp.Length == 0)
+        string tempStr = strBuilder.ToString();
+        if (tempStr.Length == 0)
         {
-            Console.WriteLine("Try using actual words.");
-            outputList = null;
-            return false;
+            errorMessage = "Try using actual words.";
+            return null;
         }
         // Split inputString into outputList -- a list of string tokens, each representing one word
-        outputList = temp.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> outputList = tempStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         // Remove unnecessary words
         for (int i = outputList.Count() - 1; i >= 0; i--)
         {
@@ -51,12 +80,12 @@ static class InputProcessor
         // Check if any potentially valid tokens remain
         if (outputList.Count == 0)
         {
-            Console.WriteLine("I'm pretty sure that isn't a sentence.");
-            outputList = null;
-            return false;
+            errorMessage = "I'm pretty sure that isn't a sentence.";
+            return null;
         }
         // Input passed initial validation
-        return true;
+        errorMessage = null;
+        return outputList;
     }
 
     /// <summary>
@@ -64,7 +93,7 @@ static class InputProcessor
     /// </summary>
     /// <param name="token">A word input by the player.</param>
     /// <returns>An INode that represents the token.</returns>
-    public static INode CreateNodeFromToken(string token, Glossary glossary)
+    private INode CreateNodeFromToken(string token, Glossary glossary)
     {
         string tokenLower = token.ToLower();
         foreach (Tuple<string[], VerbSyntax[]> entry in glossary.Verbs)
@@ -105,98 +134,97 @@ static class InputProcessor
     /// Collects Adjectives contiguous to each Noun, and adds them to the respective Noun.
     /// </summary>
     /// <returns>The sentence with Adjectives collected into their respective Nouns.</returns>
-    public static List<INode> CollectAdjectives(List<INode> inputSentence)
+    private void CollectAdjectives()
     {
         List<Adjective> adjectiveList = new List<Adjective>();
-        for (int i = 0; i < inputSentence.Count; i++)
+        for (int i = 0; i < baseList.Count; i++)
         {
-            if (inputSentence[i] is Noun)
+            if (baseList[i] is Noun)
             {
                 // collect preceding Adjectives
                 if (i > 0)
                 {
                     for (int p = i - 1; p >= 0; p--)
                     {
-                        if (inputSentence[p] is Adjective)
+                        if (baseList[p] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)inputSentence[p]);
+                            adjectiveList.Add((Adjective)baseList[p]);
                             // make adjective a null object
-                            inputSentence[p] = null;
+                            baseList[p] = null;
                         }
                         else break;
                     }
                 }
                 // collect subsequent Adjectives
-                if (i < inputSentence.Count - 1)
+                if (i < baseList.Count - 1)
                 {
-                    for (int s = i + 1; s < inputSentence.Count; s++)
+                    for (int s = i + 1; s < baseList.Count; s++)
                     {
-                        if (inputSentence[s] is Adjective)
+                        if (baseList[s] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)inputSentence[s]);
-                            inputSentence[s] = null;
+                            adjectiveList.Add((Adjective)baseList[s]);
+                            baseList[s] = null;
                         }
                         else break;
                     }
                 }
-                Noun noun = (Noun)inputSentence[i];
+                Noun noun = (Noun)baseList[i];
                 noun.AddAdjectives(adjectiveList.ToArray());
                 adjectiveList.Clear();
             }
         }
         // remove null items (collected Adjectives) from sentence
-        for (int i = inputSentence.Count - 1; i >= 0; i--)
+        for (int i = baseList.Count - 1; i >= 0; i--)
         {
-            if (inputSentence[i] == null)
-                inputSentence.RemoveAt(i);
+            if (baseList[i] == null)
+                baseList.RemoveAt(i);
         }
-        return inputSentence;
     }
 
     /// <summary>
     /// Collects chained Nouns (those with single "and" Particles between them) into a NounCollection.
     /// </summary>
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
-    public static List<INode> CollectNouns(List<INode> inputSentence)
+    private void CollectNouns()
     {
-        List<INode> newSentence = new List<INode>();
+        List<INode> newList = new List<INode>();
         List<Noun> nounList = new List<Noun>();
-        for (int i = 0; i < inputSentence.Count; i++)
+        for (int i = 0; i < baseList.Count; i++)
         {
             // start/continue chain, increment 2 to skip to next Noun
-            if (i + 2 < inputSentence.Count && inputSentence[i] is Noun && inputSentence[i + 1] is Particle && ((Particle)inputSentence[i + 1]).Lemma == "and" && inputSentence[i + 2] is Noun)
+            if (i + 2 < baseList.Count && baseList[i] is Noun && baseList[i + 1] is Particle && ((Particle)baseList[i + 1]).Lemma == "and" && baseList[i + 2] is Noun)
             {
-                nounList.Add((Noun)inputSentence[i]);
+                nounList.Add((Noun)baseList[i]);
                 i++;
             }
             // add noun to existing chain, then terminate
-            else if (nounList.Count > 0 && inputSentence[i] is Noun)
+            else if (nounList.Count > 0 && baseList[i] is Noun)
             {
-                nounList.Add((Noun)inputSentence[i]);
-                newSentence.Add(new NounCollection(nounList.ToArray()));
+                nounList.Add((Noun)baseList[i]);
+                newList.Add(new NounCollection(nounList.ToArray()));
                 nounList.Clear();
             }
             // no chain, just add word to sentence and go to next
             else
-                newSentence.Add(inputSentence[i]);
+                newList.Add(baseList[i]);
         }
-        return newSentence;
+        baseList = new List<INode>(newList);
     }
 
     /// <summary>
     /// Attempts to comprehend a constructed sentence.
     /// </summary>
-    public static void Comprehend(List<INode> inputSentence)
+    public string Comprehend()
     {
-        for (int i = 0; i < inputSentence.Count; i++)
+        for (int i = 0; i < baseList.Count; i++)
         {
-            if (inputSentence[i] is Particle && ((Particle)inputSentence[i]).Lemma == "and")
+            if (baseList[i] is Particle && ((Particle)baseList[i]).Lemma == "and")
                 continue;
 
-            else if (inputSentence[i] is Command command)
+            else if (baseList[i] is Command command)
                 command.ActionDelegate();
 
-            else if (inputSentence[i] is Verb verb)
+            else if (baseList[i] is Verb verb)
             {
                 List<VerbSyntax> syntaxList = verb.Syntaxes.ToList();
                 // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
@@ -205,17 +233,16 @@ static class InputProcessor
                 // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
             }
 
-            else if (inputSentence[i] is UnknownWord)
+            else if (baseList[i] is UnknownWord)
             {
-                Console.WriteLine("I don't understand the word \"" + inputSentence[i].OrigToken + "\".");
-                break;
+                return "I don't understand the word \"" + baseList[i].OrigToken + "\".";
             }
 
             else
             {
-                Console.WriteLine("You lost me at \"" + inputSentence[i].OrigToken + "\".");
-                break;
+                return "You lost me at \"" + baseList[i].OrigToken + "\".";
             }
         }
+        return "Something weird happened. Maybe try that again?";
     }
 }
