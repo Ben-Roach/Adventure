@@ -37,7 +37,7 @@ class Game
     /// <param name="sentence">The <see cref="Sentence"/> to interpret.</param>
     static string InterpretSentence(Sentence sentence)
     {
-        List<INode> nodeList = sentence.NodeList;
+        List<Node> nodeList = sentence.NodeList;
         for (int i = 0; i < nodeList.Count; i++)
         {
             if (nodeList[i] is Particle && ((Particle)nodeList[i]).Lemma == "and")

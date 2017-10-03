@@ -10,7 +10,8 @@ using Lexicon;
 /// </summary>
 public class Sentence
 {
-    public List<INode> NodeList { get; private set; }
+    /// <summary>The ordered <see cref="Node"/> objects representing words in the <see cref="Sentence"/>.</summary>
+    public List<Node> NodeList { get; private set; }
 
     /// <summary>
     /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
@@ -21,7 +22,7 @@ public class Sentence
     /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
     public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
     {
-        NodeList = new List<INode>();
+        NodeList = new List<Node>();
 
         // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
         List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
@@ -86,11 +87,11 @@ public class Sentence
     }
 
     /// <summary>
-    /// Creates an <see cref="INode"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
+    /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
     /// </summary>
     /// <param name="token">A word input by the player.</param>
-    /// <returns>An <see cref="INode"/> that represents the <paramref name="token"/>.</returns>
-    private INode CreateNodeFromToken(string token, Glossary glossary)
+    /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
+    private Node CreateNodeFromToken(string token, Glossary glossary)
     {
         string tokenLower = token.ToLower();
         foreach (Tuple<string[], VerbSyntax[]> entry in glossary.Verbs)
@@ -185,7 +186,7 @@ public class Sentence
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
     private void CollectNouns()
     {
-        List<INode> newList = new List<INode>();
+        List<Node> newList = new List<Node>();
         List<Noun> nounList = new List<Noun>();
         for (int i = 0; i < NodeList.Count; i++)
         {
@@ -206,6 +207,6 @@ public class Sentence
             else
                 newList.Add(NodeList[i]);
         }
-        NodeList = new List<INode>(newList);
+        NodeList = new List<Node>(newList);
     }
 }

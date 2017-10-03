@@ -8,7 +8,7 @@ namespace Lexicon
     /// </summary>
     public class VerbSyntax
     {
-        public delegate void VerbSyntaxDelegate(SentenceStructure.INode directObject, SentenceStructure.INode indirectObject);
+        public delegate void VerbSyntaxDelegate(SentenceStructure.Node directObject, SentenceStructure.Node indirectObject);
 
         /// <summary>Contains wildcards (asterisks) and/or strings matching valid <see cref="SentenceStructure.Particle.Lemma"/> values.</summary>
         public string[] Syntax { get; }
@@ -16,21 +16,21 @@ namespace Lexicon
         public VerbSyntaxDelegate Delegate { get; }
         /// <summary>The <see cref="SyntFlags"/> for this syntax.</summary>
         public SyntFlags Flags { get; }
-        /// <summary>The first wildcard's Type. Must be a <see cref="SentenceStructure.INode"/> type.</summary>
+        /// <summary>The first wildcard's Type. Must be a <see cref="SentenceStructure.Node"/> type.</summary>
         public Type Arg1 { get; }
-        /// <summary>The second wildcard's Type. Must be a <see cref="SentenceStructure.INode"/> type.</summary>
+        /// <summary>The second wildcard's Type. Must be a <see cref="SentenceStructure.Node"/> type.</summary>
         public Type Arg2 { get; }
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with two wildcard arguments.</summary>
         /// <param name="syntaxStr">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the verb is encountered.</param>
         /// <param name="flags">The <see cref="SyntFlags"/> for this syntax.</param>
-        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="SentenceStructure.INode"/> Type.</param>
-        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="SentenceStructure.INode"/> Type.</param>
+        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="SentenceStructure.Node"/> Type.</param>
+        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="SentenceStructure.Node"/> Type.</param>
         public VerbSyntax(string syntaxStr, VerbSyntaxDelegate syntaxDelegate, Type arg1, Type arg2, SyntFlags flags = SyntFlags.None)
         {
-            Debug.Assert(typeof(SentenceStructure.INode).IsAssignableFrom(arg1) || arg1 == null);
-            Debug.Assert(typeof(SentenceStructure.INode).IsAssignableFrom(arg2) || arg2 == null);
+            Debug.Assert(typeof(SentenceStructure.Node).IsAssignableFrom(arg1) || arg1 == null);
+            Debug.Assert(typeof(SentenceStructure.Node).IsAssignableFrom(arg2) || arg2 == null);
             Syntax = syntaxStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Delegate = syntaxDelegate;
             Flags = flags;

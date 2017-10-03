@@ -7,11 +7,8 @@ namespace SentenceStructure
     /// <summary>
     /// Represents a collection of nouns used collectively by the player.
     /// </summary>
-    class NounCollection : INode
+    class NounCollection : Node
     {
-        /// <summary><see cref="Noun.OrigToken"/> of the first <see cref="Noun"/> in <see cref="ContainedNouns"/>.</summary>
-        public string OrigToken { get { return containedNouns[0].OrigToken; } }
-
         Noun[] containedNouns;
         /// <summary>The contained <see cref="Noun"/> objects.</summary>
         public IList<Noun> ContainedNouns { get { return Array.AsReadOnly(containedNouns); } }
@@ -22,7 +19,7 @@ namespace SentenceStructure
         /// <param name="nouns">The <see cref="Noun"/> objects contained in the <see cref="NounCollection"/>.</param>
         /// <exception cref="ArgumentException">Thrown when nouns is zero length or contains null items.</exception>
         /// <exception cref="ArgumentNullException">Thrown when nouns is null.</exception>
-        public NounCollection(Noun[] nouns)
+        public NounCollection(Noun[] nouns) : base(nouns[0].OrigToken)
         {
             if (nouns == null) throw new ArgumentNullException("Attempted to create a NounCollection with a null array.");
             else if (nouns.Length == 0) throw new ArgumentException("Attempted to create a NounCollection with a zero-length array.");
