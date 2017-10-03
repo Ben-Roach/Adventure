@@ -10,7 +10,7 @@ using Lexicon;
 /// </summary>
 public class Sentence
 {
-    private List<INode> baseList;
+    public List<INode> NodeList { get; private set; }
 
     /// <summary>
     /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
@@ -21,7 +21,7 @@ public class Sentence
     /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
     public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
     {
-        baseList = new List<INode>();
+        NodeList = new List<INode>();
 
         // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
         List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
@@ -31,7 +31,7 @@ public class Sentence
         // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
         foreach (string token in tokenList)
         {
-            baseList.Add(CreateNodeFromToken(token, glossary));
+            NodeList.Add(CreateNodeFromToken(token, glossary));
         }
         CollectAdjectives();
         CollectNouns();
@@ -128,58 +128,58 @@ public class Sentence
     }
 
     /// <summary>
-    /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
+    /// Collects <see cref="Adjective"/> objects in <see cref="NodeList"/> contiguous to each <see cref="Noun"/>,
     /// and replaces the <see cref="Noun"/> with one containing the <see cref="Adjective"/> objects.
     /// </summary>
     private void CollectAdjectives()
     {
         List<Adjective> adjectiveList = new List<Adjective>();
-        for (int i = 0; i < baseList.Count; i++)
+        for (int i = 0; i < NodeList.Count; i++)
         {
-            if (baseList[i] is Noun)
+            if (NodeList[i] is Noun)
             {
                 // collect preceding Adjectives
                 if (i > 0)
                 {
                     for (int p = i - 1; p >= 0; p--)
                     {
-                        if (baseList[p] is Adjective)
+                        if (NodeList[p] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)baseList[p]);
+                            adjectiveList.Add((Adjective)NodeList[p]);
                             // make adjective a null object
-                            baseList[p] = null;
+                            NodeList[p] = null;
                         }
                         else break;
                     }
                 }
                 // collect subsequent Adjectives
-                if (i < baseList.Count - 1)
+                if (i < NodeList.Count - 1)
                 {
-                    for (int s = i + 1; s < baseList.Count; s++)
+                    for (int s = i + 1; s < NodeList.Count; s++)
                     {
-                        if (baseList[s] is Adjective)
+                        if (NodeList[s] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)baseList[s]);
-                            baseList[s] = null;
+                            adjectiveList.Add((Adjective)NodeList[s]);
+                            NodeList[s] = null;
                         }
                         else break;
                     }
                 }
-                Noun noun = (Noun)baseList[i];
+                Noun noun = (Noun)NodeList[i];
                 noun.AddAdjectives(adjectiveList.ToArray());
                 adjectiveList.Clear();
             }
         }
         // remove null items (collected Adjectives) from sentence
-        for (int i = baseList.Count - 1; i >= 0; i--)
+        for (int i = NodeList.Count - 1; i >= 0; i--)
         {
-            if (baseList[i] == null)
-                baseList.RemoveAt(i);
+            if (NodeList[i] == null)
+                NodeList.RemoveAt(i);
         }
     }
 
     /// <summary>
-    /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with conjunction
+    /// Collects chained <see cref="Noun"/> objects in <see cref="NodeList"/> (those with conjunction
     /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
     /// </summary>
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
@@ -187,25 +187,25 @@ public class Sentence
     {
         List<INode> newList = new List<INode>();
         List<Noun> nounList = new List<Noun>();
-        for (int i = 0; i < baseList.Count; i++)
+        for (int i = 0; i < NodeList.Count; i++)
         {
             // start/continue chain, increment 2 to skip to next Noun
-            if (i + 2 < baseList.Count && baseList[i] is Noun && baseList[i + 1] is Particle && ((Particle)baseList[i + 1]).Lemma == "and" && baseList[i + 2] is Noun)
+            if (i + 2 < NodeList.Count && NodeList[i] is Noun && NodeList[i + 1] is Particle && ((Particle)NodeList[i + 1]).Lemma == "and" && NodeList[i + 2] is Noun)
             {
-                nounList.Add((Noun)baseList[i]);
+                nounList.Add((Noun)NodeList[i]);
                 i++;
             }
             // add noun to existing chain, then terminate
-            else if (nounList.Count > 0 && baseList[i] is Noun)
+            else if (nounList.Count > 0 && NodeList[i] is Noun)
             {
-                nounList.Add((Noun)baseList[i]);
+                nounList.Add((Noun)NodeList[i]);
                 newList.Add(new NounCollection(nounList.ToArray()));
                 nounList.Clear();
             }
             // no chain, just add word to sentence and go to next
             else
-                newList.Add(baseList[i]);
+                newList.Add(NodeList[i]);
         }
-        baseList = new List<INode>(newList);
+        NodeList = new List<INode>(newList);
     }
 }
