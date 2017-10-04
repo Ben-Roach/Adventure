@@ -15,11 +15,16 @@ namespace Lexicon
     /// to its <see cref="PartOfSpeech"/>, and is intended to fill the unique property of the resulting <see cref="SentenceStructure.Node"/> object.
     /// </remarks>
     /// <typeparam name="T">The Type of the data associated with each word group.</typeparam>
-    public class GlossarySection<T> : IEnumerable<Tuple<string[], T>>
+    public class GlossarySection<T> : IReadOnlyCollection<Tuple<string[], T>>
     {
-        private List<Tuple<string[], T>> baseCollection;
+        private List<Tuple<string[], T>> baseList;
         /// <summary>The part of speech of the Glossary.</summary>
         public Type PartOfSpeech { get; private set; }
+
+        /// <summary>
+        /// Gets the number of entries in the <see cref="GlossarySection{T}"/>.
+        /// </summary>
+        public int Count => baseList.Count;
 
         /// <summary>
         /// Create a new <see cref="GlossarySection{T}"/>.
@@ -31,7 +36,7 @@ namespace Lexicon
         {
             Debug.Assert(typeof(SentenceStructure.Node).IsAssignableFrom(partOfSpeech));
             PartOfSpeech = partOfSpeech;
-            baseCollection = new List<Tuple<string[], T>>();
+            baseList = new List<Tuple<string[], T>>();
         }
 
         /// <summary>
@@ -41,7 +46,7 @@ namespace Lexicon
         /// <param name="nodeData"></param>
         public void Add(string[] words, T nodeData)
         {
-            baseCollection.Add(new Tuple<string[], T>(words, nodeData));
+            baseList.Add(new Tuple<string[], T>(words, nodeData));
         }
 
         /// <summary>
@@ -50,15 +55,13 @@ namespace Lexicon
         /// <returns>A 2-Tuple, where Item1 is a word group, and Item2 will fill the unique property of the intended <see cref="SentenceStructure.Node"/>.</returns>
         public IEnumerator<Tuple<string[], T>> GetEnumerator()
         {
-            foreach (Tuple<string[], T> pair in baseCollection)
+            foreach (Tuple<string[], T> t in baseList)
             {
-                yield return pair;
+                yield return t;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        { return GetEnumerator(); }
     }
 }

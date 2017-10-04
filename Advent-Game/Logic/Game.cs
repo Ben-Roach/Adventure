@@ -1,4 +1,5 @@
-﻿using Lexicon;
+﻿
+using Lexicon;
 using SentenceStructure;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,7 @@ class Game
             {
                 Console.WriteLine(InterpretSentence(sentence));
             }
-            ObjectDumper.Dump(sentence.NodeList);
+            ObjectDumper.Dump(sentence);
         }
     }
 
@@ -37,16 +38,15 @@ class Game
     /// <param name="sentence">The <see cref="Sentence"/> to interpret.</param>
     static string InterpretSentence(Sentence sentence)
     {
-        List<Node> nodeList = sentence.NodeList;
-        for (int i = 0; i < nodeList.Count; i++)
+        for (int i = 0; i < sentence.Count(); i++)
         {
-            if (nodeList[i] is Particle && ((Particle)nodeList[i]).Lemma == "and")
+            if (sentence[i] is Particle && ((Particle)sentence[i]).Lemma == "and")
                 continue;
 
-            else if (nodeList[i] is Command command)
+            else if (sentence[i] is Command command)
                 command.ActionDelegate();
 
-            else if (nodeList[i] is Verb verb)
+            else if (sentence[i] is Verb verb)
             {
                 List<VerbSyntax> syntaxList = verb.Syntaxes.ToList();
                 // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
@@ -55,14 +55,14 @@ class Game
                 // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
             }
 
-            else if (nodeList[i] is UnknownWord)
+            else if (sentence[i] is UnknownWord)
             {
-                return "I don't understand the word \"" + nodeList[i].OrigToken + "\".";
+                return "I don't understand the word \"" + sentence[i].OrigToken + "\".";
             }
 
             else
             {
-                return "You lost me at \"" + nodeList[i].OrigToken + "\".";
+                return "You lost me at \"" + sentence[i].OrigToken + "\".";
             }
         }
         return "Something weird happened. Maybe try that again?";

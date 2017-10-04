@@ -1,17 +1,18 @@
-﻿using System;
+﻿
+using System;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
 using SentenceStructure;
 using Lexicon;
+using System.Collections;
 
 /// <summary>
 /// 
 /// </summary>
-public class Sentence
+public class Sentence : IReadOnlyList<Node>
 {
-    /// <summary>The ordered <see cref="Node"/> objects representing words in the <see cref="Sentence"/>.</summary>
-    public List<Node> NodeList { get; private set; }
+    private List<Node> baseList;
 
     /// <summary>
     /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
@@ -22,7 +23,7 @@ public class Sentence
     /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
     public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
     {
-        NodeList = new List<Node>();
+        baseList = new List<Node>();
 
         // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
         List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
@@ -32,7 +33,7 @@ public class Sentence
         // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
         foreach (string token in tokenList)
         {
-            NodeList.Add(CreateNodeFromToken(token, glossary));
+            baseList.Add(CreateNodeFromToken(token, glossary));
         }
         CollectAdjectives();
         CollectNouns();
@@ -129,58 +130,58 @@ public class Sentence
     }
 
     /// <summary>
-    /// Collects <see cref="Adjective"/> objects in <see cref="NodeList"/> contiguous to each <see cref="Noun"/>,
+    /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
     /// and replaces the <see cref="Noun"/> with one containing the <see cref="Adjective"/> objects.
     /// </summary>
     private void CollectAdjectives()
     {
         List<Adjective> adjectiveList = new List<Adjective>();
-        for (int i = 0; i < NodeList.Count; i++)
+        for (int i = 0; i < baseList.Count; i++)
         {
-            if (NodeList[i] is Noun)
+            if (baseList[i] is Noun)
             {
                 // collect preceding Adjectives
                 if (i > 0)
                 {
                     for (int p = i - 1; p >= 0; p--)
                     {
-                        if (NodeList[p] is Adjective)
+                        if (baseList[p] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)NodeList[p]);
+                            adjectiveList.Add((Adjective)baseList[p]);
                             // make adjective a null object
-                            NodeList[p] = null;
+                            baseList[p] = null;
                         }
                         else break;
                     }
                 }
                 // collect subsequent Adjectives
-                if (i < NodeList.Count - 1)
+                if (i < baseList.Count - 1)
                 {
-                    for (int s = i + 1; s < NodeList.Count; s++)
+                    for (int s = i + 1; s < baseList.Count; s++)
                     {
-                        if (NodeList[s] is Adjective)
+                        if (baseList[s] is Adjective)
                         {
-                            adjectiveList.Add((Adjective)NodeList[s]);
-                            NodeList[s] = null;
+                            adjectiveList.Add((Adjective)baseList[s]);
+                            baseList[s] = null;
                         }
                         else break;
                     }
                 }
-                Noun noun = (Noun)NodeList[i];
+                Noun noun = (Noun)baseList[i];
                 noun.AddAdjectives(adjectiveList.ToArray());
                 adjectiveList.Clear();
             }
         }
         // remove null items (collected Adjectives) from sentence
-        for (int i = NodeList.Count - 1; i >= 0; i--)
+        for (int i = baseList.Count - 1; i >= 0; i--)
         {
-            if (NodeList[i] == null)
-                NodeList.RemoveAt(i);
+            if (baseList[i] == null)
+                baseList.RemoveAt(i);
         }
     }
 
     /// <summary>
-    /// Collects chained <see cref="Noun"/> objects in <see cref="NodeList"/> (those with conjunction
+    /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with conjunction
     /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
     /// </summary>
     /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
@@ -188,25 +189,52 @@ public class Sentence
     {
         List<Node> newList = new List<Node>();
         List<Noun> nounList = new List<Noun>();
-        for (int i = 0; i < NodeList.Count; i++)
+        for (int i = 0; i < baseList.Count; i++)
         {
             // start/continue chain, increment 2 to skip to next Noun
-            if (i + 2 < NodeList.Count && NodeList[i] is Noun && NodeList[i + 1] is Particle && ((Particle)NodeList[i + 1]).Lemma == "and" && NodeList[i + 2] is Noun)
+            if (i + 2 < baseList.Count && baseList[i] is Noun && baseList[i + 1] is Particle && ((Particle)baseList[i + 1]).Lemma == "and" && baseList[i + 2] is Noun)
             {
-                nounList.Add((Noun)NodeList[i]);
+                nounList.Add((Noun)baseList[i]);
                 i++;
             }
             // add noun to existing chain, then terminate
-            else if (nounList.Count > 0 && NodeList[i] is Noun)
+            else if (nounList.Count > 0 && baseList[i] is Noun)
             {
-                nounList.Add((Noun)NodeList[i]);
+                nounList.Add((Noun)baseList[i]);
                 newList.Add(new NounCollection(nounList.ToArray()));
                 nounList.Clear();
             }
             // no chain, just add word to sentence and go to next
             else
-                newList.Add(NodeList[i]);
+                newList.Add(baseList[i]);
         }
-        NodeList = new List<Node>(newList);
+        baseList = new List<Node>(newList);
     }
+
+    /// <summary>
+    /// Returns the length of the <see cref="Sentence"/>, considering only one level of depth.
+    /// </summary>
+    int IReadOnlyCollection<Node>.Count => baseList.Count;
+
+    /// <summary>
+    /// Gets the top-level <see cref="Node"/> in the <see cref="Sentence"/> at the specified index.
+    /// </summary>
+    /// <param name="i">The index of the <see cref="Node"/> to get.</param>
+    /// <returns>The <see cref="Node"/> at index <paramref name="i"/>.</returns>
+    public Node this[int i] => baseList[i];
+
+    /// <summary>
+    /// Enumerates the <see cref="Sentence"/>, yielding a <see cref="Node"/> object.
+    /// </summary>
+    /// <returns>A <see cref="Node"/> object, representing a word in the sentence.</returns>
+    public IEnumerator<Node> GetEnumerator()
+    {
+        foreach (Node n in baseList)
+        {
+            yield return n;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    { return GetEnumerator(); }
 }
