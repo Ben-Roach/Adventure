@@ -8,10 +8,11 @@ using Lexicon;
 using System.Collections;
 
 /// <summary>
-/// 
+/// An ordered <see cref="IReadOnlyCollection{Node}"/> of <see cref="Node"/> objects that represents an interpretable sentence.
 /// </summary>
 public class Sentence : IReadOnlyList<Node>
 {
+    /// <summary>The <see cref="Node"/> objects in the <see cref="Sentence"/>.</summary>
     private List<Node> baseList;
 
     /// <summary>
