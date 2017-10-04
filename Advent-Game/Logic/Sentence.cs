@@ -109,7 +109,7 @@ public class Sentence
             if (entry.Item1.Contains(tokenLower))
                 return new Particle(tokenLower, entry.Item2);
         }
-        foreach (Tuple<string[], string> entry in glossary.Directions)
+        foreach (Tuple<string[], DirCodes> entry in glossary.Directions)
         {
             if (entry.Item1.Contains(tokenLower))
                 return new Direction(tokenLower, entry.Item2);

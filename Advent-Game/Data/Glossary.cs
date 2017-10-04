@@ -16,7 +16,7 @@ namespace Lexicon
         /// <summary>All known verbs, each with an associated <see cref="VerbSyntax"/> array.</summary>
         public GlossarySection<VerbSyntax[]> Verbs { get; }
         /// <summary>All words representing directions.</summary>
-        public GlossarySection<string> Directions { get; }
+        public GlossarySection<DirCodes> Directions { get; }
         /// <summary>All other predetermined words.</summary>
         public GlossarySection<string> Particles { get; }
         /// <summary>All known commands, each with an associated delegate.</summary>
@@ -42,21 +42,21 @@ namespace Lexicon
                     new VerbSyntax("", null)
                 } },
             };
-            Directions = new GlossarySection<string>(typeof(Direction))
+            Directions = new GlossarySection<DirCodes>(typeof(Direction))
             {
-                { new[] { "north", "n" }, "N" },
-                { new[] { "east", "e" }, "E" },
-                { new[] { "south", "s" }, "S" },
-                { new[] { "west", "w" }, "W" },
-                { new[] { "northeast", "ne" }, "NE" },
-                { new[] { "northwest", "nw" }, "NW" },
-                { new[] { "southeast", "se" }, "SE" },
-                { new[] { "southwest", "sw" }, "SW" },
+                { new[] { "north", "n" }, DirCodes.North },
+                { new[] { "east", "e" }, DirCodes.South },
+                { new[] { "south", "s" }, DirCodes.East },
+                { new[] { "west", "w" }, DirCodes.West },
+                { new[] { "northeast", "ne" }, DirCodes.Northeast },
+                { new[] { "northwest", "nw" }, DirCodes.Northwest },
+                { new[] { "southeast", "se" }, DirCodes.Southeast },
+                { new[] { "southwest", "sw" }, DirCodes.Southwest },
                 // Remember that the following directions are similar to some particles:
-                { new[] { "u" }, "U" },
-                { new[] { "d" }, "D" },
-                { new[] { "enter" }, "I" },
-                { new[] { "exit", "outside" }, "O" },
+                { new[] { "u" }, DirCodes.Up },
+                { new[] { "d" }, DirCodes.Down },
+                { new[] { "enter" }, DirCodes.In },
+                { new[] { "exit", "outside" }, DirCodes.Out },
             };
             Particles = new GlossarySection<string>(typeof(Particle))
             {

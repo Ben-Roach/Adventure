@@ -1,6 +1,4 @@
 ﻿
-using System;
-
 namespace SentenceStructure
 {
     /// <summary>
@@ -11,7 +9,7 @@ namespace SentenceStructure
         /// <summary>
         /// Create a new <see cref="UnknownWord"/>.
         /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown when origToken is null.</exception>
+        /// <exception cref="System.ArgumentNullException">Thrown when origToken is null.</exception>
         public UnknownWord(string origToken) : base(origToken)
         { }
     }

@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug\ObjectDumper.cs" />
+    <Compile Include="Definitions\Flags\DirCodes.cs" />
     <Compile Include="Definitions\Flags\SyntFlags.cs" />
     <Compile Include="Definitions\Lexicon\GlossarySection.cs" />
     <Compile Include="Definitions\Lexicon\VerbSyntax.cs" />
