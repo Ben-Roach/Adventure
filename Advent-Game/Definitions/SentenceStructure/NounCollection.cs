@@ -21,10 +21,10 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when nouns is null.</exception>
         public NounCollection(Noun[] nouns) : base(nouns[0].OrigToken)
         {
-            if (nouns == null) throw new ArgumentNullException("Attempted to create a NounCollection with a null array.");
-            else if (nouns.Length == 0) throw new ArgumentException("Attempted to create a NounCollection with a zero-length array.");
+            if (nouns == null) throw new ArgumentNullException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " was null.");
+            else if (nouns.Length == 0) throw new ArgumentException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " was zero-length.");
             foreach (Noun n in nouns)
-            { if (n == null) throw new ArgumentException("Attempted to create a NounCollection with an array containing a null item."); }
+            { if (n == null) throw new ArgumentException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " containined a null item."); }
             containedNouns = nouns.ToArray();
         }
     }

@@ -21,10 +21,12 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when origToken or syntaxes is null.</exception>
         public Verb(string origToken, VerbSyntax[] syntaxes) : base(origToken)
         {
-            if (syntaxes == null) throw new ArgumentNullException("Attempted to create a Verb with a null array.");
-            else if (syntaxes.Length == 0) throw new ArgumentException("Attempted to create a Verb with a zero-length array.");
+            if (syntaxes == null) throw new ArgumentNullException("Attempted to create a " + nameof(Verb) + " where " + nameof(syntaxes) + " was null.");
+            else if (syntaxes.Length == 0) throw new ArgumentException("Attempted to create a " + nameof(Verb) + " where " + nameof(syntaxes) + " was zero-length.");
             foreach (VerbSyntax s in syntaxes)
-            { if (s == null) throw new ArgumentException("Attempted to create a Verb with an array containing a null item."); }
+            {
+                if (s == null) throw new ArgumentException("Attempted to create a " + nameof(Verb) + " where " + nameof(syntaxes) + " contained a null item.");
+            }
             this.syntaxes = syntaxes;
         }
     }

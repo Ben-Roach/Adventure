@@ -18,7 +18,7 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when origToken or lemma is null.</exception>
         public Particle(string origToken, string lemma) : base(origToken)
         {
-            Lemma = lemma != null ? lemma : throw new ArgumentNullException("Attempted to create a Particle with a null lemma.");
+            Lemma = lemma != null ? lemma : throw new ArgumentNullException("Attempted to create a " + nameof(Particle) + " where " + nameof(lemma) + " was null.");
         }
     }
 }

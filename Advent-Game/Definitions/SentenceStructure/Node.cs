@@ -17,8 +17,8 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when origToken is null.</exception>
         public Node(string origToken)
         {
-            OrigToken = origToken != null
-                ? origToken : throw new ArgumentNullException("Attempted to create a" + nameof(Node) + " with a null origToken.");
+            OrigToken = origToken != null ? origToken
+                : throw new ArgumentNullException("Attempted to create a " + nameof(Node) + " where " + nameof(origToken) + " was null.");
         }
     }
 }

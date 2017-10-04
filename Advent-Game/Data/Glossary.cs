@@ -26,7 +26,9 @@ namespace Lexicon
         public Glossary()
         {
             Nouns = new HashSet<string>();
+
             Adjectives = new HashSet<string>();
+
             Verbs = new GlossarySection<VerbSyntax[]>(typeof(Verb))
             {
                 { new[] { "take", "grab" }, new[] {
@@ -43,6 +45,7 @@ namespace Lexicon
                     new VerbSyntax("", null)
                 } },
             };
+
             Directions = new GlossarySection<DirCodes>(typeof(Direction))
             {
                 { new[] { "north", "n" }, DirCodes.North },
@@ -59,6 +62,7 @@ namespace Lexicon
                 { new[] { "enter" }, DirCodes.In },
                 { new[] { "exit", "outside" }, DirCodes.Out },
             };
+
             Particles = new GlossarySection<string>(typeof(Particle))
             {
                 // The below particle is considered a conjunction when chaining Nouns.
@@ -69,6 +73,7 @@ namespace Lexicon
                 { new[] { "up" }, "up" },
                 { new[] { "down" }, "down" },
             };
+
             Commands = new GlossarySection<Action>(typeof(Command))
             {
                 { new[] { "commands" }, null },

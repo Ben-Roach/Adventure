@@ -30,10 +30,12 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when origToken or adjectives is null.</exception>
         public Noun(string origToken, Adjective[] adjectives) : base(origToken)
         {
-            if (adjectives == null) throw new ArgumentNullException("Attempted to create a Noun with a null array.");
-            else if (adjectives.Length == 0) throw new ArgumentException("Attempted to create a Noun with a zero-length array.");
+            if (adjectives == null) throw new ArgumentNullException("Attempted to create a " + nameof(Noun) + " where " + nameof(adjectives) + " wa null.");
+            else if (adjectives.Length == 0) throw new ArgumentException("Attempted to create a " + nameof(Noun) + " where " + nameof(adjectives) + " was zero-length.");
             foreach (Adjective a in adjectives)
-            { if (a == null) throw new ArgumentException("Attempted to create a Noun with an array containing a null item."); }
+            {
+                if (a == null) throw new ArgumentException("Attempted to create a " + nameof(Noun) + " where " + nameof(adjectives) + " contained a null item.");
+            }
             containedAdjectives = adjectives;
         }
 

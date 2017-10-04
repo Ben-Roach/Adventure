@@ -18,7 +18,8 @@ namespace SentenceStructure
         /// <exception cref="ArgumentNullException">Thrown when origToken or actionDelegate is null.</exception>
         public Command(string origToken, Action actionDelegate) : base(origToken)
         {
-            ActionDelegate = actionDelegate != null ? actionDelegate : throw new ArgumentNullException(nameof(actionDelegate));
+            ActionDelegate = actionDelegate != null ? actionDelegate
+                : throw new ArgumentNullException("Attempted to construct a " + nameof(Direction) + " where " + nameof(actionDelegate) + " was null.");
         }
     }
 }
