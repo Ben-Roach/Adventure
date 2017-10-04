@@ -67,7 +67,7 @@
     <Compile Include="Definitions\SentenceStructure\Adjective.cs" />
     <Compile Include="Definitions\SentenceStructure\Command.cs" />
     <Compile Include="Definitions\SentenceStructure\Direction.cs" />
-    <Compile Include="Definitions\Interfaces\INode.cs" />
+    <Compile Include="Definitions\SentenceStructure\Node.cs" />
     <Compile Include="Definitions\SentenceStructure\Noun.cs" />
     <Compile Include="Definitions\SentenceStructure\Particle.cs" />
     <Compile Include="Definitions\SentenceStructure\NounCollection.cs" />
