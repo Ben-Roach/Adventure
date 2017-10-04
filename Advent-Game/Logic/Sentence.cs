@@ -8,7 +8,7 @@ using Lexicon;
 using System.Collections;
 
 /// <summary>
-/// An ordered <see cref="IReadOnlyCollection{Node}"/> of <see cref="Node"/> objects that represents an interpretable sentence.
+/// An ordered <see cref="IReadOnlyList{Node}"/> of <see cref="Node"/> objects that represents an interpretable sentence.
 /// </summary>
 public class Sentence : IReadOnlyList<Node>
 {
