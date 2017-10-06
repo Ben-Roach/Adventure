@@ -15,16 +15,12 @@ namespace Lexicon
     /// to its <see cref="PartOfSpeech"/>, and is intended to fill the unique property of the resulting <see cref="SentenceStructure.Node"/> object.
     /// </remarks>
     /// <typeparam name="T">The Type of the data associated with each word group.</typeparam>
-    public class GlossarySection<T> : IReadOnlyCollection<Tuple<string[], T>>
+    public class GlossarySection<T> : IEnumerable<Tuple<string[], T>>
     {
+        /// <summary>The base <see cref="List{T}"/> of <see cref="Tuple{T1, T2}"/> objects, where T1 is a word group, and T2 is extra data.</summary>
         private List<Tuple<string[], T>> baseList;
-        /// <summary>The part of speech of the Glossary.</summary>
+        /// <summary>The part of speech of the <see cref="GlossarySection{T}"/>.</summary>
         public Type PartOfSpeech { get; private set; }
-
-        /// <summary>
-        /// Gets the number of entries in the <see cref="GlossarySection{T}"/>.
-        /// </summary>
-        public int Count => baseList.Count;
 
         /// <summary>
         /// Create a new <see cref="GlossarySection{T}"/>.
@@ -40,13 +36,13 @@ namespace Lexicon
         }
 
         /// <summary>
-        /// Adds a 2-Tuple to the <see cref="GlossarySection{T}"/>. Should only be used during declaration.
+        /// Adds a 2-Tuple entry to the <see cref="GlossarySection{T}"/>. Should only be used during declaration.
         /// </summary>
-        /// <param name="words"></param>
+        /// <param name="wordGroup">The word group of the entry.</param>
         /// <param name="nodeData"></param>
-        public void Add(string[] words, T nodeData)
+        public void Add(string[] wordGroup, T nodeData)
         {
-            baseList.Add(new Tuple<string[], T>(words, nodeData));
+            baseList.Add(new Tuple<string[], T>(wordGroup, nodeData));
         }
 
         /// <summary>
@@ -56,9 +52,7 @@ namespace Lexicon
         public IEnumerator<Tuple<string[], T>> GetEnumerator()
         {
             foreach (Tuple<string[], T> t in baseList)
-            {
-                yield return t;
-            }
+            { yield return t; }
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -1,7 +1,6 @@
 ﻿
 using Lexicon;
 using SentenceStructure;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,8 +9,7 @@ class Game
     static void Main(string[] args)
     {
         // GAME SETUP
-        Console.Title = "Text Adventure";
-        Console.SetWindowSize(120, 30);
+        ConsoleGUI.Setup();
 
         // OBJECT INSTANTIATION
         string[] removableWords = new string[] { "the", "a", "an", "of" };
@@ -20,14 +18,9 @@ class Game
         // GAME LOOP
         while (true)
         {
-            string inputString = Console.ReadLine();
-            Sentence sentence = new Sentence(inputString, removableWords, glossary, out string errorMessage);
-            if (errorMessage != null)
-                Console.WriteLine(errorMessage);
-            else
-            {
-                Console.WriteLine(InterpretSentence(sentence));
-            }
+            Sentence sentence = new Sentence(ConsoleGUI.GetPlayerInput(), removableWords, glossary, out string errorMessage);
+            if (errorMessage != null) ConsoleGUI.Print(errorMessage);
+            else ConsoleGUI.Print(InterpretSentence(sentence));
             ObjectDumper.Dump(sentence);
         }
     }

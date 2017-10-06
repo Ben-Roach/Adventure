@@ -75,6 +75,7 @@
     <Compile Include="Definitions\SentenceStructure\Verb.cs" />
     <Compile Include="Definitions\World\Entity.cs" />
     <Compile Include="Data\Glossary.cs" />
+    <Compile Include="Logic\ConsoleGUI.cs" />
     <Compile Include="Logic\Sentence.cs" />
     <Compile Include="Logic\Game.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
