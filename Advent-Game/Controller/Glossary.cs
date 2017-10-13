@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Adventure.Controller
 {
@@ -82,6 +83,48 @@ namespace Adventure.Controller
                 { new[] { "verbose" }, null },
                 { new[] { "brief" }, null },
             };
+        }
+
+        /// <summary>
+        /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
+        /// </summary>
+        /// <param name="token">A word input by the player.</param>
+        /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
+        public Node CreateNodeFromToken(string token)
+        {
+            string tokenLower = token.ToLower();
+            foreach (Tuple<string[], VerbSyntax[]> entry in Verbs)
+            {
+                if (entry.Item1.Contains(tokenLower))
+                    return new Verb(tokenLower, entry.Item2);
+            }
+            foreach (Tuple<string[], Action> entry in Commands)
+            {
+                if (entry.Item1.Contains(tokenLower))
+                    return new Command(tokenLower, entry.Item2);
+            }
+            foreach (Tuple<string[], string> entry in Particles)
+            {
+                if (entry.Item1.Contains(tokenLower))
+                    return new Particle(tokenLower, entry.Item2);
+            }
+            foreach (Tuple<string[], DirCodes> entry in Directions)
+            {
+                if (entry.Item1.Contains(tokenLower))
+                    return new Direction(tokenLower, entry.Item2);
+            }
+            // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
+            foreach (string entry in Nouns)
+            {
+                if (entry == tokenLower)
+                    return new Noun(token);
+            }
+            foreach (string entry in Adjectives)
+            {
+                if (entry == tokenLower)
+                    return new Adjective(token);
+            }
+            return new UnknownWord(token);
         }
     }
 }

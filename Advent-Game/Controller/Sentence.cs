@@ -34,7 +34,7 @@ namespace Adventure.Controller
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
             foreach (string token in tokenList)
             {
-                baseList.Add(CreateNodeFromToken(token, glossary));
+                baseList.Add(glossary.CreateNodeFromToken(token));
             }
             CollectAdjectives();
             CollectNouns();
@@ -86,48 +86,6 @@ namespace Adventure.Controller
             // Input passed validation
             errorMessage = null;
             return outputList;
-        }
-
-        /// <summary>
-        /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
-        /// </summary>
-        /// <param name="token">A word input by the player.</param>
-        /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
-        private Node CreateNodeFromToken(string token, Glossary glossary)
-        {
-            string tokenLower = token.ToLower();
-            foreach (Tuple<string[], VerbSyntax[]> entry in glossary.Verbs)
-            {
-                if (entry.Item1.Contains(tokenLower))
-                    return new Verb(tokenLower, entry.Item2);
-            }
-            foreach (Tuple<string[], Action> entry in glossary.Commands)
-            {
-                if (entry.Item1.Contains(tokenLower))
-                    return new Command(tokenLower, entry.Item2);
-            }
-            foreach (Tuple<string[], string> entry in glossary.Particles)
-            {
-                if (entry.Item1.Contains(tokenLower))
-                    return new Particle(tokenLower, entry.Item2);
-            }
-            foreach (Tuple<string[], DirCodes> entry in glossary.Directions)
-            {
-                if (entry.Item1.Contains(tokenLower))
-                    return new Direction(tokenLower, entry.Item2);
-            }
-            // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
-            foreach (string entry in glossary.Nouns)
-            {
-                if (entry == tokenLower)
-                    return new Noun(token);
-            }
-            foreach (string entry in glossary.Adjectives)
-            {
-                if (entry == tokenLower)
-                    return new Adjective(token);
-            }
-            return new UnknownWord(token);
         }
 
         /// <summary>
@@ -225,9 +183,9 @@ namespace Adventure.Controller
         public Node this[int i] => baseList[i];
 
         /// <summary>
-        /// Enumerates the <see cref="Sentence"/>, yielding a <see cref="Node"/> object.
+        /// Enumerates the top-level <see cref="Node"/> objects in the <see cref="Sentence"/>.
         /// </summary>
-        /// <returns>A <see cref="Node"/> object, representing a word in the sentence.</returns>
+        /// <returns>An enumeration of <see cref="Node"/> objects.</returns>
         public IEnumerator<Node> GetEnumerator()
         {
             foreach (Node n in baseList)
@@ -238,5 +196,40 @@ namespace Adventure.Controller
 
         IEnumerator IEnumerable.GetEnumerator()
         { return GetEnumerator(); }
+
+        /// <summary>
+        /// Attempts to interpret the <see cref="Sentence"/>. Initiates game model manipulation.
+        /// </summary>
+        public string Interpret()
+        {
+            for (int i = 0; i < this.Count(); i++)
+            {
+                if (this[i] is Particle && ((Particle)this[i]).Lemma == "and")
+                    continue;
+
+                else if (this[i] is Command command)
+                    command.ActionDelegate();
+
+                else if (this[i] is Verb verb)
+                {
+                    List<VerbSyntax> syntaxList = verb.Syntaxes.ToList();
+                    // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
+                    // match, throw syntax out. Once all syntaxes have been checked: if there are no potentialy correct syntaxes, use the current word in the error message.
+                    // Otherwise, go with the longest potentially correct syntax. Only go with an empty syntax if all other syntaxes were thrown out on the first check,
+                    // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
+                }
+
+                else if (this[i] is UnknownWord)
+                {
+                    return "I don't understand the word \"" + this[i].OrigToken + "\".";
+                }
+
+                else
+                {
+                    return "You lost me at \"" + this[i].OrigToken + "\".";
+                }
+            }
+            return "Something weird happened. Maybe try that again?";
+        }
     }
 }
