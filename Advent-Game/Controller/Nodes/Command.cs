@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Represents a word used by the player for extradiegetic game control.

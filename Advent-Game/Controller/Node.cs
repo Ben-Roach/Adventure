@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Represents an interpretable lexical unit in a <see cref="Sentence"/>.

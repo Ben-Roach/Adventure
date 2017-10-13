@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace Lexicon
+namespace Adventure.Controller
 {
     /// <summary>
     /// An enumerable collection of word groups with extra associated data, with an associated <see cref="SentenceStructure.Node"/> type.
@@ -30,7 +30,7 @@ namespace Lexicon
         /// of the intended <see cref="SentenceStructure.Node"/>.</param>
         public GlossarySection(Type partOfSpeech)
         {
-            Debug.Assert(typeof(SentenceStructure.Node).IsAssignableFrom(partOfSpeech));
+            Debug.Assert(typeof(Controller.Node).IsAssignableFrom(partOfSpeech));
             PartOfSpeech = partOfSpeech;
             baseList = new List<Tuple<string[], T>>();
         }

@@ -1,7 +1,5 @@
 ﻿
-using Lexicon;
-
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Represents a word used by the player primarily for movement.

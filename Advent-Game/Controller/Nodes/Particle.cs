@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Used for sentence and syntax structure.

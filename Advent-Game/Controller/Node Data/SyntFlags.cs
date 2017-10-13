@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Lexicon
+namespace Adventure.Controller
 {
     /// <summary>
     /// Flags used by <see cref="VerbSyntax"/> objects.

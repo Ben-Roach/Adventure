@@ -1,5 +1,5 @@
 ﻿
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Represents a word input by the player that is not known by the game.

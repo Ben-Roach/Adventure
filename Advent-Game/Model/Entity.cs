@@ -1,5 +1,5 @@
 ﻿
-namespace World
+namespace Adventure.Model
 {
     /// <summary>
     /// 

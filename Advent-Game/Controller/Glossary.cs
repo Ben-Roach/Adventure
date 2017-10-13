@@ -1,9 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using SentenceStructure;
 
-namespace Lexicon
+namespace Adventure.Controller
 {
     /// <summary>
     /// Contains collections with all known words, and all data associated with them.

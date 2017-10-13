@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Used as the basis of specifying and finding diegetic game objects.

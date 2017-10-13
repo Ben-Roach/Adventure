@@ -1,8 +1,8 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
-using Lexicon;
 
-namespace SentenceStructure
+namespace Adventure.Controller
 {
     /// <summary>
     /// Used as the basis of performing actions on behalf of the player.

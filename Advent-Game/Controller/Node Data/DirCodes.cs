@@ -1,5 +1,5 @@
 ﻿
-namespace Lexicon
+namespace Adventure.Controller
 {
     /// <summary>
     /// Valid directional codes used by <see cref="SentenceStructure.Direction"/> objects.
