@@ -11,25 +11,25 @@ namespace Adventure.Controller
     public class Glossary
     {
         /// <summary>Set of noun strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
-        public HashSet<string> Nouns { get; private set; }
+        HashSet<string> nouns;
         /// <summary>Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
-        public HashSet<string> Adjectives { get; private set; }
+        HashSet<string> adjectives;
         /// <summary>All known verbs, each with an associated <see cref="VerbSyntax"/> array.</summary>
-        public GlossarySection<VerbSyntax[]> Verbs { get; }
+        GlossarySection<VerbSyntax[]> verbs;
         /// <summary>All words representing directions.</summary>
-        public GlossarySection<DirCodes> Directions { get; }
+        GlossarySection<DirCodes> directions;
         /// <summary>All other predetermined words.</summary>
-        public GlossarySection<string> Particles { get; }
+        GlossarySection<string> particles;
         /// <summary>All known commands, each with an associated delegate.</summary>
-        public GlossarySection<Action> Commands { get; }
+        GlossarySection<Action> commands;
 
         public Glossary()
         {
-            Nouns = new HashSet<string>();
+            nouns = new HashSet<string>();
 
-            Adjectives = new HashSet<string>();
+            adjectives = new HashSet<string>();
 
-            Verbs = new GlossarySection<VerbSyntax[]>(typeof(Verb))
+            verbs = new GlossarySection<VerbSyntax[]>(typeof(Verb))
             {
                 { new[] { "take", "grab" }, new[] {
                     new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular)
@@ -46,7 +46,7 @@ namespace Adventure.Controller
                 } },
             };
 
-            Directions = new GlossarySection<DirCodes>(typeof(Direction))
+            directions = new GlossarySection<DirCodes>(typeof(Direction))
             {
                 { new[] { "north", "n" }, DirCodes.North },
                 { new[] { "east", "e" }, DirCodes.South },
@@ -63,7 +63,7 @@ namespace Adventure.Controller
                 { new[] { "exit", "outside" }, DirCodes.Out },
             };
 
-            Particles = new GlossarySection<string>(typeof(Particle))
+            particles = new GlossarySection<string>(typeof(Particle))
             {
                 // The below particle is considered a conjunction when chaining Nouns.
                 { new[] { "and", "&", "then" }, "and" },
@@ -74,7 +74,7 @@ namespace Adventure.Controller
                 { new[] { "down" }, "down" },
             };
 
-            Commands = new GlossarySection<Action>(typeof(Command))
+            commands = new GlossarySection<Action>(typeof(Command))
             {
                 { new[] { "commands" }, null },
                 { new[] { "credits" }, null },
@@ -93,33 +93,33 @@ namespace Adventure.Controller
         public Node CreateNodeFromToken(string token)
         {
             string tokenLower = token.ToLower();
-            foreach (Tuple<string[], VerbSyntax[]> entry in Verbs)
+            foreach (Tuple<string[], VerbSyntax[]> entry in verbs)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Verb(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], Action> entry in Commands)
+            foreach (Tuple<string[], Action> entry in commands)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Command(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], string> entry in Particles)
+            foreach (Tuple<string[], string> entry in particles)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Particle(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], DirCodes> entry in Directions)
+            foreach (Tuple<string[], DirCodes> entry in directions)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Direction(tokenLower, entry.Item2);
             }
             // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
-            foreach (string entry in Nouns)
+            foreach (string entry in nouns)
             {
                 if (entry == tokenLower)
                     return new Noun(token);
             }
-            foreach (string entry in Adjectives)
+            foreach (string entry in adjectives)
             {
                 if (entry == tokenLower)
                     return new Adjective(token);
