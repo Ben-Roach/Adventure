@@ -4,16 +4,16 @@ using System;
 namespace Adventure.View
 {
     /// <summary>
-    /// Allows use of the Windows Console as a GUI.
+    /// Uses the Windows Console as a GUI.
     /// </summary>
     static class ConsoleGUI
     {
         /// <summary>
-        /// Set the settings of the console's appearance.
+        /// Set the console's appearance.
         /// </summary>
         public static void Setup()
         {
-            Console.Title = "Text Adventure";
+            Console.Title = "Adventure";
             Console.SetWindowSize(120, 30);
         }
 

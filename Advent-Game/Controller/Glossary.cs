@@ -29,7 +29,7 @@ namespace Adventure.Controller
 
             adjectives = new HashSet<string>();
 
-            verbs = new GlossarySection<VerbSyntax[]>(typeof(Verb))
+            verbs = new GlossarySection<VerbSyntax[]>()
             {
                 { new[] { "take", "grab" }, new[] {
                     new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular)
@@ -46,7 +46,7 @@ namespace Adventure.Controller
                 } },
             };
 
-            directions = new GlossarySection<DirCodes>(typeof(Direction))
+            directions = new GlossarySection<DirCodes>()
             {
                 { new[] { "north", "n" }, DirCodes.North },
                 { new[] { "east", "e" }, DirCodes.South },
@@ -63,7 +63,7 @@ namespace Adventure.Controller
                 { new[] { "exit", "outside" }, DirCodes.Out },
             };
 
-            particles = new GlossarySection<string>(typeof(Particle))
+            particles = new GlossarySection<string>()
             {
                 // The below particle is considered a conjunction when chaining Nouns.
                 { new[] { "and", "&", "then" }, "and" },
@@ -74,7 +74,7 @@ namespace Adventure.Controller
                 { new[] { "down" }, "down" },
             };
 
-            commands = new GlossarySection<Action>(typeof(Command))
+            commands = new GlossarySection<Action>()
             {
                 { new[] { "commands" }, null },
                 { new[] { "credits" }, null },
