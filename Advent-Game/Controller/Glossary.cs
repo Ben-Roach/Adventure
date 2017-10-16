@@ -15,13 +15,13 @@ namespace Adventure.Controller
         /// <summary>Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
         HashSet<string> adjectives;
         /// <summary>All known verbs, each with an associated <see cref="VerbSyntax"/> array.</summary>
-        GlossarySection<VerbSyntax[]> verbs;
+        List<Tuple<string[], VerbSyntax[]>> verbs;
         /// <summary>All words representing directions.</summary>
-        GlossarySection<DirCodes> directions;
+        List<Tuple<string[], DirCodes>> directions;
         /// <summary>All other predetermined words.</summary>
-        GlossarySection<string> particles;
+        List<Tuple<string[], string>> particles;
         /// <summary>All known commands, each with an associated delegate.</summary>
-        GlossarySection<Action> commands;
+        List<Tuple<string[], Action>> commands;
 
         public Glossary()
         {
@@ -29,7 +29,7 @@ namespace Adventure.Controller
 
             adjectives = new HashSet<string>();
 
-            verbs = new GlossarySection<VerbSyntax[]>()
+            verbs = new List<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
                     new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular)
@@ -46,7 +46,7 @@ namespace Adventure.Controller
                 } },
             };
 
-            directions = new GlossarySection<DirCodes>()
+            directions = new List<Tuple<string[], DirCodes>>
             {
                 { new[] { "north", "n" }, DirCodes.North },
                 { new[] { "east", "e" }, DirCodes.South },
@@ -63,7 +63,7 @@ namespace Adventure.Controller
                 { new[] { "exit", "outside" }, DirCodes.Out },
             };
 
-            particles = new GlossarySection<string>()
+            particles = new List<Tuple<string[], string>>
             {
                 // The below particle is considered a conjunction when chaining Nouns.
                 { new[] { "and", "&", "then" }, "and" },
@@ -74,7 +74,7 @@ namespace Adventure.Controller
                 { new[] { "down" }, "down" },
             };
 
-            commands = new GlossarySection<Action>()
+            commands = new List<Tuple<string[], Action>>
             {
                 { new[] { "commands" }, null },
                 { new[] { "credits" }, null },

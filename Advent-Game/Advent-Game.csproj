@@ -62,7 +62,7 @@
     <Compile Include="Debug\ObjectDumper.cs" />
     <Compile Include="Controller\Node Data\DirCodes.cs" />
     <Compile Include="Controller\Node Data\SyntFlags.cs" />
-    <Compile Include="Controller\GlossarySection.cs" />
+    <Compile Include="Controller\GlossaryExtensions.cs" />
     <Compile Include="Controller\Node Data\VerbSyntax.cs" />
     <Compile Include="Controller\Nodes\Adjective.cs" />
     <Compile Include="Controller\Nodes\Command.cs" />
