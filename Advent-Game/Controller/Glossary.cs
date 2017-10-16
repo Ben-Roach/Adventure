@@ -1,30 +1,32 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Contains collections with all known words, and all data associated with them.
+    /// Contains collections with all known words, and all properties associated with them.
     /// </summary>
-    public class Glossary
+    public sealed class Glossary
     {
-        /// <summary>Set of noun strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
-        HashSet<string> nouns;
-        /// <summary>Set of adjective strings, derived from WorldObjects. Will change as WorldObjects are created and changed.</summary>
-        HashSet<string> adjectives;
-        /// <summary>All known verbs, each with an associated <see cref="VerbSyntax"/> array.</summary>
+        private static readonly Glossary instance = new Glossary();
+        /// <summary>The instance of the <see cref="Glossary"/> singleton.</summary>
+        public static Glossary Instance { get { return instance; } }
+
+        string[] removableTokens;
+        HashSet<string> nouns; // Will change as game objects are created and changed.
+        HashSet<string> adjectives; // Will change as game objects are created and changed.
         List<Tuple<string[], VerbSyntax[]>> verbs;
-        /// <summary>All words representing directions.</summary>
         List<Tuple<string[], DirCodes>> directions;
-        /// <summary>All other predetermined words.</summary>
         List<Tuple<string[], string>> particles;
-        /// <summary>All known commands, each with an associated delegate.</summary>
         List<Tuple<string[], Action>> commands;
 
-        public Glossary()
+        private Glossary()
         {
+            removableTokens = new[] { "the", "a", "an", "of" };
+
             nouns = new HashSet<string>();
 
             adjectives = new HashSet<string>();
@@ -86,40 +88,49 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// String tokens that can be removed from player input before parsing.
+        /// </summary>
+        /// <returns>A <see cref="ReadOnlyCollection{T}"/> of strings that should be removed from the player's input.</returns>
+        public static ReadOnlyCollection<string> GetRemovableTokens()
+        {
+            return Array.AsReadOnly(Instance.removableTokens);
+        }
+
+        /// <summary>
         /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
         /// </summary>
         /// <param name="token">A word input by the player.</param>
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
-        public Node CreateNodeFromToken(string token)
+        public static Node CreateNodeFromToken(string token)
         {
             string tokenLower = token.ToLower();
-            foreach (Tuple<string[], VerbSyntax[]> entry in verbs)
+            foreach (Tuple<string[], VerbSyntax[]> entry in Instance.verbs)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Verb(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], Action> entry in commands)
+            foreach (Tuple<string[], Action> entry in Instance.commands)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Command(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], string> entry in particles)
+            foreach (Tuple<string[], string> entry in Instance.particles)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Particle(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], DirCodes> entry in directions)
+            foreach (Tuple<string[], DirCodes> entry in Instance.directions)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Direction(tokenLower, entry.Item2);
             }
             // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
-            foreach (string entry in nouns)
+            foreach (string entry in Instance.nouns)
             {
                 if (entry == tokenLower)
                     return new Noun(token);
             }
-            foreach (string entry in adjectives)
+            foreach (string entry in Instance.adjectives)
             {
                 if (entry == tokenLower)
                     return new Adjective(token);

@@ -20,21 +20,20 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
         /// <param name="removableWords">Words that can be removed from <paramref name="inputString"/> before building the <see cref="Sentence"/>.</param>
-        /// <param name="glossary">Used to look up and validate each word in <paramref name="inputString"/>.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
-        public Sentence(string inputString, string[] removableWords, Glossary glossary, out string errorMessage)
+        public Sentence(string inputString, out string errorMessage)
         {
             baseList = new List<Node>();
 
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
-            List<string> tokenList = Tokenize(inputString, removableWords, out errorMessage);
+            List<string> tokenList = Tokenize(inputString, out errorMessage);
             if (errorMessage != null)
                 return;
 
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
             foreach (string token in tokenList)
             {
-                baseList.Add(glossary.CreateNodeFromToken(token));
+                baseList.Add(Glossary.CreateNodeFromToken(token));
             }
             CollectAdjectives();
             CollectNouns();
@@ -44,10 +43,9 @@ namespace Adventure.Controller
         /// Removes invalid characters from <paramref name="inputString"/>, splits it into a list, and removes unnecessary words.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
-        /// <param name="removableTokens">The array of removable words.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
-        private List<string> Tokenize(string inputString, string[] removableTokens, out string errorMessage)
+        private List<string> Tokenize(string inputString, out string errorMessage)
         {
             // Check for empty input
             if (inputString == "")
@@ -74,7 +72,7 @@ namespace Adventure.Controller
             // Remove unnecessary words
             for (int i = outputList.Count() - 1; i >= 0; i--)
             {
-                if (removableTokens.Contains(outputList[i]))
+                if (Glossary.GetRemovableTokens().Contains(outputList[i]))
                     outputList.Remove(outputList[i]);
             }
             // Check if any potentially valid tokens remain
