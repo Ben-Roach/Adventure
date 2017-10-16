@@ -13,7 +13,6 @@ namespace Adventure.Controller
         /// Create a new <see cref="Direction"/>.
         /// </summary>
         /// <param name="dirCode">Represents the actual direction to use.</param>
-        /// <exception cref="ArgumentNullException">Thrown when origToken is null.</exception>
         public Direction(string origToken, DirCodes dirCode) : base(origToken)
         {
             DirCode = dirCode;

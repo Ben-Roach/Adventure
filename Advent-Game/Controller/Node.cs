@@ -14,7 +14,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="Node"/>.
         /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown when origToken is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="origToken"/> is null.</exception>
         public Node(string origToken)
         {
             OrigToken = origToken != null ? origToken

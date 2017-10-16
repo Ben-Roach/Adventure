@@ -15,7 +15,7 @@ namespace Adventure.Controller
         /// Create a new <see cref="Particle"/>.
         /// </summary>
         /// <param name="lemma">The commonly understood form or synonym of the word.</param>
-        /// <exception cref="ArgumentNullException">Thrown when origToken or lemma is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="lemma"/> is null.</exception>
         public Particle(string origToken, string lemma) : base(origToken)
         {
             Lemma = lemma != null ? lemma : throw new ArgumentNullException("Attempted to create a " + nameof(Particle) + " where " + nameof(lemma) + " was null.");

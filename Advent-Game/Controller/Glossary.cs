@@ -31,6 +31,9 @@ namespace Adventure.Controller
 
             adjectives = new HashSet<string>();
 
+            nouns.Add("lamp");
+            adjectives.Add("brass");
+
             verbs = new List<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
@@ -90,8 +93,8 @@ namespace Adventure.Controller
         /// <summary>
         /// String tokens that can be removed from player input before parsing.
         /// </summary>
-        /// <returns>A <see cref="ReadOnlyCollection{T}"/> of strings that should be removed from the player's input.</returns>
-        public static ReadOnlyCollection<string> GetRemovableTokens()
+        /// <returns>An <see cref="IReadOnlyCollection{T}"/> of strings that should be removed from the player's input.</returns>
+        public static IReadOnlyCollection<string> GetRemovableTokens()
         {
             return Array.AsReadOnly(Instance.removableTokens);
         }

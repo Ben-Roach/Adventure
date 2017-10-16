@@ -9,23 +9,25 @@ namespace Adventure.Controller
     /// </summary>
     class Noun : Node
     {
-        Adjective[] containedAdjectives;
+        List<Adjective> containedAdjectives;
         /// <summary><see cref="Adjective"/> objects associated with the <see cref="Noun"/>.</summary>
-        public IList<Adjective> ContainedAdjectives { get { return Array.AsReadOnly(containedAdjectives); } }
+        public IReadOnlyCollection<Adjective> ContainedAdjectives { get { return containedAdjectives.AsReadOnly(); } }
 
         /// <summary>
         /// Create a new Noun INode containing no Adjectives.
         /// </summary>
-        /// <exception cref="ArgumentNullException">Thrown when origToken is null.</exception>
         public Noun(string origToken) : base(origToken)
         {
-            containedAdjectives = new Adjective[0];
+            containedAdjectives = new List<Adjective>();
         }
 
-        /// <summary>Add adjectives to Noun's ContainedAdjectives.</summary>
-        public void AddAdjectives(Adjective[] adjectives)
+        /// <summary>Adds an <see cref="Adjective"/> to <see cref="containedAdjectives"/>.</summary>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="adj"/> is null.</exception>
+        public void AddAdjective(Adjective adj)
         {
-            containedAdjectives = adjectives.ToArray();
+            if (adj == null)
+                throw new ArgumentNullException("Attempted to construct a " + nameof(Adjective) + " where " + nameof(adj) + " was null.");
+            containedAdjectives.Add(adj);
         }
     }
 

@@ -87,52 +87,27 @@ namespace Adventure.Controller
 
         /// <summary>
         /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
-        /// and replaces the <see cref="Noun"/> with one containing the <see cref="Adjective"/> objects.
+        /// and <see cref="Adjective"/> objects to the <see cref="Noun"/>.
         /// </summary>
         private void CollectAdjectives()
         {
-            List<Adjective> adjectiveList = new List<Adjective>();
-            for (int i = 0; i < baseList.Count; i++)
-            {
-                if (baseList[i] is Noun)
-                {
-                    // collect preceding Adjectives
-                    if (i > 0)
-                    {
-                        for (int p = i - 1; p >= 0; p--)
-                        {
-                            if (baseList[p] is Adjective)
-                            {
-                                adjectiveList.Add((Adjective)baseList[p]);
-                                // make adjective a null object
-                                baseList[p] = null;
-                            }
-                            else break;
-                        }
-                    }
-                    // collect subsequent Adjectives
-                    if (i < baseList.Count - 1)
-                    {
-                        for (int s = i + 1; s < baseList.Count; s++)
-                        {
-                            if (baseList[s] is Adjective)
-                            {
-                                adjectiveList.Add((Adjective)baseList[s]);
-                                baseList[s] = null;
-                            }
-                            else break;
-                        }
-                    }
-                    Noun noun = (Noun)baseList[i];
-                    noun.AddAdjectives(adjectiveList.ToArray());
-                    adjectiveList.Clear();
-                }
-            }
-            // remove null items (collected Adjectives) from sentence
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
-                if (baseList[i] == null)
-                    baseList.RemoveAt(i);
+                if (baseList[i] is Noun n)
+                {
+                    // collect preceeding Adjectives
+                    while (i - 1 >= 0 && baseList[i - 1] is Adjective adj)
+                    {
+                        n.AddAdjective(adj);
+                        baseList.RemoveAt(--i);
+                    }
+                    // collect subsequent Adjectives
+                    while (i + 1 < baseList.Count && baseList[i + 1] is Adjective adj)
+                    {
+                        n.AddAdjective(adj);
+                        baseList.RemoveAt(i + 1);
+                    }
+                }
             }
         }
 
@@ -140,14 +115,13 @@ namespace Adventure.Controller
         /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with conjunction
         /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
         /// </summary>
-        /// <returns>A new sentence with all chained Nouns grouped into NounCollections.</returns>
         private void CollectNouns()
         {
             List<Node> newList = new List<Node>();
             List<Noun> nounList = new List<Noun>();
             for (int i = 0; i < baseList.Count; i++)
             {
-                // start/continue chain, increment 2 to skip to next Noun
+                // start/continue chain, increment to skip to next Noun
                 if (i + 2 < baseList.Count && baseList[i] is Noun && baseList[i + 1] is Particle && ((Particle)baseList[i + 1]).Lemma == "and" && baseList[i + 2] is Noun)
                 {
                     nounList.Add((Noun)baseList[i]);

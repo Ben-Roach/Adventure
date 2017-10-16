@@ -9,7 +9,6 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="UnknownWord"/>.
         /// </summary>
-        /// <exception cref="System.ArgumentNullException">Thrown when origToken is null.</exception>
         public UnknownWord(string origToken) : base(origToken)
         { }
     }

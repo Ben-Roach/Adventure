@@ -15,7 +15,7 @@ namespace Adventure.Controller
         /// Create a new <see cref="Command"/>.
         /// </summary>
         /// <param name="actionDelegate">The method to call on behalf of the <see cref="Command"/>.</param>
-        /// <exception cref="ArgumentNullException">Thrown when origToken or actionDelegate is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="actionDelegate"/> is null.</exception>
         public Command(string origToken, Action actionDelegate) : base(origToken)
         {
             ActionDelegate = actionDelegate != null ? actionDelegate
