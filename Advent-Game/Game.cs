@@ -12,7 +12,6 @@ namespace Adventure
             ConsoleGUI.Setup();
 
             // OBJECT INSTANTIATION
-            
 
             // GAME LOOP
             while (true)

@@ -16,10 +16,9 @@ namespace Adventure.Controller
         private List<Node> baseList;
 
         /// <summary>
-        /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the specified array of removable words and a <see cref="Glossary"/>.
+        /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the <see cref="Glossary"/>.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
-        /// <param name="removableWords">Words that can be removed from <paramref name="inputString"/> before building the <see cref="Sentence"/>.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         public Sentence(string inputString, out string errorMessage)
         {
