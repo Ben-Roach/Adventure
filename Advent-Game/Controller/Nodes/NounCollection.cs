@@ -5,7 +5,7 @@ using System.Linq;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a collection of nouns used collectively by the player.
+    /// Represents an ordered collection of nouns used collectively by the player.
     /// </summary>
     class NounCollection : Node
     {

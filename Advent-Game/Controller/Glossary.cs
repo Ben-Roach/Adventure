@@ -71,7 +71,7 @@ namespace Adventure.Controller
             particles = new List<Tuple<string[], string>>
             {
                 // The below particle is considered a conjunction when chaining Nouns.
-                { new[] { "and", "&", "then" }, "and" },
+                { new[] { "&", "and", "then" }, "&" },
                 // Remember that the following particles are similar to some directions:
                 { new[] { "in", "inside" }, "in" },
                 { new[] { "out" }, "out" },

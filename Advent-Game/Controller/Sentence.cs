@@ -117,28 +117,27 @@ namespace Adventure.Controller
         /// </summary>
         private void CollectNouns()
         {
-            List<Node> newList = new List<Node>();
+            int chainLength = 0;
             List<Noun> nounList = new List<Noun>();
-            for (int i = 0; i < baseList.Count; i++)
+            for (int i = baseList.Count - 1; i >= 0; i--)
             {
-                // start/continue chain, increment to skip to next Noun
-                if (i + 2 < baseList.Count && baseList[i] is Noun && baseList[i + 1] is Particle && ((Particle)baseList[i + 1]).Lemma == "and" && baseList[i + 2] is Noun)
+                // start/continue chain, decrement to skip to prev Noun
+                if (i - 2 > 0 && baseList[i] is Noun nc && baseList[i - 1] is Particle && ((Particle)baseList[i - 1]).Lemma == "&" && baseList[i - 2] is Noun)
                 {
-                    nounList.Add((Noun)baseList[i]);
-                    i++;
+                    nounList.Insert(0, nc);
+                    chainLength += 2;
+                    i--;
                 }
                 // add noun to existing chain, then terminate
-                else if (nounList.Count > 0 && baseList[i] is Noun)
+                else if (nounList.Count > 0 && baseList[i] is Noun nt)
                 {
-                    nounList.Add((Noun)baseList[i]);
-                    newList.Add(new NounCollection(nounList.ToArray()));
+                    nounList.Insert(0, nt);
+                    baseList[i] = new NounCollection(nounList);
+                    for (int j = 0; j < chainLength; j++)
+                        baseList.RemoveAt(i + 1);
                     nounList.Clear();
                 }
-                // no chain, just add word to sentence and go to next
-                else
-                    newList.Add(baseList[i]);
             }
-            baseList = new List<Node>(newList);
         }
 
         /// <summary>
@@ -175,7 +174,7 @@ namespace Adventure.Controller
         {
             for (int i = 0; i < this.Count(); i++)
             {
-                if (this[i] is Particle && ((Particle)this[i]).Lemma == "and")
+                if (this[i] is Particle && ((Particle)this[i]).Lemma == "&")
                     continue;
 
                 else if (this[i] is Command command)
