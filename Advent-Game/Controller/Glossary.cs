@@ -96,7 +96,7 @@ namespace Adventure.Controller
         /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
         public static bool IsRemovableChar(char c)
         {
-            if ((c >= 'A' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ' || c == '\t' || c == '&' || c == '?')
+            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?')
                 return false;
             return true;
         }
