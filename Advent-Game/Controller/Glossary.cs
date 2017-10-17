@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Adventure.Controller
@@ -15,25 +14,17 @@ namespace Adventure.Controller
         /// <summary>The instance of the <see cref="Glossary"/> singleton.</summary>
         public static Glossary Instance { get { return instance; } }
 
-        string[] removableTokens;
+        List<Tuple<string[], VerbSyntax[]>> verbs;
+        List<Tuple<string[], string>> particles;
+        List<Tuple<string[], DirCodes>> directions;
+        List<Tuple<string[], Action>> commands;
+        List<string[]> conjunctions;
         HashSet<string> nouns; // Will change as game objects are created and changed.
         HashSet<string> adjectives; // Will change as game objects are created and changed.
-        List<Tuple<string[], VerbSyntax[]>> verbs;
-        List<Tuple<string[], DirCodes>> directions;
-        List<Tuple<string[], string>> particles;
-        List<Tuple<string[], Action>> commands;
+        string[] removableTokens;
 
         private Glossary()
         {
-            removableTokens = new[] { "the", "a", "an", "of" };
-
-            nouns = new HashSet<string>();
-
-            adjectives = new HashSet<string>();
-
-            nouns.Add("lamp");
-            adjectives.Add("brass");
-
             verbs = new List<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
@@ -49,6 +40,15 @@ namespace Adventure.Controller
                     new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular),
                     new VerbSyntax("", null)
                 } },
+            };
+
+            particles = new List<Tuple<string[], string>>
+            {
+                // Remember that the following particles are similar to some directions:
+                { new[] { "in", "inside" }, "in" },
+                { new[] { "out" }, "out" },
+                { new[] { "up" }, "up" },
+                { new[] { "down" }, "down" },
             };
 
             directions = new List<Tuple<string[], DirCodes>>
@@ -68,17 +68,6 @@ namespace Adventure.Controller
                 { new[] { "exit", "outside" }, DirCodes.Out },
             };
 
-            particles = new List<Tuple<string[], string>>
-            {
-                // The below particle is considered a conjunction when chaining Nouns.
-                { new[] { "&", "and", "then" }, "&" },
-                // Remember that the following particles are similar to some directions:
-                { new[] { "in", "inside" }, "in" },
-                { new[] { "out" }, "out" },
-                { new[] { "up" }, "up" },
-                { new[] { "down" }, "down" },
-            };
-
             commands = new List<Tuple<string[], Action>>
             {
                 { new[] { "commands" }, null },
@@ -88,6 +77,20 @@ namespace Adventure.Controller
                 { new[] { "verbose" }, null },
                 { new[] { "brief" }, null },
             };
+
+            conjunctions = new List<string[]>()
+            {
+                new[] { "and", "&", "then" },
+            };
+
+            nouns = new HashSet<string>();
+
+            adjectives = new HashSet<string>();
+
+            nouns.Add("lamp");
+            adjectives.Add("brass");
+
+            removableTokens = new[] { "the", "a", "an", "of" };
         }
 
         /// <summary>
@@ -112,11 +115,6 @@ namespace Adventure.Controller
                 if (entry.Item1.Contains(tokenLower))
                     return new Verb(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], Action> entry in Instance.commands)
-            {
-                if (entry.Item1.Contains(tokenLower))
-                    return new Command(tokenLower, entry.Item2);
-            }
             foreach (Tuple<string[], string> entry in Instance.particles)
             {
                 if (entry.Item1.Contains(tokenLower))
@@ -126,6 +124,16 @@ namespace Adventure.Controller
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Direction(tokenLower, entry.Item2);
+            }
+            foreach (Tuple<string[], Action> entry in Instance.commands)
+            {
+                if (entry.Item1.Contains(tokenLower))
+                    return new Command(tokenLower, entry.Item2);
+            }
+            foreach (string[] entry in Instance.conjunctions)
+            {
+                if (entry.Contains(tokenLower))
+                    return new Conjunction(tokenLower);
             }
             // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.
             foreach (string entry in Instance.nouns)

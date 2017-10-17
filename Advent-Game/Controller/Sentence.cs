@@ -121,19 +121,19 @@ namespace Adventure.Controller
             List<Noun> nounList = new List<Noun>();
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
-                // try to start/continue chain, if current word is noun and previous word is conjunction
-                if (i - 2 >= 0 && baseList[i] is Noun nCurrent && baseList[i - 1] is Particle && ((Particle)baseList[i - 1]).Lemma == "&")
+                // try to start/continue chain, if current word is noun and preceeding word is conjunction
+                if (i - 2 >= 0 && baseList[i] is Noun nCurrent && baseList[i - 1] is Conjunction)
                 {
                     int p = i - 2;
                     // skip all preceeding consecutive conjunctions
-                    while (p >= 0 && baseList[p] is Particle && ((Particle)baseList[p]).Lemma == "&")
+                    while (p >= 0 && baseList[p] is Conjunction)
                         p--;
-                    // check if next non-conjunction is a noun
+                    // check if preceeding non-conjunction is a noun
                     if (baseList[p] is Noun)
                     {
                         nounList.Insert(0, nCurrent);
                         chainLength += i - p;
-                        i = p + 1; // p is now position of previous noun
+                        i = p + 1; // p is now position of preceeding noun
                         continue;
                     }
                 }
@@ -187,7 +187,7 @@ namespace Adventure.Controller
         {
             for (int i = 0; i < this.Count(); i++)
             {
-                if (this[i] is Particle && ((Particle)this[i]).Lemma == "&")
+                if (this[i] is Conjunction)
                     continue;
 
                 else if (this[i] is Command command)

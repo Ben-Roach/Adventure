@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\Nodes\Conjunction.cs" />
     <Compile Include="Debug\ObjectDumper.cs" />
     <Compile Include="Controller\Node Data\DirCodes.cs" />
     <Compile Include="Controller\Node Data\SyntFlags.cs" />
