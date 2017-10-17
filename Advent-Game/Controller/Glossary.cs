@@ -21,7 +21,6 @@ namespace Adventure.Controller
         List<string[]> conjunctions;
         HashSet<string> nouns; // Will change as game objects are created and changed.
         HashSet<string> adjectives; // Will change as game objects are created and changed.
-        string[] removableTokens;
 
         private Glossary()
         {
@@ -89,17 +88,28 @@ namespace Adventure.Controller
 
             nouns.Add("lamp");
             adjectives.Add("brass");
-
-            removableTokens = new[] { "the", "a", "an", "of" };
         }
 
         /// <summary>
-        /// String tokens that can be removed from player input before parsing.
+        /// Reports if a character is removable from a <see cref="Sentence"/>.
         /// </summary>
-        /// <returns>An <see cref="IReadOnlyCollection{T}"/> of strings that should be removed from the player's input.</returns>
-        public static IReadOnlyCollection<string> GetRemovableTokens()
+        /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
+        public static bool IsRemovableChar(char c)
         {
-            return Array.AsReadOnly(Instance.removableTokens);
+            if ((c >= 'A' && c <= 'z') || (c >= '0' && c <= '9') || c == ' ' || c == '\t' || c == '&' || c == '?')
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Reports if a string is removable from a <see cref="Sentence"/>.
+        /// </summary>
+        /// <returns>True if <paramref name="s"/> is removable, else false.</returns>
+        public static bool IsRemovableToken(string s)
+        {
+            if (s == "the" || s == "a" || s == "an" || s == "of")
+                return true;
+            return false;
         }
 
         /// <summary>

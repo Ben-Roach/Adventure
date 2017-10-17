@@ -46,35 +46,37 @@ namespace Adventure.Controller
         /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
         private List<string> Tokenize(string inputString, out string errorMessage)
         {
-            // Check for empty input
+            // trim & force lower
+            string tempStr = inputString.Trim().ToLower();
+            // Check for empty / whitespace input
             if (inputString == "")
             {
                 errorMessage = "Speak up, please.";
                 return null;
             }
             // Remove invalid characters
-            StringBuilder strBuilder = new StringBuilder();
-            foreach (char letter in inputString)
+            StringBuilder strBuilder = new StringBuilder(inputString);
+            for (int i = strBuilder.Length - 1; i >= 0; i--)
             {
-                if ((letter >= 'A' && letter <= 'z') || (letter >= '0' && letter <= '9') || letter == ' ' || letter == '&' || letter == '?')
-                    strBuilder.Append(letter);
+                if (Glossary.IsRemovableChar(strBuilder[i]))
+                    strBuilder.Remove(i, 1);
             }
-            // Check if any valid characters remain
-            string tempStr = strBuilder.ToString();
+            // Check if any characters remain
+            tempStr = strBuilder.ToString();
             if (tempStr.Length == 0)
             {
                 errorMessage = "Try using actual words.";
                 return null;
             }
             // Split inputString into outputList -- a list of string tokens, each representing one word
-            List<string> outputList = tempStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> outputList = tempStr.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
             // Remove unnecessary words
             for (int i = outputList.Count() - 1; i >= 0; i--)
             {
-                if (Glossary.GetRemovableTokens().Contains(outputList[i]))
-                    outputList.Remove(outputList[i]);
+                if (Glossary.IsRemovableToken(outputList[i]))
+                    outputList.RemoveAt(i);
             }
-            // Check if any potentially valid tokens remain
+            // Check if any tokens remain
             if (outputList.Count == 0)
             {
                 errorMessage = "I'm pretty sure that isn't a sentence.";
@@ -87,7 +89,7 @@ namespace Adventure.Controller
 
         /// <summary>
         /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
-        /// and <see cref="Adjective"/> objects to the <see cref="Noun"/>.
+        /// and adds them to the <see cref="Noun"/>.
         /// </summary>
         private void CollectAdjectives()
         {
@@ -112,8 +114,8 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with one or more conjunction
-        /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
+        /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with one or more
+        /// <see cref="Conjunction"/> objects between them), replacing the words wit a new <see cref="NounCollection"/> object.
         /// </summary>
         private void CollectNouns()
         {
@@ -183,6 +185,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Attempts to interpret the <see cref="Sentence"/>. Initiates game model manipulation.
         /// </summary>
+        /// <returns>The output to print for the player.</returns>
         public string Interpret()
         {
             for (int i = 0; i < this.Count(); i++)
