@@ -16,7 +16,7 @@ namespace Adventure.Controller
 
         List<Tuple<string[], VerbSyntax[]>> verbs;
         List<Tuple<string[], string>> particles;
-        List<Tuple<string[], DirCodes>> directions;
+        List<Tuple<string[], DirCode>> directions;
         List<Tuple<string[], Action>> commands;
         List<string[]> conjunctions;
         HashSet<string> nouns; // Will change as game objects are created and changed.
@@ -27,16 +27,16 @@ namespace Adventure.Controller
             verbs = new List<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular)
+                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular)
                 } },
                 { new[] { "go", "walk", "climb" }, new[] {
                     new VerbSyntax("*", null, typeof(Direction))
                 } },
                 { new[] { "examine", "describe", "ex", "x" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular),
+                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular),
                 } },
                 { new[] { "look", "l" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlags.MakeSingular),
+                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular),
                     new VerbSyntax("", null)
                 } },
             };
@@ -50,21 +50,21 @@ namespace Adventure.Controller
                 { new[] { "down" }, "down" },
             };
 
-            directions = new List<Tuple<string[], DirCodes>>
+            directions = new List<Tuple<string[], DirCode>>
             {
-                { new[] { "north", "n" }, DirCodes.North },
-                { new[] { "east", "e" }, DirCodes.South },
-                { new[] { "south", "s" }, DirCodes.East },
-                { new[] { "west", "w" }, DirCodes.West },
-                { new[] { "northeast", "ne" }, DirCodes.Northeast },
-                { new[] { "northwest", "nw" }, DirCodes.Northwest },
-                { new[] { "southeast", "se" }, DirCodes.Southeast },
-                { new[] { "southwest", "sw" }, DirCodes.Southwest },
+                { new[] { "north", "n" }, DirCode.North },
+                { new[] { "east", "e" }, DirCode.South },
+                { new[] { "south", "s" }, DirCode.East },
+                { new[] { "west", "w" }, DirCode.West },
+                { new[] { "northeast", "ne" }, DirCode.Northeast },
+                { new[] { "northwest", "nw" }, DirCode.Northwest },
+                { new[] { "southeast", "se" }, DirCode.Southeast },
+                { new[] { "southwest", "sw" }, DirCode.Southwest },
                 // Remember that the following directions are similar to some particles:
-                { new[] { "u" }, DirCodes.Up },
-                { new[] { "d" }, DirCodes.Down },
-                { new[] { "enter" }, DirCodes.In },
-                { new[] { "exit", "outside" }, DirCodes.Out },
+                { new[] { "u" }, DirCode.Up },
+                { new[] { "d" }, DirCode.Down },
+                { new[] { "enter" }, DirCode.In },
+                { new[] { "exit", "outside" }, DirCode.Out },
             };
 
             commands = new List<Tuple<string[], Action>>
@@ -108,7 +108,7 @@ namespace Adventure.Controller
                 if (entry.Item1.Contains(tokenLower))
                     return new Particle(tokenLower, entry.Item2);
             }
-            foreach (Tuple<string[], DirCodes> entry in Instance.directions)
+            foreach (Tuple<string[], DirCode> entry in Instance.directions)
             {
                 if (entry.Item1.Contains(tokenLower))
                     return new Direction(tokenLower, entry.Item2);

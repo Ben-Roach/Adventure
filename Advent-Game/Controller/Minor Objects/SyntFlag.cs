@@ -7,7 +7,7 @@ namespace Adventure.Controller
     /// Flags used by <see cref="VerbSyntax"/> objects.
     /// </summary>
     [Flags]
-    public enum SyntFlags
+    public enum SyntFlag
     {
         None = 0,
         /// <summary><see cref="VerbSyntax.Arg2"/> is the direct object, <see cref="VerbSyntax.Arg2"/> is the indirect object.</summary>

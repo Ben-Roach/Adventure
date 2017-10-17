@@ -61,8 +61,8 @@
   <ItemGroup>
     <Compile Include="Controller\Nodes\Conjunction.cs" />
     <Compile Include="Debug\ObjectDumper.cs" />
-    <Compile Include="Controller\Minor Objects\DirCodes.cs" />
-    <Compile Include="Controller\Minor Objects\SyntFlags.cs" />
+    <Compile Include="Controller\Minor Objects\DirCode.cs" />
+    <Compile Include="Controller\Minor Objects\SyntFlag.cs" />
     <Compile Include="Controller\Minor Objects\GlossaryExtensions.cs" />
     <Compile Include="Controller\Minor Objects\VerbSyntax.cs" />
     <Compile Include="Controller\Nodes\Adjective.cs" />
