@@ -91,28 +91,6 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Reports if a character is removable from a <see cref="Sentence"/>.
-        /// </summary>
-        /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
-        public static bool IsRemovableChar(char c)
-        {
-            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?')
-                return false;
-            return true;
-        }
-
-        /// <summary>
-        /// Reports if a string is removable from a <see cref="Sentence"/>.
-        /// </summary>
-        /// <returns>True if <paramref name="s"/> is removable, else false.</returns>
-        public static bool IsRemovableToken(string s)
-        {
-            if (s == "the" || s == "a" || s == "an" || s == "of")
-                return true;
-            return false;
-        }
-
-        /// <summary>
         /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
         /// </summary>
         /// <param name="token">A word input by the player.</param>
