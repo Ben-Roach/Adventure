@@ -112,7 +112,7 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with conjunction
+        /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with one or more conjunction
         /// <see cref="Particle"/> objects between them) into a new <see cref="NounCollection"/> object.
         /// </summary>
         private void CollectNouns()
@@ -121,21 +121,34 @@ namespace Adventure.Controller
             List<Noun> nounList = new List<Noun>();
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
-                // start/continue chain, decrement to skip to prev Noun
-                if (i - 2 > 0 && baseList[i] is Noun nc && baseList[i - 1] is Particle && ((Particle)baseList[i - 1]).Lemma == "&" && baseList[i - 2] is Noun)
+                // try to start/continue chain, if current word is noun and previous word is conjunction
+                if (i - 2 >= 0 && baseList[i] is Noun nCurrent && baseList[i - 1] is Particle && ((Particle)baseList[i - 1]).Lemma == "&")
                 {
-                    nounList.Insert(0, nc);
-                    chainLength += 2;
-                    i--;
+                    int p = i - 2;
+                    // skip all preceeding consecutive conjunctions
+                    while (p >= 0 && baseList[p] is Particle && ((Particle)baseList[p]).Lemma == "&")
+                        p--;
+                    // check if next non-conjunction is a noun
+                    if (baseList[p] is Noun)
+                    {
+                        nounList.Insert(0, nCurrent);
+                        chainLength += i - p;
+                        i = p + 1; // p is now position of previous noun
+                        continue;
+                    }
                 }
-                // add noun to existing chain, then terminate
-                else if (nounList.Count > 0 && baseList[i] is Noun nt)
+                // otherwise, try to add noun to existing chain, then terminate
+                if (nounList.Count > 0 && baseList[i] is Noun nFinal)
                 {
-                    nounList.Insert(0, nt);
+                    nounList.Insert(0, nFinal);
+                    // turn first Noun in chain into NounCollection
                     baseList[i] = new NounCollection(nounList);
+                    // remove chained nouns and conjunctions from sentence
                     for (int j = 0; j < chainLength; j++)
                         baseList.RemoveAt(i + 1);
+                    // prep for next chain
                     nounList.Clear();
+                    chainLength = 0;
                 }
             }
         }
