@@ -7,7 +7,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Extension methods for the <see cref="Glossary"/>.
     /// </summary>
-    public static class GlossaryExtensions
+    public static class ClassExtensions
     {
         /// <summary>
         /// Adds a <see cref="Tuple"/> of (<paramref name="item1"/>, <paramref name="item2"/>) to <paramref name="collection"/>.

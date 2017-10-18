@@ -14,10 +14,10 @@ namespace Adventure.Controller
         /// <summary>The instance of the <see cref="Glossary"/> singleton.</summary>
         public static Glossary Instance { get { return instance; } }
 
-        List<Tuple<string[], VerbSyntax[]>> verbs;
-        List<Tuple<string[], string>> particles;
-        List<Tuple<string[], DirCode>> directions;
-        List<Tuple<string[], Action>> commands;
+        HashSet<Tuple<string[], VerbSyntax[]>> verbs;
+        HashSet<Tuple<string[], string>> particles;
+        HashSet<Tuple<string[], DirCode>> directions;
+        HashSet<Tuple<string[], Action>> commands;
         HashSet<string> conjunctions;
         HashSet<string> nouns; // Will change as game objects are created and changed.
         HashSet<string> adjectives; // Will change as game objects are created and changed.
@@ -27,7 +27,7 @@ namespace Adventure.Controller
         /// </summary>
         private Glossary()
         {
-            verbs = new List<Tuple<string[], VerbSyntax[]>>
+            verbs = new HashSet<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
                     new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular)
@@ -44,7 +44,7 @@ namespace Adventure.Controller
                 } },
             };
 
-            particles = new List<Tuple<string[], string>>
+            particles = new HashSet<Tuple<string[], string>>
             {
                 // Remember that the following particles are similar to some directions:
                 { new[] { "in", "inside" }, "in" },
@@ -53,7 +53,7 @@ namespace Adventure.Controller
                 { new[] { "down" }, "down" },
             };
 
-            directions = new List<Tuple<string[], DirCode>>
+            directions = new HashSet<Tuple<string[], DirCode>>
             {
                 { new[] { "north", "n" }, DirCode.North },
                 { new[] { "east", "e" }, DirCode.South },
@@ -70,7 +70,7 @@ namespace Adventure.Controller
                 { new[] { "exit", "outside" }, DirCode.Out },
             };
 
-            commands = new List<Tuple<string[], Action>>
+            commands = new HashSet<Tuple<string[], Action>>
             {
                 { new[] { "commands" }, null },
                 { new[] { "credits" }, null },
