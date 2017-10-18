@@ -63,7 +63,7 @@
     <Compile Include="Debug\ObjectDumper.cs" />
     <Compile Include="Controller\Minor Objects\DirCode.cs" />
     <Compile Include="Controller\Minor Objects\SyntFlag.cs" />
-    <Compile Include="Controller\Minor Objects\GlossaryExtensions.cs" />
+    <Compile Include="Controller\Minor Objects\ClassExtensions.cs" />
     <Compile Include="Controller\Minor Objects\VerbSyntax.cs" />
     <Compile Include="Controller\Nodes\Adjective.cs" />
     <Compile Include="Controller\Nodes\Command.cs" />

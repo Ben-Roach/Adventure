@@ -92,7 +92,7 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>, using <paramref name="glossary"/> for verification.
+        /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>.
         /// </summary>
         /// <param name="token">A word input by the player.</param>
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
