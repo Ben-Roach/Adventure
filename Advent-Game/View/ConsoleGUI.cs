@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 
 namespace Adventure.View
 {
@@ -14,6 +15,7 @@ namespace Adventure.View
 
         private int consoleWidth;
         private int consoleHeight;
+        private string consoleTitle;
 
         /// <summary>
         /// Instantiate the <see cref="ConsoleGUI"/> singleton.
@@ -22,6 +24,7 @@ namespace Adventure.View
         {
             consoleWidth = 100;
             consoleHeight = 25;
+            consoleTitle = "Adventure";
         }
 
         /// <summary>
@@ -29,18 +32,21 @@ namespace Adventure.View
         /// </summary>
         public static void Setup()
         {
-            Console.Title = "Adventure";
+            Console.Title = Instance.consoleTitle;
             Console.SetWindowSize(Instance.consoleWidth, Instance.consoleHeight);
-            Console.BufferWidth = Instance.consoleWidth;
-            if (RuntimeVals.IsDebug)
-            {
-                Print("------DEBUG MODE ACTIVE-------");
-            }
-            else
-            {
-                // prevent scrolling if not debugging
-                Console.BufferHeight = Instance.consoleHeight;
-            }
+            Console.SetBufferSize(Instance.consoleWidth, Instance.consoleHeight);
+            DebugSetup(); // execute this last
+        }
+
+        /// <summary>
+        /// Modifies the console's appearance if compiled as a debug build.
+        /// </summary>
+        [Conditional("DEBUG")]
+        private static void DebugSetup()
+        {
+            Console.Title = Instance.consoleTitle + " (Debug)";
+            Console.BufferHeight = 300;
+            Print("---------DEBUG ACTIVE---------");
         }
 
         /// <summary>
