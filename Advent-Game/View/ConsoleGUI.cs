@@ -12,12 +12,16 @@ namespace Adventure.View
         /// <summary>The instance of the <see cref="ConsoleGUI"/> singleton.</summary>
         public static ConsoleGUI Instance { get { return instance; } }
 
+        private int consoleWidth;
+        private int consoleHeight;
+
         /// <summary>
         /// Instantiate the <see cref="ConsoleGUI"/>.
         /// </summary>
         private ConsoleGUI()
         {
-
+            consoleWidth = 100;
+            consoleHeight = 25;
         }
 
         /// <summary>
@@ -26,8 +30,8 @@ namespace Adventure.View
         public static void Setup()
         {
             Console.Title = "Adventure";
-            Console.SetWindowSize(100, 25);
-            Console.BufferWidth = 100;
+            Console.SetWindowSize(Instance.consoleWidth, Instance.consoleHeight);
+            Console.BufferWidth = Instance.consoleWidth;
             if (RuntimeVals.Debugging)
             {
                 Print("------DEBUG MODE ACTIVE-------");
@@ -35,7 +39,7 @@ namespace Adventure.View
             else
             {
                 // prevent scrolling if not debugging
-                Console.BufferHeight = 25;
+                Console.BufferHeight = Instance.consoleHeight;
             }
         }
 
