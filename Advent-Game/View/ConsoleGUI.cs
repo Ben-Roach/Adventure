@@ -26,7 +26,8 @@ namespace Adventure.View
         public static void Setup()
         {
             Console.Title = "Adventure";
-            Console.SetWindowSize(120, 30);
+            Console.SetWindowSize(100, 25);
+            Console.BufferWidth = 100;
             if (RuntimeVals.Debugging)
             {
                 Print("------DEBUG MODE ACTIVE-------");
@@ -34,7 +35,7 @@ namespace Adventure.View
             else
             {
                 // prevent scrolling if not debugging
-                Console.BufferHeight = 30;
+                Console.BufferHeight = 25;
             }
         }
 
@@ -44,6 +45,7 @@ namespace Adventure.View
         /// <returns>The player's input.</returns>
         public static string GetPlayerInput()
         {
+            Console.Write("> ");
             return Console.ReadLine();
         }
 
