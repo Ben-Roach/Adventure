@@ -11,21 +11,15 @@ namespace Adventure
         public static RuntimeVals Instance { get { return instance; } }
 
         /// <summary>True if compiled as a debug build, else false.</summary>
-        public static bool Debugging { get; private set; }
+        public static bool IsDebug { get; private set; }
 
         /// <summary>
-        /// Instantiate the <see cref="RuntimeVals"/>.
+        /// Instantiate the <see cref="RuntimeVals"/> singleton.
         /// </summary>
         private RuntimeVals()
         {
-            Debugging = false;
-            SetDebug();
-        }
-
-        [Conditional("DEBUG")]
-        public static void SetDebug()
-        {
-            Debugging = true;
+            IsDebug = false;
+            Debug.Assert(IsDebug = true); // not executed if release build
         }
     }
 }

@@ -18,12 +18,12 @@ namespace Adventure.Controller
         List<Tuple<string[], string>> particles;
         List<Tuple<string[], DirCode>> directions;
         List<Tuple<string[], Action>> commands;
-        List<string[]> conjunctions;
+        HashSet<string> conjunctions;
         HashSet<string> nouns; // Will change as game objects are created and changed.
         HashSet<string> adjectives; // Will change as game objects are created and changed.
 
         /// <summary>
-        /// Instantiate the <see cref="Glossary"/>.
+        /// Instantiate the <see cref="Glossary"/> singleton.
         /// </summary>
         private Glossary()
         {
@@ -80,10 +80,8 @@ namespace Adventure.Controller
                 { new[] { "brief" }, null },
             };
 
-            conjunctions = new List<string[]>()
-            {
-                new[] { "and", "&", "then" },
-            };
+            conjunctions = new HashSet<string>()
+            { "and", "&", "then" };
 
             nouns = new HashSet<string>();
 
@@ -121,9 +119,9 @@ namespace Adventure.Controller
                 if (entry.Item1.Contains(tokenLower))
                     return new Command(tokenLower, entry.Item2);
             }
-            foreach (string[] entry in Instance.conjunctions)
+            foreach (string entry in Instance.conjunctions)
             {
-                if (entry.Contains(tokenLower))
+                if (entry == tokenLower)
                     return new Conjunction(tokenLower);
             }
             // always search writable glossaries last, to avoid accidentally hiding entries in readonly glossaries.

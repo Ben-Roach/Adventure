@@ -16,7 +16,7 @@ namespace Adventure.View
         private int consoleHeight;
 
         /// <summary>
-        /// Instantiate the <see cref="ConsoleGUI"/>.
+        /// Instantiate the <see cref="ConsoleGUI"/> singleton.
         /// </summary>
         private ConsoleGUI()
         {
@@ -25,14 +25,14 @@ namespace Adventure.View
         }
 
         /// <summary>
-        /// Set the console's appearance.
+        /// Set the console's appearance. Should be the first method called by Main.
         /// </summary>
         public static void Setup()
         {
             Console.Title = "Adventure";
             Console.SetWindowSize(Instance.consoleWidth, Instance.consoleHeight);
             Console.BufferWidth = Instance.consoleWidth;
-            if (RuntimeVals.Debugging)
+            if (RuntimeVals.IsDebug)
             {
                 Print("------DEBUG MODE ACTIVE-------");
             }
