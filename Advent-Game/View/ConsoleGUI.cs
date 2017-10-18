@@ -6,8 +6,20 @@ namespace Adventure.View
     /// <summary>
     /// Uses the Windows Console as a GUI.
     /// </summary>
-    static class ConsoleGUI
+    public sealed class ConsoleGUI
     {
+        private static readonly ConsoleGUI instance = new ConsoleGUI();
+        /// <summary>The instance of the <see cref="ConsoleGUI"/> singleton.</summary>
+        public static ConsoleGUI Instance { get { return instance; } }
+
+        /// <summary>
+        /// Instantiate the <see cref="ConsoleGUI"/>.
+        /// </summary>
+        private ConsoleGUI()
+        {
+
+        }
+
         /// <summary>
         /// Set the console's appearance.
         /// </summary>
@@ -15,6 +27,15 @@ namespace Adventure.View
         {
             Console.Title = "Adventure";
             Console.SetWindowSize(120, 30);
+            if (RuntimeVals.Debugging)
+            {
+                Print("------DEBUG MODE ACTIVE-------");
+            }
+            else
+            {
+                // prevent scrolling if not debugging
+                Console.BufferHeight = 30;
+            }
         }
 
         /// <summary>

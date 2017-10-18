@@ -43,10 +43,8 @@ namespace Adventure.Test
         [TestMethod]
         public void InvalidCharInput()
         {
-            Sentence s1 = new Sentence("}", out string e1);
+            Sentence s1 = new Sentence("}[/", out string e1);
             Assert.IsTrue(e1 != null);
-            Sentence s2 = new Sentence("{<>}", out string e2);
-            Assert.IsTrue(e2 != null);
         }
 
         /// <summary>

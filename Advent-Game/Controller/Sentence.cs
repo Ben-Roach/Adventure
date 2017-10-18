@@ -93,7 +93,7 @@ namespace Adventure.Controller
         /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
         public static bool IsRemovableChar(char c)
         {
-            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?')
+            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?' || c == '\'' || c == '-')
                 return false;
             return true;
         }
@@ -229,12 +229,12 @@ namespace Adventure.Controller
 
                 else if (this[i] is UnknownWord)
                 {
-                    return "I don't understand the word \"" + this[i].OrigToken + "\".";
+                    return "I don't understand the word \"" + this[i].OrigToken + ".\"";
                 }
 
                 else
                 {
-                    return "You lost me at \"" + this[i].OrigToken + "\".";
+                    return "You lost me at \"" + this[i].OrigToken + ".\"";
                 }
             }
             return "Something weird happened. Maybe try that again?";

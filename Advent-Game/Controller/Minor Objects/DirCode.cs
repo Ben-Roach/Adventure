@@ -8,6 +8,6 @@ namespace Adventure.Controller
     {
         North, East, South, West,
         Northeast, Northwest, Southeast, Southwest,
-        Up, Down, In, Out      
+        Up, Down, In, Out
     }
 }

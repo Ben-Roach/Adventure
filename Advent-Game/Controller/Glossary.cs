@@ -22,6 +22,9 @@ namespace Adventure.Controller
         HashSet<string> nouns; // Will change as game objects are created and changed.
         HashSet<string> adjectives; // Will change as game objects are created and changed.
 
+        /// <summary>
+        /// Instantiate the <see cref="Glossary"/>.
+        /// </summary>
         private Glossary()
         {
             verbs = new List<Tuple<string[], VerbSyntax[]>>

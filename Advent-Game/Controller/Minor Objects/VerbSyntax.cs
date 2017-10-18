@@ -8,7 +8,7 @@ namespace Adventure.Controller
     /// </summary>
     public class VerbSyntax
     {
-        public delegate void VerbSyntaxDelegate(Controller.Node directObject, Controller.Node indirectObject);
+        public delegate void VerbSyntaxDelegate(Node directObject, Node indirectObject);
 
         /// <summary>Contains wildcards (asterisks) and/or strings matching valid <see cref="SentenceStructure.Particle.Lemma"/> values.</summary>
         public string[] Syntax { get; }
@@ -29,8 +29,8 @@ namespace Adventure.Controller
         /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="SentenceStructure.Node"/> Type.</param>
         public VerbSyntax(string syntaxStr, VerbSyntaxDelegate syntaxDelegate, Type arg1, Type arg2, SyntFlag flags = SyntFlag.None)
         {
-            Debug.Assert(typeof(Controller.Node).IsAssignableFrom(arg1) || arg1 == null);
-            Debug.Assert(typeof(Controller.Node).IsAssignableFrom(arg2) || arg2 == null);
+            Debug.Assert(typeof(Node).IsAssignableFrom(arg1) || arg1 == null);
+            Debug.Assert(typeof(Node).IsAssignableFrom(arg2) || arg2 == null);
             Syntax = syntaxStr.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             Delegate = syntaxDelegate;
             Flags = flags;
