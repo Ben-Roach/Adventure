@@ -10,7 +10,7 @@ namespace Adventure.Controller
     class NounCollection : Node
     {
         List<Noun> containedNouns;
-        /// <summary>The contained <see cref="Noun"/> objects, in order.</summary>
+        /// <summary>The contained <see cref="Noun"/> objects, in the order used by the player.</summary>
         public IReadOnlyCollection<Noun> ContainedNouns { get => containedNouns.AsReadOnly(); }
 
         /// <summary>
@@ -21,10 +21,9 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nouns"/> is null.</exception>
         public NounCollection(IList<Noun> nouns) : base(nouns[0].OrigToken)
         {
-            if (nouns == null) throw new ArgumentNullException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " was null.");
-            else if (nouns.Count == 0) throw new ArgumentException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " was zero-length.");
-            foreach (Noun n in nouns)
-            { if (n == null) throw new ArgumentException("Attempted to create a " + nameof(NounCollection) + " where " + nameof(nouns) + " containined a null item."); }
+            if (nouns == null) throw new ArgumentNullException(nameof(nouns));
+            else if (nouns.Count == 0) throw new ArgumentException(nameof(nouns) + "is zero-length.");
+            foreach (Noun n in nouns) { if (n == null) throw new ArgumentException(nameof(nouns) + "contains a null item."); }
             containedNouns = nouns.ToList();
         }
     }

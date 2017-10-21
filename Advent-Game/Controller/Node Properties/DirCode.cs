@@ -2,7 +2,8 @@
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Valid directional codes used by <see cref="SentenceStructure.Direction"/> objects.
+    /// Valid directional codes used by <see cref="Direction"/> objects.
+    /// Each represents a physical direction.
     /// </summary>
     public enum DirCode
     {

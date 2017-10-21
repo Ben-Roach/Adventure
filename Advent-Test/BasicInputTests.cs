@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Adventure.Controller;
+using System;
 
 namespace Adventure.Test
 {
@@ -11,22 +12,32 @@ namespace Adventure.Test
     public class BasicInputTests
     {
         /// <summary>
-        /// Tests that empty input is not acceptable; or that attempting to create a sentence
+        /// Tests that attempting to create a sentence from a null string throws an exception.
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void NullSentenceInput()
+        {
+            Sentence s = new Sentence(null, out string e);
+        }
+
+        /// <summary>
+        /// Tests that empty player input is not acceptable; or that attempting to create a sentence
         /// from an empty string fails and returns an error message.
         /// </summary>
         [TestMethod]
-        public void EmptyInput()
+        public void EmptySentenceInput()
         {
             Sentence s = new Sentence("", out string e);
             Assert.IsTrue(e != null);
         }
 
         /// <summary>
-        /// Tests that an input of whitespace is not acceptable; or that attempting to create
+        /// Tests that a player input of whitespace is not acceptable; or that attempting to create
         /// a sentence from a string of only whitespace fails and returns an error message.
         /// </summary>
         [TestMethod]
-        public void WhitespaceInput()
+        public void WhitespaceSentenceInput()
         {
             Sentence s1 = new Sentence(" ", out string e1);
             Assert.IsTrue(e1 != null);
@@ -37,22 +48,22 @@ namespace Adventure.Test
         }
 
         /// <summary>
-        /// Tests that an input of only removable characters is not acceptable; or that attempting to
+        /// Tests that a player input of only removable characters is not acceptable; or that attempting to
         /// create a sentence from a string of only removable characters fails and returns an error message.
         /// </summary>
         [TestMethod]
-        public void InvalidCharInput()
+        public void InvalidCharSentenceInput()
         {
             Sentence s1 = new Sentence("}[/", out string e1);
             Assert.IsTrue(e1 != null);
         }
 
         /// <summary>
-        /// Tests that an input of only removable words is not acceptable; or that attempting to
+        /// Tests that a player input of only removable words is not acceptable; or that attempting to
         /// create a sentence from a string of only removable words fails and returns an error message.
         /// </summary>
         [TestMethod]
-        public void InvalidWordInput()
+        public void InvalidWordSentenceInput()
         {
             Sentence s1 = new Sentence("the", out string e1);
             Assert.IsTrue(e1 != null);

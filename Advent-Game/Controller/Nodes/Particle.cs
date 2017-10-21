@@ -4,7 +4,7 @@ using System;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Used for sentence and syntax structure.
+    /// Used for verb syntax structure.
     /// </summary>
     class Particle : Node
     {
@@ -18,7 +18,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="lemma"/> is null.</exception>
         public Particle(string origToken, string lemma) : base(origToken)
         {
-            Lemma = lemma ?? throw new ArgumentNullException("Attempted to create a " + nameof(Particle) + " where " + nameof(lemma) + " was null.");
+            Lemma = lemma ?? throw new ArgumentNullException(nameof(lemma));
         }
     }
 }

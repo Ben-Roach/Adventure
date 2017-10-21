@@ -76,6 +76,7 @@
     <Compile Include="Controller\Nodes\Verb.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Controller\Glossary.cs" />
+    <Compile Include="Model\VerbAction.cs" />
     <Compile Include="View\ConsoleGUI.cs" />
     <Compile Include="Controller\Sentence.cs" />
     <Compile Include="Adventure\Game.cs" />

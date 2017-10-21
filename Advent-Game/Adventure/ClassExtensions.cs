@@ -13,7 +13,7 @@ namespace Adventure
         /// Adds a 2-<see cref="Tuple"/> to <paramref name="set"/>.
         /// </summary>
         /// <remarks>
-        /// Used to make instantiation of a set of 2-tuples cleaner.
+        /// Used to make adding to a set of 2-tuples cleaner.
         /// </remarks>
         /// <param name="set">The <see cref="ISet"/> to add to.</param>
         /// <param name="item1">Item1 in the tuple to add to <paramref name="set"/>.</param>
