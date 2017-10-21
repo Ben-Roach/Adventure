@@ -15,6 +15,9 @@ namespace Adventure.Controller
         /// <summary>The <see cref="Node"/> objects in the <see cref="Sentence"/>.</summary>
         private List<Node> baseList;
 
+        /// <summary>The number of top-level nodes the <see cref="Sentence"/> contains.</summary>
+        public int Length => baseList.Count;
+
         /// <summary>
         /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the <see cref="Glossary"/>.
         /// </summary>
@@ -177,7 +180,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Returns the length of the <see cref="Sentence"/>, considering only one level of depth.
         /// </summary>
-        int IReadOnlyCollection<Node>.Count => baseList.Count;
+        int IReadOnlyCollection<Node>.Count => Length;
 
         /// <summary>
         /// Gets the top-level <see cref="Node"/> in the <see cref="Sentence"/> at the specified index.
@@ -200,41 +203,5 @@ namespace Adventure.Controller
 
         IEnumerator IEnumerable.GetEnumerator()
         { return GetEnumerator(); }
-
-        /// <summary>
-        /// Attempts to interpret the <see cref="Sentence"/>. Initiates game model manipulation.
-        /// </summary>
-        /// <returns>The output to print for the player.</returns>
-        public string Interpret()
-        {
-            for (int i = 0; i < this.Count(); i++)
-            {
-                if (this[i] is Conjunction)
-                    continue;
-
-                else if (this[i] is Command command)
-                    command.Delegate();
-
-                else if (this[i] is Verb verb)
-                {
-                    List<VerbSyntax> syntaxList = verb.Syntaxes.ToList();
-                    // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
-                    // match, throw syntax out. Once all syntaxes have been checked: if there are no potentialy correct syntaxes, use the current word in the error message.
-                    // Otherwise, go with the longest potentially correct syntax. Only go with an empty syntax if all other syntaxes were thrown out on the first check,
-                    // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
-                }
-
-                else if (this[i] is UnknownWord)
-                {
-                    return "I don't understand the word \"" + this[i].OrigToken + ".\"";
-                }
-
-                else
-                {
-                    return "You lost me at \"" + this[i].OrigToken + ".\"";
-                }
-            }
-            return "Something weird happened. Maybe try that again?";
-        }
     }
 }
