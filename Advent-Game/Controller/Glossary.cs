@@ -78,6 +78,7 @@ namespace Adventure.Controller
                 { new[] { "brief" }, null },
             };
 
+            // conjunctions added here, nouns and adjectives are added at runtime from entities.
             otherWords = new HashSet<Tuple<Type, string>>()
             {
                 { typeof(Conjunction), "and" },
@@ -119,7 +120,7 @@ namespace Adventure.Controller
             foreach (Tuple<Type, string> entry in Instance.otherWords)
             {
                 if (entry.Item2.ToLower() == tokenLower)
-                    return new Conjunction(tokenLower);
+                    return (Node)Activator.CreateInstance(entry.Item1, tokenLower);
             }
             return new UnknownWord(token);
         }

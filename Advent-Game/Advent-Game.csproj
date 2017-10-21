@@ -61,10 +61,10 @@
   <ItemGroup>
     <Compile Include="Controller\Nodes\Conjunction.cs" />
     <Compile Include="Adventure\Debug\ObjectDumper.cs" />
-    <Compile Include="Controller\Minor Objects\DirCode.cs" />
-    <Compile Include="Controller\Minor Objects\SyntFlag.cs" />
+    <Compile Include="Controller\Node Properties\DirCode.cs" />
+    <Compile Include="Controller\Node Properties\SyntFlag.cs" />
     <Compile Include="Adventure\ClassExtensions.cs" />
-    <Compile Include="Controller\Minor Objects\VerbSyntax.cs" />
+    <Compile Include="Controller\Node Properties\VerbSyntax.cs" />
     <Compile Include="Controller\Nodes\Adjective.cs" />
     <Compile Include="Controller\Nodes\Command.cs" />
     <Compile Include="Controller\Nodes\Direction.cs" />
