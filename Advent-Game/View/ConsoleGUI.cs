@@ -45,7 +45,7 @@ namespace Adventure.View
         private static void DebugSetup()
         {
             Console.Title = Instance.consoleTitle + " (Debug)";
-            Console.BufferHeight = 300;
+            Console.BufferHeight = 4000;
             Print("---------DEBUG ACTIVE---------");
         }
 

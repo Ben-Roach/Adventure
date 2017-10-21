@@ -4,7 +4,7 @@ using System;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Used for verb syntax structure.
+    /// Represents a word used for verb syntax structure.
     /// </summary>
     class Particle : Node
     {

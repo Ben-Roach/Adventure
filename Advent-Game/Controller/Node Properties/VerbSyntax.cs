@@ -42,9 +42,9 @@ namespace Adventure.Controller
             syntax = syntaxString != null ? syntaxString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)
                 : throw new ArgumentNullException(nameof(syntaxString));
             Delegate = syntaxDelegate ?? throw new ArgumentNullException(nameof(syntaxDelegate));
-            Arg1 = typeof(Node).IsAssignableFrom(arg1) ? arg1
+            Arg1 = arg1 == null || typeof(Node).IsAssignableFrom(arg1) ? arg1
                 : throw new ArgumentException(nameof(arg1) + " must be a type inherited from " + nameof(Node));
-            Arg2 = typeof(Node).IsAssignableFrom(arg1) ? arg2
+            Arg2 = arg2 == null || typeof(Node).IsAssignableFrom(arg1) ? arg2
                 : throw new ArgumentException(nameof(arg2) + " must be a type inherited from " + nameof(Node));
             Flags = flags;
         }

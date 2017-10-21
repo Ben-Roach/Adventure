@@ -2,7 +2,7 @@
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a word used to link words and phrases together.
+    /// Represents a word used for sentence structure.
     /// </summary>
     class Conjunction : Node
     {

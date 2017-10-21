@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adventure.Model;
 
 namespace Adventure.Controller
 {
@@ -28,17 +29,17 @@ namespace Adventure.Controller
             verbs = new HashSet<Tuple<string[], VerbSyntax[]>>
             {
                 { new[] { "take", "grab" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular)
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
                 } },
                 { new[] { "go", "walk", "climb" }, new[] {
-                    new VerbSyntax("*", null, typeof(Direction))
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(Direction)),
                 } },
                 { new[] { "examine", "describe", "ex", "x" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular),
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
                 } },
                 { new[] { "look", "l" }, new[] {
-                    new VerbSyntax("*", null, typeof(NounCollection), SyntFlag.MakeSingular),
-                    new VerbSyntax("", null)
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
+                    new VerbSyntax("", VerbAction.Placeholder)
                 } },
             };
 
@@ -70,12 +71,12 @@ namespace Adventure.Controller
 
             commands = new HashSet<Tuple<string[], Action>>
             {
-                { new[] { "commands" }, null },
-                { new[] { "credits" }, null },
-                { new[] { "help", "?" }, null },
-                { new[] { "quit" }, null },
-                { new[] { "verbose" }, null },
-                { new[] { "brief" }, null },
+                { new[] { "commands" }, CommandAction.Placeholder },
+                { new[] { "credits" }, CommandAction.Placeholder },
+                { new[] { "help", "?" }, CommandAction.Placeholder },
+                { new[] { "quit" }, CommandAction.Placeholder },
+                { new[] { "verbose" }, CommandAction.Placeholder },
+                { new[] { "brief" }, CommandAction.Placeholder },
             };
 
             // conjunctions added here, nouns and adjectives are added at runtime from entities.

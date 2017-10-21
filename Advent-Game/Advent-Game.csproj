@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Nodes\Conjunction.cs" />
     <Compile Include="Adventure\Debug\ObjectDumper.cs" />
     <Compile Include="Controller\Node Properties\DirCode.cs" />
     <Compile Include="Controller\Node Properties\SyntFlag.cs" />
@@ -67,6 +66,7 @@
     <Compile Include="Controller\Node Properties\VerbSyntax.cs" />
     <Compile Include="Controller\Nodes\Adjective.cs" />
     <Compile Include="Controller\Nodes\Command.cs" />
+    <Compile Include="Controller\Nodes\Conjunction.cs" />
     <Compile Include="Controller\Nodes\Direction.cs" />
     <Compile Include="Controller\Node.cs" />
     <Compile Include="Controller\Nodes\Noun.cs" />
@@ -74,6 +74,7 @@
     <Compile Include="Controller\Nodes\NounCollection.cs" />
     <Compile Include="Controller\Nodes\UnknownWord.cs" />
     <Compile Include="Controller\Nodes\Verb.cs" />
+    <Compile Include="Model\CommandAction.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Controller\Glossary.cs" />
     <Compile Include="Model\VerbAction.cs" />

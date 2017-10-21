@@ -18,7 +18,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="commandDelegate"/> is null.</exception>
         public Command(string origToken, Action commandDelegate) : base(origToken)
         {
-            Delegate = commandDelegate ?? throw new ArgumentNullException("Attempted to construct a " + nameof(Direction) + " where " + nameof(commandDelegate) + " was null.");
+            Delegate = commandDelegate ?? throw new ArgumentNullException(nameof(commandDelegate));
         }
     }
 }
