@@ -216,7 +216,7 @@ namespace Adventure.Controller
                     continue;
 
                 else if (this[i] is Command command)
-                    command.ActionDelegate();
+                    command.Delegate();
 
                 else if (this[i] is Verb verb)
                 {

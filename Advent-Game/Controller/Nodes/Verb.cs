@@ -11,7 +11,7 @@ namespace Adventure.Controller
     {
         List<VerbSyntax> syntaxes;
         /// <summary>Syntaxes that are valid for the <see cref="Verb"/>.</summary>
-        public IReadOnlyCollection<VerbSyntax> Syntaxes { get { return syntaxes.AsReadOnly(); } }
+        public IReadOnlyCollection<VerbSyntax> Syntaxes { get => syntaxes.AsReadOnly(); }
 
         /// <summary>
         /// Create a new <see cref="Verb"/> that contains <see cref="VerbSyntax"/> objects.

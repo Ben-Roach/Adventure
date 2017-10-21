@@ -11,7 +11,7 @@ namespace Adventure.Controller
     {
         List<Noun> containedNouns;
         /// <summary>The contained <see cref="Noun"/> objects, in order.</summary>
-        public IReadOnlyCollection<Noun> ContainedNouns { get { return containedNouns.AsReadOnly(); } }
+        public IReadOnlyCollection<Noun> ContainedNouns { get => containedNouns.AsReadOnly(); }
 
         /// <summary>
         /// Create a new <see cref="NounCollection"/> containing <paramref name="nouns"/>.

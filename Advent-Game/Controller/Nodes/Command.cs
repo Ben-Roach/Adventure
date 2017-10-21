@@ -9,17 +9,16 @@ namespace Adventure.Controller
     class Command : Node
     {
         /// <summary>The method to call on behalf of the <see cref="Command"/>.</summary>
-        public Action ActionDelegate { get; }
+        public Action Delegate { get; }
 
         /// <summary>
         /// Create a new <see cref="Command"/>.
         /// </summary>
-        /// <param name="actionDelegate">The method to call on behalf of the <see cref="Command"/>.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="actionDelegate"/> is null.</exception>
-        public Command(string origToken, Action actionDelegate) : base(origToken)
+        /// <param name="commandDelegate">The method to call on behalf of the <see cref="Command"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="commandDelegate"/> is null.</exception>
+        public Command(string origToken, Action commandDelegate) : base(origToken)
         {
-            ActionDelegate = actionDelegate != null ? actionDelegate
-                : throw new ArgumentNullException("Attempted to construct a " + nameof(Direction) + " where " + nameof(actionDelegate) + " was null.");
+            Delegate = commandDelegate ?? throw new ArgumentNullException("Attempted to construct a " + nameof(Direction) + " where " + nameof(commandDelegate) + " was null.");
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Adventure.Controller
     {
         List<Adjective> containedAdjectives;
         /// <summary><see cref="Adjective"/> objects associated with the <see cref="Noun"/>.</summary>
-        public IReadOnlyCollection<Adjective> ContainedAdjectives { get { return containedAdjectives.AsReadOnly(); } }
+        public IReadOnlyCollection<Adjective> ContainedAdjectives { get => containedAdjectives.AsReadOnly(); }
 
         /// <summary>
         /// Create a new Noun INode containing no Adjectives.
@@ -26,7 +26,7 @@ namespace Adventure.Controller
         public void AddAdjective(Adjective adj)
         {
             if (adj == null)
-                throw new ArgumentNullException("Attempted to construct a " + nameof(Adjective) + " where " + nameof(adj) + " was null.");
+                throw new ArgumentNullException("Attempted to add a null object to " + nameof(containedAdjectives) + ".");
             containedAdjectives.Add(adj);
         }
     }
