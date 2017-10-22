@@ -33,18 +33,24 @@ namespace Adventure.Controller
                 } },
                 { new[] { "go", "walk", "climb" }, new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(Direction)),
+                    new VerbSyntax("in", VerbAction.Placeholder),
+                    new VerbSyntax("out", VerbAction.Placeholder),
+                    new VerbSyntax("up", VerbAction.Placeholder),
+                    new VerbSyntax("down", VerbAction.Placeholder),
                 } },
                 { new[] { "examine", "describe", "ex", "x" }, new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
                 } },
                 { new[] { "look", "l" }, new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
+                    new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounCollection), SyntFlag.MakeSingular),
                     new VerbSyntax("", VerbAction.Placeholder)
                 } },
             };
 
             particles = new HashSet<Tuple<string[], string>>
             {
+                { new[] { "at" }, "at" },
                 // Remember that the following particles are similar to some directions:
                 { new[] { "in", "inside" }, "in" },
                 { new[] { "out" }, "out" },
@@ -85,6 +91,7 @@ namespace Adventure.Controller
                 { typeof(Conjunction), "and" },
                 { typeof(Conjunction), "&" },
                 { typeof(Conjunction), "then" },
+                // temporary testing words
                 { typeof(Noun), "lamp" },
                 { typeof(Adjective), "brass" },
             };
