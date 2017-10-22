@@ -38,11 +38,13 @@ namespace Adventure.Model
                 else if (sentence[i] is UnknownWord)
                 {
                     ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigToken + ".\"");
+                    return;
                 }
 
                 else
                 {
                     ConsoleGUI.Print("You lost me at \"" + sentence[i].OrigToken + ".\"");
+                    return;
                 }
             }
         }
