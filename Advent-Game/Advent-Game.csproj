@@ -60,28 +60,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure\Debug\ObjectDumper.cs" />
-    <Compile Include="Controller\Node Properties\DirCode.cs" />
-    <Compile Include="Controller\Node Properties\SyntFlag.cs" />
-    <Compile Include="Adventure\ClassExtensions.cs" />
-    <Compile Include="Controller\Node Properties\VerbSyntax.cs" />
-    <Compile Include="Controller\Nodes\Adjective.cs" />
-    <Compile Include="Controller\Nodes\Command.cs" />
-    <Compile Include="Controller\Nodes\Conjunction.cs" />
-    <Compile Include="Controller\Nodes\Direction.cs" />
-    <Compile Include="Controller\Node.cs" />
-    <Compile Include="Controller\Nodes\Noun.cs" />
-    <Compile Include="Controller\Nodes\Particle.cs" />
-    <Compile Include="Controller\Nodes\NounCollection.cs" />
-    <Compile Include="Controller\Nodes\UnknownWord.cs" />
-    <Compile Include="Controller\Nodes\Verb.cs" />
+    <Compile Include="Adventure\Load\LoadGlossary.cs" />
+    <Compile Include="Adventure\Game.cs" />
+    <Compile Include="Controller\DirCode.cs" />
+    <Compile Include="Controller\Glossary\Entries\VerbEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\ParticleEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\NounEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\DirectionEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\ConjunctionEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\CommandEntry.cs" />
+    <Compile Include="Controller\Glossary\Entries\AdjectiveEntry.cs" />
+    <Compile Include="Controller\Glossary\Entry.cs" />
+    <Compile Include="Controller\SyntFlag.cs" />
+    <Compile Include="Controller\VerbSyntax.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Adjective.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Command.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Conjunction.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Direction.cs" />
+    <Compile Include="Controller\Sentence\Node.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Noun.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Particle.cs" />
+    <Compile Include="Controller\Sentence\Nodes\NounGroup.cs" />
+    <Compile Include="Controller\Sentence\Nodes\UnknownWord.cs" />
+    <Compile Include="Controller\Sentence\Nodes\Verb.cs" />
     <Compile Include="Model\CommandAction.cs" />
     <Compile Include="Model\Entity.cs" />
-    <Compile Include="Controller\Glossary.cs" />
+    <Compile Include="Controller\Glossary\Glossary.cs" />
     <Compile Include="Model\SentenceInterpreter.cs" />
     <Compile Include="Model\VerbAction.cs" />
     <Compile Include="View\ConsoleGUI.cs" />
-    <Compile Include="Controller\Sentence.cs" />
-    <Compile Include="Adventure\Game.cs" />
+    <Compile Include="Controller\Sentence\Sentence.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +108,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

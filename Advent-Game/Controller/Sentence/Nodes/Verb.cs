@@ -7,7 +7,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Used as the basis of performing actions on behalf of the player.
     /// </summary>
-    class Verb : Node
+    public sealed class Verb : Node
     {
         List<VerbSyntax> syntaxes;
         /// <summary>Syntaxes that are valid for the <see cref="Verb"/>.</summary>
@@ -16,7 +16,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="Verb"/> that contains <see cref="VerbSyntax"/> objects.
         /// </summary>
-        /// <param name="syntaxes"><see cref="VerbSyntax"/> objects that are valid for the <see cref="Verb"/>.</param>
+        /// <param name="syntaxes">Represent syntaxes that are valid for the <see cref="Verb"/>.</param>
         /// <exception cref="ArgumentException">Thrown when <paramref name="syntaxes"/> is zero length or contains null items.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="syntaxes"/> is null.</exception>
         public Verb(string origToken, ICollection<VerbSyntax> syntaxes) : base(origToken)

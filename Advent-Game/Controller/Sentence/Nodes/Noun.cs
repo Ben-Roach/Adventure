@@ -7,7 +7,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Used as the basis of specifying and finding diegetic game objects.
     /// </summary>
-    class Noun : Node
+    public sealed class Noun : Node
     {
         List<Adjective> containedAdjectives;
         /// <summary><see cref="Adjective"/> objects associated with the <see cref="Noun"/>.</summary>

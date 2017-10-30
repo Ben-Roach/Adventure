@@ -4,7 +4,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Used with <see cref="Noun"/> objects to make them more specific.
     /// </summary>
-    class Adjective : Node
+    public sealed class Adjective : Node
     {
         /// <summary>
         /// Create a new <see cref="Adjective"/>.

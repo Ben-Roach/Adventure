@@ -6,7 +6,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a word used by the player for extradiegetic game control.
     /// </summary>
-    class Command : Node
+    public sealed class Command : Node
     {
         /// <summary>The method to call on behalf of the <see cref="Command"/>.</summary>
         public Action Delegate { get; }

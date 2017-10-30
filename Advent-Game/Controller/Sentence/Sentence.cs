@@ -137,7 +137,7 @@ namespace Adventure.Controller
 
         /// <summary>
         /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with one or more
-        /// <see cref="Conjunction"/> objects between them), replacing the words wit a new <see cref="NounCollection"/> object.
+        /// <see cref="Conjunction"/> objects between them), replacing the words wit a new <see cref="NounGroup"/> object.
         /// </summary>
         private void CollectNouns()
         {
@@ -166,7 +166,7 @@ namespace Adventure.Controller
                 {
                     nounList.Insert(0, nFinal);
                     // turn first Noun in chain into NounCollection
-                    baseList[i] = new NounCollection(nounList);
+                    baseList[i] = new NounGroup(nounList);
                     // remove chained nouns and conjunctions from sentence
                     for (int j = 0; j < chainLength; j++)
                         baseList.RemoveAt(i + 1);

@@ -5,11 +5,19 @@ using Adventure.Model;
 
 namespace Adventure
 {
+    /// <summary>
+    /// The instance of the game.
+    /// </summary>
     class Game
     {
-        static void Main(string[] args)
+        /// <summary>
+        /// Run the game.
+        /// </summary>
+        /// <param name="args"></param>
+        public static void Run(string[] args)
         {
             ConsoleGUI.Setup();
+            Load.LoadGlossary();
 
             while (true)
             {

@@ -4,7 +4,7 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a word used for sentence structure.
     /// </summary>
-    class Conjunction : Node
+    public sealed class Conjunction : Node
     {
         /// <summary>
         /// Create a new <see cref="Conjunction"/>.

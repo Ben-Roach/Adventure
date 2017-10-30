@@ -6,9 +6,9 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a word used for verb syntax structure.
     /// </summary>
-    class Particle : Node
+    public sealed class Particle : Node
     {
-        /// <summary>The commonly understood form of <see cref="OrigToken"/>, used to test if a specific word or synonym was used by the player.</summary>
+        /// <summary>The commonly understood form of <see cref="OrigToken"/>, used to test if a synonym was used by the player.</summary>
         public string Lemma { get; }
 
         /// <summary>
