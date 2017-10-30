@@ -19,7 +19,7 @@ namespace Adventure.Controller
         /// <param name="nouns">The <see cref="Noun"/> objects contained in the <see cref="NounCollection"/>.</param>
         /// <exception cref="ArgumentException">Thrown when nouns is zero length or contains null items.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nouns"/> is null.</exception>
-        public NounCollection(IList<Noun> nouns) : base(nouns[0].OrigToken)
+        public NounCollection(ICollection<Noun> nouns) : base(nouns.ToList()[0].OrigToken)
         {
             if (nouns == null) throw new ArgumentNullException(nameof(nouns));
             else if (nouns.Count == 0) throw new ArgumentException(nameof(nouns) + "is zero-length.");

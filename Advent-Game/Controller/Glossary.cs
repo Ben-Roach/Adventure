@@ -19,7 +19,9 @@ namespace Adventure.Controller
         HashSet<Tuple<string[], string>> particles;
         HashSet<Tuple<string[], DirCode>> directions;
         HashSet<Tuple<string[], Action>> commands;
-        HashSet<Tuple<Type, string>> otherWords;
+        HashSet<string> conjunctions;
+        HashSet<string> adjectives;
+        HashSet<string> nouns;
 
         /// <summary>
         /// Instantiate the <see cref="Glossary"/> singleton.
@@ -85,16 +87,12 @@ namespace Adventure.Controller
                 { new[] { "brief" }, CommandAction.Placeholder },
             };
 
-            // conjunctions added here, nouns and adjectives are added at runtime from entities.
-            otherWords = new HashSet<Tuple<Type, string>>()
-            {
-                { typeof(Conjunction), "and" },
-                { typeof(Conjunction), "&" },
-                { typeof(Conjunction), "then" },
-                // temporary testing words
-                { typeof(Noun), "lamp" },
-                { typeof(Adjective), "brass" },
-            };
+            conjunctions = new HashSet<string>()
+            { "and", "then", "&" };
+
+            adjectives = new HashSet<string>();
+
+            nouns = new HashSet<string>();
         }
 
         /// <summary>
@@ -125,10 +123,20 @@ namespace Adventure.Controller
                 if (entry.Item1.Contains(tokenLower))
                     return new Command(tokenLower, entry.Item2);
             }
-            foreach (Tuple<Type, string> entry in Instance.otherWords)
+            foreach (string entry in Instance.conjunctions)
             {
-                if (entry.Item2.ToLower() == tokenLower)
-                    return (Node)Activator.CreateInstance(entry.Item1, tokenLower);
+                if (entry == tokenLower)
+                    return new Conjunction(tokenLower);
+            }
+            foreach (string entry in Instance.adjectives)
+            {
+                if (entry == tokenLower)
+                    return new Adjective(tokenLower);
+            }
+            foreach (string entry in Instance.nouns)
+            {
+                if (entry == tokenLower)
+                    return new Noun(tokenLower);
             }
             return new UnknownWord(token);
         }
