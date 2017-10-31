@@ -30,8 +30,8 @@ namespace Adventure.Controller
         /// <summary>
         /// Reports whether the <see cref="Entry"/> includes the specified word.
         /// </summary>
-        /// <param name="word">The word to test</param>
-        /// <returns>True if the <see cref="Entry"/> includes <paramref name="word"/>, else false</returns>
+        /// <param name="word">The word to test.</param>
+        /// <returns>True if the <see cref="Entry"/> includes <paramref name="word"/>, else false.</returns>
         public bool Contains(string word)
         {
             if (wordGroup.Contains(word))
