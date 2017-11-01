@@ -13,8 +13,10 @@ namespace Adventure.Controller
         /// <summary>The instance of the <see cref="Glossary"/> singleton.</summary>
         public static Glossary Instance { get { return instance; } }
 
-        /// <summary>The set of <see cref="Entries"/> contained within the <see cref="Glossary"/>.</summary>
+        /// <summary>All <see cref="Entries"/> contained in the <see cref="Glossary"/>.</summary>
         private HashSet<Entry> entrySet;
+        /// <summary>All words contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
+        private Dictionary<string, Type> wordDict;
 
         /// <summary>
         /// Instantiate the <see cref="Glossary"/> singleton.
@@ -22,6 +24,11 @@ namespace Adventure.Controller
         private Glossary()
         {
             entrySet = new HashSet<Entry>();
+        }
+
+        public static bool TryGetEntryType(string word, out Type entryType)
+        {
+            return Instance.wordDict.TryGetValue(word, out entryType);
         }
 
         /// <summary>
