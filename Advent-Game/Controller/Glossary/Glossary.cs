@@ -34,6 +34,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Add new <see cref="Entry"/> items to the <see cref="Glossary"/>.
         /// </summary>
+        /// <remarks>Always use this method in some way when adding to the <see cref="Glossary"/>. Do not add directly to <see cref="entrySet"/>!</remarks>
         /// <param name="entries">The <see cref="Entry"/> items to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
         public void Add(IEnumerable<Entry> entries)

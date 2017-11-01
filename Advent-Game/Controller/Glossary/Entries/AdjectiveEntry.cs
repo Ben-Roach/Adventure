@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace Adventure.Controller
 {
     /// <summary>
@@ -20,6 +22,17 @@ namespace Adventure.Controller
         public override Node CreateNode(string origToken)
         {
             return new Adjective(origToken.ToLower());
+        }
+
+        public override void Validate(Glossary glossary)
+        {
+            foreach (string word in WordGroup)
+            {
+                if (glossary.TryGetEntryType(word, out Type t) == true && t != typeof(AdjectiveEntry))
+                {
+                    throw new InvalidGlossaryAdditionException(word, typeof(AdjectiveEntry), t.GetType());
+                }
+            }
         }
     }
 }

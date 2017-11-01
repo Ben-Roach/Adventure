@@ -40,6 +40,12 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Ensures that the <see cref="Entry"/> is compatible with others in a <see cref="Glossary"/>. Throws exceptions otherwise.
+        /// </summary>
+        /// <param name="glossary">The <see cref="Glossary"/> to test against.</param>
+        public abstract void Validate(Glossary glossary);
+
+        /// <summary>
         /// Create a new <see cref="Node"/> using the data specified in this <see cref="Entry"/>.
         /// </summary>
         /// <param name="origToken">The token originally used by the player.</param>
