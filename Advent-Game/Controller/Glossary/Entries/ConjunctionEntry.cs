@@ -34,7 +34,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="Conjunction"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Conjunction(origToken.ToLower());
+            return new Conjunction(origToken);
         }
     }
 }

@@ -41,7 +41,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="Direction"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Direction(origToken.ToLower(), directionCode);
+            return new Direction(origToken, directionCode);
         }
     }
 }

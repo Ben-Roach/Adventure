@@ -87,11 +87,10 @@ namespace Adventure.Controller
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
         public Node CreateNodeFromToken(string token)
         {
-            string tokenLower = token.ToLower();
             foreach (Entry entry in entrySet)
             {
-                if (entry.Contains(tokenLower))
-                    return entry.CreateNode(tokenLower);
+                if (entry.Contains(token))
+                    return entry.CreateNode(token);
             }
             return new UnknownWord(token);
         }

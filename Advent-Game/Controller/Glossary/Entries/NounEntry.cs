@@ -37,7 +37,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="Noun"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Noun(origToken.ToLower());
+            return new Noun(origToken);
         }
     }
 }

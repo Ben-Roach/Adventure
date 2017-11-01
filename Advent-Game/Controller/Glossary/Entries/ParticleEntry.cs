@@ -42,7 +42,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="Particle"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Particle(origToken.ToLower(), lemma);
+            return new Particle(origToken, lemma);
         }
     }
 }

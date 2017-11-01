@@ -48,8 +48,8 @@ namespace Adventure.Controller
         /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
         private List<string> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
-            // trim & force lower
-            string tempStr = inputString.Trim().ToLower();
+            // trim & normalize
+            string tempStr = glossary.Normalize(inputString.Trim());
             // Check for empty / whitespace input
             if (inputString == "")
             {
