@@ -34,7 +34,7 @@ namespace Adventure.Controller
             wordDict = new Dictionary<string, Type>();
             SyntaxWildcard = syntaxWildcard;
             Normalize = normalize;
-            IsInvalidChar = (s => isInvalidChar(s) && s != SyntaxWildcard);
+            IsInvalidChar = (s => isInvalidChar(s) || s == SyntaxWildcard);
             IsInvalidWord = isInvalidWord;
             Add(entries);
         }
