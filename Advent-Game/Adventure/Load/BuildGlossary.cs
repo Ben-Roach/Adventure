@@ -11,7 +11,7 @@ namespace Adventure
         /// </summary>
         public static Glossary BuildGlossary()
         {
-            List<Entry> entries = new List<Entry>
+            HashSet<Entry> entries = new HashSet<Entry>
             {
                 // VERBS
                 new VerbEntry(new[] { "take", "grab" }, new[] {

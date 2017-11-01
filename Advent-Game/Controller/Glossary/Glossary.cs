@@ -13,18 +13,22 @@ namespace Adventure.Controller
         private HashSet<Entry> entrySet;
         /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
-        /// <summary>The character that represents a wildcard in syntaxes.</summary>
+        /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered an invalid character.</summary>
         public char SyntaxWildcard { get; }
-        public Func<string, string> Normalize;
-        public Func<char, bool> IsInvalidChar;
-        public Func<string, bool> IsInvalidWord;
+        /// <summary>Normalizes player input and words in the <see cref="Glossary"/> so they match correctly. Used before validation.</summary>
+        public Func<string, string> Normalize { get; }
+        /// <summary>Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.
+        /// Automatically considers <see cref="SyntaxWildcard"/> to be invalid.</summary>
+        public Func<char, bool> IsInvalidChar { get; }
+        /// <summary>Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</summary>
+        public Func<string, bool> IsInvalidWord { get; }
 
         /// <summary>
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
         /// <param name="entries">The <see cref="Entry"/> objects to include in the <see cref="Glossary"/>.</param>
-        /// <param name="syntaxWildcard">The wildcard character used by syntaxes to represent variable words. Automatically considered an invalid character.</param>
-        /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>.</param>
+        /// <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.</param>
+        /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         public Glossary(IEnumerable<Entry> entries, char syntaxWildcard, Func<string, string> normalize,
