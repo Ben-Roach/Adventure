@@ -11,7 +11,7 @@ namespace Adventure
         /// </summary>
         /// <param name="item">The word that was found invalid.</param>
         public GlossaryValidationException(string item)
-            : base("'" + item + "'was found to be invalid.")
+            : base("'" + item + "' is invalid when checked against the glossary.")
         { }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace Adventure
         /// <param name="item">The string or name of the item that was found invalid.</param>
         /// <param name="reason">The reason why the word is invalid.</param>
         public GlossaryValidationException(string item, string reason)
-            : base("'" + item + "' was found to be invalid. Reason:  " + reason)
+            : base("'" + item + "' is invalid when checked against the glossary. Reason:  " + reason)
         { }
     }
 }
