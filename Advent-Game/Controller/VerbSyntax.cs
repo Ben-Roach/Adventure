@@ -18,22 +18,22 @@ namespace Adventure.Controller
         public delegate void VerbSyntaxDelegate(Node directObject, Node indirectObject);
 
         string[] syntax;
-        /// <summary>Contains wildcards (asterisks) and/or strings matching valid <see cref="SentenceStructure.Particle.Lemma"/> values.</summary>
+        /// <summary>Contains wildcards (asterisks) and/or strings matching valid <see cref="Particle.Lemma"/> values.</summary>
         public ReadOnlyCollection<string> Syntax { get => Array.AsReadOnly(syntax); }
         /// <summary>The method to call on behalf of the <see cref="Verb"/>.</summary>
         public VerbSyntaxDelegate Delegate { get; }
-        /// <summary>The first wildcard's Type. Must be a <see cref="SentenceStructure.Node"/> type.</summary>
+        /// <summary>The first wildcard's Type. Must be a <see cref="Node"/> type.</summary>
         public Type Arg1 { get; }
-        /// <summary>The second wildcard's Type. Must be a <see cref="SentenceStructure.Node"/> type.</summary>
+        /// <summary>The second wildcard's Type. Must be a <see cref="Node"/> type.</summary>
         public Type Arg2 { get; }
-        /// <summary>The flags for this syntax.</summary>
+        /// <summary>The flags for this <see cref="VerbSyntax"/>.</summary>
         public SyntFlag Flags { get; }
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with two wildcard arguments.</summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string. Wildcards are represented by asterisks (*).</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
-        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="SentenceStructure.Node"/> Type.</param>
-        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="SentenceStructure.Node"/> Type.</param>
+        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type.</param>
+        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="arg1"/> or <paramref name="arg2"/> are not types inherited from <see cref=Node"/>.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>
@@ -68,5 +68,10 @@ namespace Adventure.Controller
         public VerbSyntax(string syntaxString, VerbSyntaxDelegate syntaxDelegate, SyntFlag flags = SyntFlag.None) :
             this(syntaxString, syntaxDelegate, null, null, flags)
         { }
+
+        public void Validate(Glossary glossary)
+        {
+
+        }
     }
 }

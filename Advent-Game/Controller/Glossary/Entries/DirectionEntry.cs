@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
 namespace Adventure.Controller
@@ -19,6 +20,19 @@ namespace Adventure.Controller
         public DirectionEntry(ICollection<string> wordGroup, DirCode directionCode) : base(wordGroup)
         {
             this.directionCode = directionCode;
+        }
+
+        /// <summary>
+        /// Ensures that the words in this entry are not already contained in <paramref name="glossary"/>.
+        /// </summary>
+        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
+        public override void Validate(Glossary glossary)
+        {
+            foreach (string word in WordGroup)
+            {
+                if (glossary.TryGetEntryType(word, out Type t) == true)
+                    throw new GlossaryValidationException(word);
+            }
         }
 
         /// <summary>

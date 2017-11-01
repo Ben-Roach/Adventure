@@ -28,6 +28,17 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Create a new <see cref="Entry"/> containing only one word.
+        /// </summary>
+        /// <param name="word">The word to include in this <see cref="Entry"/>.</param>
+        public Entry(string word)
+        {
+            if (word == null) throw new ArgumentNullException(nameof(word));
+            else if (word == "") throw new ArgumentException(nameof(word) + " is an empty string.");
+            wordGroup = new List<string>() { word };
+        }
+
+        /// <summary>
         /// Reports whether the <see cref="Entry"/> includes the specified word.
         /// </summary>
         /// <param name="word">The word to test.</param>
@@ -40,7 +51,8 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Ensures that the <see cref="Entry"/> is compatible with others in a <see cref="Glossary"/>. Throws exceptions otherwise.
+        /// Ensures that the <see cref="Entry"/> is compatible with others in a <see cref="Glossary"/>.
+        /// Throws exceptions otherwise.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to test against.</param>
         public abstract void Validate(Glossary glossary);

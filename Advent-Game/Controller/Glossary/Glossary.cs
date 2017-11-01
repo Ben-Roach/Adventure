@@ -11,7 +11,7 @@ namespace Adventure.Controller
     {
         /// <summary>Every <see cref="Entry"/> contained in the <see cref="Glossary"/>.</summary>
         private HashSet<Entry> entrySet;
-        /// <summary>All words contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
+        /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
 
         /// <summary>
@@ -32,9 +32,26 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>, after validating the <see cref="Entry"/>.
+        /// </summary>
+        /// <remarks>
+        /// Always use this method in some way when adding to the <see cref="Glossary"/>. 
+        /// Do not add directly to <see cref="entrySet"/>!
+        /// </remarks>
+        /// <param name="entry">The <see cref="Entry"/> to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
+        public void Add(Entry entry)
+        {
+            if (entry == null) throw new ArgumentNullException(nameof(entry));
+            entry.Validate(this);
+            foreach (string word in entry.WordGroup)
+                wordDict[word] = entry.GetType();
+            entrySet.Add(entry);
+        }
+
+        /// <summary>
         /// Add new <see cref="Entry"/> items to the <see cref="Glossary"/>.
         /// </summary>
-        /// <remarks>Always use this method in some way when adding to the <see cref="Glossary"/>. Do not add directly to <see cref="entrySet"/>!</remarks>
         /// <param name="entries">The <see cref="Entry"/> items to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
         public void Add(IEnumerable<Entry> entries)
@@ -42,17 +59,6 @@ namespace Adventure.Controller
             if (entries == null) throw new ArgumentNullException(nameof(entries));
             foreach (Entry e in entries)
                 Add(e);
-        }
-
-        /// <summary>
-        /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>.
-        /// </summary>
-        /// <param name="entry">The <see cref="Entry"/> to add.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
-        public void Add(Entry entry)
-        {
-            if (entry == null) throw new ArgumentNullException(nameof(entry));
-            entrySet.Add(entry);
         }
 
         /// <summary>

@@ -26,6 +26,22 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Ensures that the words in this entry are not already contained in <paramref name="glossary"/>,
+        /// and that all contained <see cref="VerbSyntax"/> objects are valid.
+        /// </summary>
+        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
+        public override void Validate(Glossary glossary)
+        {
+            foreach (string word in WordGroup)
+            {
+                if (glossary.TryGetEntryType(word, out Type t) == true)
+                    throw new GlossaryValidationException(word);
+            }
+            foreach (VerbSyntax syntax in syntaxes)
+                syntax.Validate(glossary);
+        }
+
+        /// <summary>
         /// Create a new <see cref="Verb"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="Verb"/>, created from this entry.</returns>
