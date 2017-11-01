@@ -7,28 +7,40 @@ namespace Adventure.Controller
     /// <summary>
     /// Contains collections with all known words, and all properties associated with them.
     /// </summary>
-    public sealed class Glossary
+    public class Glossary
     {
-        private static readonly Glossary instance = new Glossary();
-        /// <summary>The instance of the <see cref="Glossary"/> singleton.</summary>
-        public static Glossary Instance { get { return instance; } }
-
-        /// <summary>All <see cref="Entries"/> contained in the <see cref="Glossary"/>.</summary>
+        /// <summary>Every <see cref="Entry"/> contained in the <see cref="Glossary"/>.</summary>
         private HashSet<Entry> entrySet;
         /// <summary>All words contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
 
         /// <summary>
-        /// Instantiate the <see cref="Glossary"/> singleton.
+        /// Create a new empty <see cref="Glossary"/>.
         /// </summary>
-        private Glossary()
+        public Glossary()
         {
             entrySet = new HashSet<Entry>();
+            wordDict = new Dictionary<string, Type>();
         }
 
-        public static bool TryGetEntryType(string word, out Type entryType)
+        /// <summary>
+        /// Create a new <see cref="Glossary"/> containing <paramref name="entries"/>.
+        /// </summary>
+        public Glossary(IEnumerable<Entry> entries) : this()
         {
-            return Instance.wordDict.TryGetValue(word, out entryType);
+            Add(entries);
+        }
+
+        /// <summary>
+        /// Add new <see cref="Entry"/> items to the <see cref="Glossary"/>.
+        /// </summary>
+        /// <param name="entries">The <see cref="Entry"/> items to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
+        public void Add(IEnumerable<Entry> entries)
+        {
+            if (entries == null) throw new ArgumentNullException(nameof(entries));
+            foreach (Entry e in entries)
+                Add(e);
         }
 
         /// <summary>
@@ -36,10 +48,21 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="entry">The <see cref="Entry"/> to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
-        public static void Add(Entry entry)
+        public void Add(Entry entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
-            Instance.entrySet.Add(entry);
+            entrySet.Add(entry);
+        }
+
+        /// <summary>
+        /// Reports if the glossary contains an <see cref="Entry"/> that contains <paramref name="word"/> , and gets the type of the <see cref="Entry"/>.
+        /// </summary>
+        /// <param name="word">The word to check.</param>
+        /// <param name="entryType">Set to the type of the <see cref="Entry"/> containing <paramref name="word"/> if found.</param>
+        /// <returns>True if <paramref name="word"/> is in the <see cref="Glossary"/>, else false.</returns>
+        public bool TryGetEntryType(string word, out Type entryType)
+        {
+            return wordDict.TryGetValue(word, out entryType);
         }
 
         /// <summary>
@@ -47,10 +70,10 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="token">A word input by the player.</param>
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
-        public static Node CreateNodeFromToken(string token)
+        public Node CreateNodeFromToken(string token)
         {
             string tokenLower = token.ToLower();
-            foreach (Entry entry in Instance.entrySet)
+            foreach (Entry entry in entrySet)
             {
                 if (entry.Contains(tokenLower))
                     return entry.CreateNode(tokenLower);

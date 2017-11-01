@@ -17,11 +17,11 @@ namespace Adventure
         public static void Run(string[] args)
         {
             ConsoleGUI.Setup();
-            Load.LoadGlossary();
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
 
             while (true)
             {
-                Sentence sentence = new Sentence(ConsoleGUI.GetPlayerInput(), out string errorMessage);
+                Sentence sentence = new Sentence(ConsoleGUI.GetPlayerInput(), glossary, out string errorMessage);
                 if (errorMessage != null) ConsoleGUI.Print(errorMessage);
                 else SentenceInterpreter.Interpret(sentence);
                 ObjectDumper.Dump(sentence);

@@ -60,7 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure\Debug\ObjectDumper.cs" />
-    <Compile Include="Adventure\Load\LoadGlossary.cs" />
+    <Compile Include="Adventure\Load\BaseGlossaryEntries.cs" />
     <Compile Include="Adventure\Game.cs" />
     <Compile Include="Controller\DirCode.cs" />
     <Compile Include="Controller\Glossary\Entries\VerbEntry.cs" />

@@ -18,7 +18,8 @@ namespace Adventure.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullSentenceInput()
         {
-            Sentence s = new Sentence(null, out string e);
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Sentence s = new Sentence(null, glossary, out string e);
         }
 
         /// <summary>
@@ -28,7 +29,8 @@ namespace Adventure.Test
         [TestMethod]
         public void EmptySentenceInput()
         {
-            Sentence s = new Sentence("", out string e);
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Sentence s = new Sentence("", glossary, out string e);
             Assert.IsTrue(e != null);
         }
 
@@ -39,11 +41,12 @@ namespace Adventure.Test
         [TestMethod]
         public void WhitespaceSentenceInput()
         {
-            Sentence s1 = new Sentence(" ", out string e1);
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Sentence s1 = new Sentence(" ", glossary, out string e1);
             Assert.IsTrue(e1 != null);
-            Sentence s2 = new Sentence("\t", out string e2);
+            Sentence s2 = new Sentence("\t", glossary, out string e2);
             Assert.IsTrue(e2 != null);
-            Sentence s3 = new Sentence(" \t  ", out string e3);
+            Sentence s3 = new Sentence(" \t  ", glossary, out string e3);
             Assert.IsTrue(e3 != null);
         }
 
@@ -54,7 +57,8 @@ namespace Adventure.Test
         [TestMethod]
         public void InvalidCharSentenceInput()
         {
-            Sentence s1 = new Sentence("}[/", out string e1);
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Sentence s1 = new Sentence("}[/", glossary, out string e1);
             Assert.IsTrue(e1 != null);
         }
 
@@ -65,9 +69,10 @@ namespace Adventure.Test
         [TestMethod]
         public void InvalidWordSentenceInput()
         {
-            Sentence s1 = new Sentence("the", out string e1);
+            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Sentence s1 = new Sentence("the", glossary, out string e1);
             Assert.IsTrue(e1 != null);
-            Sentence s2 = new Sentence("a an the", out string e2);
+            Sentence s2 = new Sentence("a an the", glossary, out string e2);
             Assert.IsTrue(e2 != null);
         }
     }

@@ -24,7 +24,7 @@ namespace Adventure.Controller
         /// <param name="inputString">The string input by the player.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="inputString"/> is null.</exception>
-        public Sentence(string inputString, out string errorMessage)
+        public Sentence(string inputString, Glossary glossary, out string errorMessage)
         {
             // PREPARATION -- Argument checking, property/field instantiation.
             if (inputString == null) throw new ArgumentNullException(nameof(inputString));
@@ -33,7 +33,7 @@ namespace Adventure.Controller
             List<string> tokenList = Tokenize(inputString, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-            foreach (string token in tokenList) { baseList.Add(Glossary.CreateNodeFromToken(token)); }
+            foreach (string token in tokenList) { baseList.Add(glossary.CreateNodeFromToken(token)); }
             CollectAdjectives();
             CollectNouns();
         }
