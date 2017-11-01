@@ -18,7 +18,7 @@ namespace Adventure.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullSentenceInput()
         {
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
             Sentence s = new Sentence(null, glossary, out string e);
         }
 
@@ -29,7 +29,7 @@ namespace Adventure.Test
         [TestMethod]
         public void EmptySentenceInput()
         {
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
             Sentence s = new Sentence("", glossary, out string e);
             Assert.IsTrue(e != null);
         }
@@ -41,7 +41,7 @@ namespace Adventure.Test
         [TestMethod]
         public void WhitespaceSentenceInput()
         {
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
             Sentence s1 = new Sentence(" ", glossary, out string e1);
             Assert.IsTrue(e1 != null);
             Sentence s2 = new Sentence("\t", glossary, out string e2);
@@ -57,7 +57,7 @@ namespace Adventure.Test
         [TestMethod]
         public void InvalidCharSentenceInput()
         {
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
             Sentence s1 = new Sentence("}[/", glossary, out string e1);
             Assert.IsTrue(e1 != null);
         }
@@ -69,7 +69,7 @@ namespace Adventure.Test
         [TestMethod]
         public void InvalidWordSentenceInput()
         {
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
             Sentence s1 = new Sentence("the", glossary, out string e1);
             Assert.IsTrue(e1 != null);
             Sentence s2 = new Sentence("a an the", glossary, out string e2);

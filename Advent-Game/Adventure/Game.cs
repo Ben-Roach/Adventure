@@ -17,7 +17,7 @@ namespace Adventure
         public static void Run(string[] args)
         {
             ConsoleGUI.Setup();
-            Glossary glossary = new Glossary(Load.BaseGlossaryEntries());
+            Glossary glossary = Load.BuildGlossary();
 
             while (true)
             {

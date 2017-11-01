@@ -30,7 +30,7 @@ namespace Adventure.Controller
         public SyntFlag Flags { get; }
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with two wildcard arguments.</summary>
-        /// <param name="syntaxString">The represented syntax, in the form of a string. Wildcards are represented by asterisks (*).</param>
+        /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type.</param>
         /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type.</param>
@@ -50,7 +50,7 @@ namespace Adventure.Controller
         }
 
         /// <summary>Create a new syntax entry with one wildcard argument.</summary>
-        /// <param name="syntaxString">The represented syntax, in the form of a string. Wildcards are represented by asterisks (*).</param>
+        /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="arg1">The wildcard's Type. Will be the direct object by default. Must be an INode Type.</param>
         /// <param name="flags">The flags for this syntax.</param>
@@ -61,7 +61,7 @@ namespace Adventure.Controller
         { }
 
         /// <summary>Create a new syntax entry with no arguments.</summary>
-        /// <param name="syntaxString">The represented syntax, in the form of a string. Wildcards are represented by asterisks (*).</param>
+        /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>

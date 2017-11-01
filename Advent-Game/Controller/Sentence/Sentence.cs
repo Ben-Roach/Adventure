@@ -22,6 +22,7 @@ namespace Adventure.Controller
         /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the <see cref="Glossary"/>.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
+        /// <param name="glossary">The <see cref="Glossary"/> used to validate and interpret the input.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="inputString"/> is null.</exception>
         public Sentence(string inputString, Glossary glossary, out string errorMessage)
@@ -30,7 +31,7 @@ namespace Adventure.Controller
             if (inputString == null) throw new ArgumentNullException(nameof(inputString));
             baseList = new List<Node>();
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
-            List<string> tokenList = Tokenize(inputString, out errorMessage);
+            List<string> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
             foreach (string token in tokenList) { baseList.Add(glossary.CreateNodeFromToken(token)); }
@@ -42,9 +43,10 @@ namespace Adventure.Controller
         /// Removes invalid characters from <paramref name="inputString"/>, splits it into a list, and removes unnecessary words.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
+        /// <param name="glossary">The <see cref="Glossary"/> used to validate and interpret the input.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
-        private List<string> Tokenize(string inputString, out string errorMessage)
+        private List<string> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
             // trim & force lower
             string tempStr = inputString.Trim().ToLower();
@@ -58,7 +60,7 @@ namespace Adventure.Controller
             StringBuilder strBuilder = new StringBuilder(inputString);
             for (int i = strBuilder.Length - 1; i >= 0; i--)
             {
-                if (!Glossary.IsValidChar(strBuilder[i]))
+                if (glossary.IsInvalidChar(strBuilder[i]))
                     strBuilder.Remove(i, 1);
             }
             // Check if any characters remain
@@ -73,7 +75,7 @@ namespace Adventure.Controller
             // Remove unnecessary words
             for (int i = outputList.Count() - 1; i >= 0; i--)
             {
-                if (!Glossary.IsValidWord(outputList[i]))
+                if (glossary.IsInvalidWord(outputList[i]))
                     outputList.RemoveAt(i);
             }
             // Check if any tokens remain

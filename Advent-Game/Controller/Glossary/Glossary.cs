@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Contains collections with all known words, and all properties associated with them.
+    /// Contains collections with all known words, and all properties associated with them, as well as variables and methods for handling words.
     /// </summary>
     public class Glossary
     {
@@ -13,21 +13,29 @@ namespace Adventure.Controller
         private HashSet<Entry> entrySet;
         /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
+        /// <summary>The character that represents a wildcard in syntaxes.</summary>
+        public char SyntaxWildcard { get; }
+        public Func<string, string> Normalize;
+        public Func<char, bool> IsInvalidChar;
+        public Func<string, bool> IsInvalidWord;
 
         /// <summary>
-        /// Create a new empty <see cref="Glossary"/>.
+        /// Create a new <see cref="Glossary"/>.
         /// </summary>
-        public Glossary()
+        /// <param name="entries">The <see cref="Entry"/> objects to include in the <see cref="Glossary"/>.</param>
+        /// <param name="syntaxWildcard">The wildcard character used by syntaxes to represent variable words. Automatically considered an invalid character.</param>
+        /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>.</param>
+        /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
+        /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
+        public Glossary(IEnumerable<Entry> entries, char syntaxWildcard, Func<string, string> normalize,
+            Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
             entrySet = new HashSet<Entry>();
             wordDict = new Dictionary<string, Type>();
-        }
-
-        /// <summary>
-        /// Create a new <see cref="Glossary"/> containing <paramref name="entries"/>.
-        /// </summary>
-        public Glossary(IEnumerable<Entry> entries) : this()
-        {
+            SyntaxWildcard = syntaxWildcard;
+            Normalize = normalize;
+            IsInvalidChar = (s => isInvalidChar(s) && s != SyntaxWildcard);
+            IsInvalidWord = isInvalidWord;
             Add(entries);
         }
 
@@ -59,28 +67,6 @@ namespace Adventure.Controller
             if (entries == null) throw new ArgumentNullException(nameof(entries));
             foreach (Entry e in entries)
                 Add(e);
-        }
-
-        /// <summary>
-        /// Reports if a character can be ignored in player input.
-        /// </summary>
-        /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
-        public static bool IsValidChar(char c)
-        {
-            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?' || c == '\'' || c == '-')
-                return true;
-            return false;
-        }
-
-        /// <summary>
-        /// Reports if a word can be ignored in player input.
-        /// </summary>
-        /// <returns>True if <paramref name="s"/> is removable, else false.</returns>
-        public static bool IsValidWord(string s)
-        {
-            if (s == "the" || s == "a" || s == "an" || s == "of")
-                return false;
-            return true;
         }
 
         /// <summary>
