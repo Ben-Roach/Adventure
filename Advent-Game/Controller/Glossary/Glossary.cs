@@ -62,6 +62,28 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Reports if a character can be ignored in player input.
+        /// </summary>
+        /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
+        public static bool IsValidChar(char c)
+        {
+            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?' || c == '\'' || c == '-')
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Reports if a word can be ignored in player input.
+        /// </summary>
+        /// <returns>True if <paramref name="s"/> is removable, else false.</returns>
+        public static bool IsValidWord(string s)
+        {
+            if (s == "the" || s == "a" || s == "an" || s == "of")
+                return false;
+            return true;
+        }
+
+        /// <summary>
         /// Reports if the glossary contains an <see cref="Entry"/> that contains <paramref name="word"/> , and gets the type of the <see cref="Entry"/>.
         /// </summary>
         /// <param name="word">The word to check.</param>

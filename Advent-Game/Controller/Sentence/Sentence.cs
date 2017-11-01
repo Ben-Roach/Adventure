@@ -58,7 +58,7 @@ namespace Adventure.Controller
             StringBuilder strBuilder = new StringBuilder(inputString);
             for (int i = strBuilder.Length - 1; i >= 0; i--)
             {
-                if (IsRemovableChar(strBuilder[i]))
+                if (!Glossary.IsValidChar(strBuilder[i]))
                     strBuilder.Remove(i, 1);
             }
             // Check if any characters remain
@@ -73,7 +73,7 @@ namespace Adventure.Controller
             // Remove unnecessary words
             for (int i = outputList.Count() - 1; i >= 0; i--)
             {
-                if (IsRemovableToken(outputList[i]))
+                if (!Glossary.IsValidWord(outputList[i]))
                     outputList.RemoveAt(i);
             }
             // Check if any tokens remain
@@ -85,28 +85,6 @@ namespace Adventure.Controller
             // Input passed validation
             errorMessage = null;
             return outputList;
-        }
-
-        /// <summary>
-        /// Reports if a character is removable from a <see cref="Sentence"/>.
-        /// </summary>
-        /// <returns>True if <paramref name="c"/> is removable, else false.</returns>
-        public static bool IsRemovableChar(char c)
-        {
-            if (Char.IsLetter(c) || Char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?' || c == '\'' || c == '-')
-                return false;
-            return true;
-        }
-
-        /// <summary>
-        /// Reports if a string is removable from a <see cref="Sentence"/>.
-        /// </summary>
-        /// <returns>True if <paramref name="s"/> is removable, else false.</returns>
-        public static bool IsRemovableToken(string s)
-        {
-            if (s == "the" || s == "a" || s == "an" || s == "of")
-                return true;
-            return false;
         }
 
         /// <summary>
