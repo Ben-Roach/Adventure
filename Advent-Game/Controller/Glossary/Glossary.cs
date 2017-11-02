@@ -56,7 +56,7 @@ namespace Adventure.Controller
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
             entry.Validate(this);
-            foreach (string word in entry.WordGroup)
+            foreach (string word in entry)
                 wordDict[word] = entry.GetType();
             entrySet.Add(entry);
         }

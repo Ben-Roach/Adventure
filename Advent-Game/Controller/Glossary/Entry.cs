@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace Adventure.Controller
@@ -8,12 +9,10 @@ namespace Adventure.Controller
     /// Represents an entry in the <see cref="Glossary"/>, a group of words that the player
     /// can use that should be treated as synonyms.
     /// </summary>
-    public abstract class Entry
+    public abstract class Entry : IEnumerable<string>
     {
-        
-        List<string> wordGroup;
         /// <summary>A group of words that should be treated as synonyms.</summary>
-        public IReadOnlyCollection<string> WordGroup { get => wordGroup.AsReadOnly(); }
+        protected List<string> wordGroup;
 
         /// <summary>
         /// Create a new <see cref="Entry"/>.
@@ -51,11 +50,32 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Ensures that the <see cref="Entry"/> is compatible with others in a <see cref="Glossary"/>.
-        /// Throws exceptions otherwise.
+        /// Calls <see cref="BaseValidation(Glossary, Type)"/>.
+        /// <para>Can be overridden to set different validation rules, but always call
+        /// <see cref="BaseValidation(Glossary, Type)"/> in the override first.</para>
         /// </summary>
-        /// <param name="glossary">The <see cref="Glossary"/> to test against.</param>
-        public abstract void Validate(Glossary glossary);
+        /// <seealso cref="BaseValidation(Glossary, Type)"/>
+        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
+        public virtual void Validate(Glossary glossary)
+        {
+            BaseValidation(glossary);
+        }
+
+        /// <summary>
+        /// Throws exception if the words in this <see cref="Entry"/> are already contained in <paramref name="glossary"/>,
+        /// Unless <paramref name="glossary"/> contains it in an <see cref="Entry"/> of type <paramref name="exceptedEntryType"/>.
+        /// </summary>
+        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
+        /// <param name="exceptedEntryType">No exception is thrown if a word in the <see cref="Entry"/>
+        /// is found in another <see cref="Entry"/> of this type in <paramref name="glossary"/></param>
+        protected void BaseValidation(Glossary glossary, Type exceptedEntryType = null)
+        {
+            foreach (string word in wordGroup)
+            {
+                if (glossary.TryGetEntryType(word, out Type t) == true)
+                    throw new GlossaryValidationException(word);
+            }
+        }
 
         /// <summary>
         /// Create a new <see cref="Node"/> using the data specified in this <see cref="Entry"/>.
@@ -63,5 +83,19 @@ namespace Adventure.Controller
         /// <param name="origToken">The token originally used by the player.</param>
         /// <returns>The new <see cref="Node"/> that represents <paramref name="origToken"/>.</returns>
         public abstract Node CreateNode(string origToken);
+
+        /// <summary>
+        /// Enumerates the words in the <see cref="Entry"/>.
+        /// </summary>
+        public IEnumerator<string> GetEnumerator()
+        {
+            foreach (string s in wordGroup)
+            {
+                yield return s;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        { return GetEnumerator(); }
     }
 }

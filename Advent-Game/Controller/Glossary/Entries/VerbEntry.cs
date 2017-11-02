@@ -32,11 +32,7 @@ namespace Adventure.Controller
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
         public override void Validate(Glossary glossary)
         {
-            foreach (string word in WordGroup)
-            {
-                if (glossary.TryGetEntryType(word, out Type t) == true)
-                    throw new GlossaryValidationException(word);
-            }
+            BaseValidation(glossary);
             foreach (VerbSyntax syntax in syntaxes)
                 syntax.Validate(glossary);
         }

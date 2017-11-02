@@ -172,7 +172,6 @@ namespace Adventure.Controller
         /// <summary>
         /// Enumerates the top-level <see cref="Node"/> objects in the <see cref="Sentence"/>.
         /// </summary>
-        /// <returns>An enumeration of <see cref="Node"/> objects.</returns>
         public IEnumerator<Node> GetEnumerator()
         {
             foreach (Node n in baseList)
