@@ -34,7 +34,7 @@ namespace Adventure.Controller
         {
             BaseValidateAndNormalize(glossary);
             foreach (VerbSyntax syntax in syntaxes)
-                syntax.Validate(glossary);
+                syntax.ValidateAndNormalize(glossary);
         }
 
         /// <summary>

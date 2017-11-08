@@ -50,6 +50,8 @@ namespace Adventure.Controller
         /// <remarks>
         /// Always use this method in some way when adding to the <see cref="Glossary"/>. 
         /// Do not add directly to <see cref="entrySet"/>!
+        /// All <see cref="ParticleEntry"/> items containing words used in a <see cref="VerbSyntax"/> must be present before
+        /// the <see cref="VerbEntry"/> containing the <see cref="VerbSyntax"/> may be added!
         /// </remarks>
         /// <param name="entry">The <see cref="Entry"/> to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>

@@ -13,6 +13,14 @@ namespace Adventure
         {
             HashSet<Entry> entries = new HashSet<Entry>
             {
+                // PARTICLES
+                new ParticleEntry(new[] { "at" }, "at"),
+                // Remember that the following particles are similar to some directions:
+                new ParticleEntry(new[] { "in", "inside" }, "in"),
+                new ParticleEntry(new[] { "out" }, "out"),
+                new ParticleEntry(new[] { "up" }, "up"),
+                new ParticleEntry(new[] { "down" }, "down"),
+
                 // VERBS
                 new VerbEntry(new[] { "take", "grab" }, new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
@@ -32,14 +40,6 @@ namespace Adventure
                     new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
                     new VerbSyntax("", VerbAction.Placeholder)
                 }),
-
-                // PARTICLES
-                new ParticleEntry(new[] { "at" }, "at"),
-                // Remember that the following particles are similar to some directions:
-                new ParticleEntry(new[] { "in", "inside" }, "in"),
-                new ParticleEntry(new[] { "out" }, "out"),
-                new ParticleEntry(new[] { "up" }, "up"),
-                new ParticleEntry(new[] { "down" }, "down"),
 
                 // DIRECTIONS
                 new DirectionEntry(new[] { "north", "n" }, DirCode.North),

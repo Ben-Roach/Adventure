@@ -74,18 +74,18 @@ namespace Adventure.Controller
             {
                 // normalize before validating
                 string word = glossary.Normalize(wordGroup[i]);
-                // check for duplicates
-                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
-                    throw new GlossaryValidationException(word, "Duplicate word found.");
-                // check if word fails glossary validation
-                if (glossary.IsInvalidWord(word))
-                    throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
                 // check if word contains invalid characters
                 foreach (char c in word)
                 {
                     if (glossary.IsInvalidChar(c))
                         throw new GlossaryValidationException(word, "Word contains an invalid character.");
                 }
+                // check if word fails glossary validation
+                if (glossary.IsInvalidWord(word))
+                    throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
+                // check for duplicates
+                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
+                    throw new GlossaryValidationException(word, "Duplicate word found.");
                 // validation passed, apply normalization
                 wordGroup[i] = word;
             }
