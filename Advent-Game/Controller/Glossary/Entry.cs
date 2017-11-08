@@ -50,30 +50,43 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Calls <see cref="BaseValidation(Glossary, Type)"/>.
+        /// Calls <see cref="BaseValidateAndNormalize(Glossary, Type)"/>.
         /// <para>Can be overridden to set different validation rules, but always call
-        /// <see cref="BaseValidation(Glossary, Type)"/> in the override first.</para>
+        /// <see cref="BaseValidateAndNormalize(Glossary, Type)"/> in the override first.</para>
         /// </summary>
-        /// <seealso cref="BaseValidation(Glossary, Type)"/>
+        /// <seealso cref="BaseValidateAndNormalize(Glossary, Type)"/>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public virtual void Validate(Glossary glossary)
+        public virtual void ValidateAndNormalize(Glossary glossary)
         {
-            BaseValidation(glossary);
+            BaseValidateAndNormalize(glossary);
         }
 
         /// <summary>
-        /// Throws exception if the words in this <see cref="Entry"/> are already contained in <paramref name="glossary"/>,
-        /// Unless <paramref name="glossary"/> contains it in an <see cref="Entry"/> of type <paramref name="exceptedEntryType"/>.
+        /// Validates that this <see cref="Entry"/> can be added to <paramref name="glossary"/>, and normalizes the
+        /// words in <see cref="wordGroup"/> if so.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        /// <param name="exceptedEntryType">No exception is thrown if a word in the <see cref="Entry"/>
-        /// is found in another <see cref="Entry"/> of this type in <paramref name="glossary"/></param>
-        protected void BaseValidation(Glossary glossary, Type exceptedEntryType = null)
+        /// <param name="exceptedEntryType">No exception is thrown if a word in this <see cref="Entry"/>
+        /// is found in another <see cref="Entry"/> of this type in <paramref name="glossary"/>.</param>
+        protected void BaseValidateAndNormalize(Glossary glossary, Type exceptedEntryType = null)
         {
-            foreach (string word in wordGroup)
+            for (int i = 0; i < wordGroup.Count; i++)
             {
-                if (glossary.TryGetEntryType(word, out Type t) == true)
-                    throw new GlossaryValidationException(word);
+                string word = wordGroup[i];
+                // check for duplicates
+                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
+                    throw new GlossaryValidationException(word, "Duplicate word found.");
+                // check if word fails glossary validation
+                if (glossary.IsInvalidWord(word))
+                    throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
+                // check if word contains invalid characters
+                foreach (char c in word)
+                {
+                    if (glossary.IsInvalidChar(c))
+                        throw new GlossaryValidationException(word, "Word contains an invalid character.");
+                }
+                // validation passed, normalize
+                wordGroup[i] = glossary.Normalize(word);
             }
         }
 

@@ -9,7 +9,7 @@ namespace Adventure.Test
     /// Tests that basic inputs work correctly.
     /// </summary>
     [TestClass]
-    public class BasicInputTests
+    public class SentenceTests
     {
         /// <summary>
         /// Tests that attempting to create a sentence from a null string throws an exception.

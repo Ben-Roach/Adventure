@@ -48,7 +48,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicInputTests.cs" />
+    <Compile Include="SentenceTests.cs" />
+    <Compile Include="EntryTests.cs" />
+    <Compile Include="GlossaryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

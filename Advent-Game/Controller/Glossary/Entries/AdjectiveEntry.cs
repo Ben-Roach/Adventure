@@ -20,9 +20,9 @@ namespace Adventure.Controller
         /// unless it already exists in another <see cref="AdjectiveEntry"/>.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public override void Validate(Glossary glossary)
+        public override void ValidateAndNormalize(Glossary glossary)
         {
-            BaseValidation(glossary, typeof(AdjectiveEntry));
+            BaseValidateAndNormalize(glossary, typeof(AdjectiveEntry));
         }
 
         /// <summary>

@@ -44,7 +44,8 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>, after validating the <see cref="Entry"/>.
+        /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>, after validating and normalizing
+        /// the <see cref="Entry"/>.
         /// </summary>
         /// <remarks>
         /// Always use this method in some way when adding to the <see cref="Glossary"/>. 
@@ -55,7 +56,7 @@ namespace Adventure.Controller
         public void Add(Entry entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
-            entry.Validate(this);
+            entry.ValidateAndNormalize(this);
             foreach (string word in entry)
                 wordDict[word] = entry.GetType();
             entrySet.Add(entry);

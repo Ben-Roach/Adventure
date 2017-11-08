@@ -30,9 +30,9 @@ namespace Adventure.Controller
         /// and that all contained <see cref="VerbSyntax"/> objects are valid.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public override void Validate(Glossary glossary)
+        public override void ValidateAndNormalize(Glossary glossary)
         {
-            BaseValidation(glossary);
+            BaseValidateAndNormalize(glossary);
             foreach (VerbSyntax syntax in syntaxes)
                 syntax.Validate(glossary);
         }
