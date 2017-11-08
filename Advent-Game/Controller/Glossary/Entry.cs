@@ -72,7 +72,8 @@ namespace Adventure.Controller
         {
             for (int i = 0; i < wordGroup.Count; i++)
             {
-                string word = wordGroup[i];
+                // normalize before validating
+                string word = glossary.Normalize(wordGroup[i]);
                 // check for duplicates
                 if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
                     throw new GlossaryValidationException(word, "Duplicate word found.");
@@ -85,8 +86,8 @@ namespace Adventure.Controller
                     if (glossary.IsInvalidChar(c))
                         throw new GlossaryValidationException(word, "Word contains an invalid character.");
                 }
-                // validation passed, normalize
-                wordGroup[i] = glossary.Normalize(word);
+                // validation passed, apply normalization
+                wordGroup[i] = word;
             }
         }
 

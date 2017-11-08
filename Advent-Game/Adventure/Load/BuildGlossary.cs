@@ -70,8 +70,8 @@ namespace Adventure
                 new ConjunctionEntry("&")
             };
 
-            return new Glossary(entries, '*',  s => s.ToLower(),
-                c => !(char.IsLetter(c) || char.IsNumber(c) || c == ' ' || c == '\t' || c == '&' || c == '?' || c == '\'' || c == '-'),
+            return new Glossary(entries, '*',  s => s.Trim().ToLower(),
+                c => !(char.IsLetter(c) || char.IsNumber(c) || c == '&' || c == '?' || c == '\'' || c == '-'),
                 s => (s == "the" || s == "a" || s == "an" || s == "of")
                 );
         }
