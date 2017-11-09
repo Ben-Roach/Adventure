@@ -22,7 +22,7 @@ namespace Adventure.Controller
         public NounGroup(ICollection<Noun> nouns) : base(nouns.ToList()[0].OrigToken)
         {
             if (nouns == null) throw new ArgumentNullException(nameof(nouns));
-            else if (nouns.IsNullOrEmpty()) throw new ArgumentException(nameof(nouns), "Cannot be zero-length.");
+            else if (nouns.Count == 0) throw new ArgumentException(nameof(nouns), "Cannot be zero-length.");
             else if (nouns.ContainsNull()) throw new ArgumentException(nameof(nouns), "Cannot contain null items.");
             else containedNouns = nouns.ToList();
         }

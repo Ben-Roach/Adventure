@@ -21,7 +21,7 @@ namespace Adventure.Controller
         protected Entry(ICollection<string> wordGroup)
         {
             if (wordGroup == null) throw new ArgumentNullException(nameof(wordGroup));
-            else if (wordGroup.IsNullOrEmpty()) throw new ArgumentException(nameof(wordGroup), "Cannot be zero-length.");
+            else if (wordGroup.Count == 0) throw new ArgumentException(nameof(wordGroup), "Cannot be zero-length.");
             else if (wordGroup.ContainsNullOrWhiteSpace()) throw new ArgumentException(nameof(wordGroup), "Cannot contain a null, empty, or whitespace string.");
             else this.wordGroup = new List<string>(wordGroup);
         }

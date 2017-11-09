@@ -6,17 +6,6 @@ namespace Adventure
     public static class ClassExtensions
     {
         /// <summary>
-        /// Reports if the collection is null or contains no items.
-        /// </summary>
-        /// <returns>True if the collection is null or contains no items, else false.</returns>
-        public static bool IsNullOrEmpty<T>(this ICollection<T> c)
-        {
-            if (c == null) return true;
-            else if (c.Count == 0) return true;
-            else return false;
-        }
-
-        /// <summary>
         /// Reports if the enumerable is null or contains null items.
         /// </summary>
         /// <returns>True if the enumerable is null or contains null items, else false.</returns>
