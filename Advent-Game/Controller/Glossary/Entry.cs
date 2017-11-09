@@ -18,11 +18,14 @@ namespace Adventure.Controller
         /// Create a new <see cref="Entry"/>.
         /// </summary>
         /// <param name="wordGroup">The words to include in this <see cref="Entry"/>.</param>
-        public Entry(ICollection<string> wordGroup)
+        protected Entry(ICollection<string> wordGroup)
         {
             if (wordGroup == null) throw new ArgumentNullException(nameof(wordGroup));
             else if (wordGroup.Count == 0) throw new ArgumentException(nameof(wordGroup) + " is zero-length.");
-            foreach (string s in wordGroup) { if (s == null) throw new ArgumentException(nameof(wordGroup) + " contains a null item."); }
+            foreach (string s in wordGroup)
+            {
+                if (string.IsNullOrWhiteSpace(s)) throw new ArgumentException(nameof(wordGroup) + " contains a null, empty, or whitespace item.");
+            }
             this.wordGroup = new List<string>(wordGroup);
         }
 
@@ -30,10 +33,9 @@ namespace Adventure.Controller
         /// Create a new <see cref="Entry"/> containing only one word.
         /// </summary>
         /// <param name="word">The word to include in this <see cref="Entry"/>.</param>
-        public Entry(string word)
+        protected Entry(string word)
         {
-            if (word == null) throw new ArgumentNullException(nameof(word));
-            else if (word == "") throw new ArgumentException(nameof(word) + " is an empty string.");
+            if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word) + " is a null, empty, or whitespace string.");
             wordGroup = new List<string>() { word };
         }
 
