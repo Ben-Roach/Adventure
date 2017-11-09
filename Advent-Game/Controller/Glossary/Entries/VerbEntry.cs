@@ -19,7 +19,7 @@ namespace Adventure.Controller
         /// <param name="syntaxes">Represent syntaxes that are valid for the words in <paramref name="wordGroup"/>.</param>
         public VerbEntry(ICollection<string> wordGroup, ICollection<VerbSyntax> syntaxes) : base(wordGroup)
         {
-            if (syntaxes.IsNull()) throw new ArgumentNullException(nameof(syntaxes));
+            if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
             else if (syntaxes.IsNullOrEmpty()) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
             else if (syntaxes.ContainsNull()) throw new ArgumentException(nameof(syntaxes), "Cannot contain null items.");
             else this.syntaxes = new List<VerbSyntax>(syntaxes);

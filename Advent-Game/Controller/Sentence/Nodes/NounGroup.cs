@@ -21,7 +21,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nouns"/> is null.</exception>
         public NounGroup(ICollection<Noun> nouns) : base(nouns.ToList()[0].OrigToken)
         {
-            if (nouns.IsNull()) throw new ArgumentNullException(nameof(nouns));
+            if (nouns == null) throw new ArgumentNullException(nameof(nouns));
             else if (nouns.IsNullOrEmpty()) throw new ArgumentException(nameof(nouns), "Cannot be zero-length.");
             else if (nouns.ContainsNull()) throw new ArgumentException(nameof(nouns), "Cannot contain null items.");
             else containedNouns = nouns.ToList();

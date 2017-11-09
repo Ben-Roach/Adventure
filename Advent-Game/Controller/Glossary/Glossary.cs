@@ -68,7 +68,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
         public void Add(Entry entry)
         {
-            if (entry.IsNull()) throw new ArgumentNullException(nameof(entry));
+            if (entry == null) throw new ArgumentNullException(nameof(entry));
             entry.ValidateAndNormalize(this);
             foreach (string word in entry)
                 wordDict[word] = entry.GetType();
@@ -82,7 +82,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
         public void Add(IEnumerable<Entry> entries)
         {
-            if (entries.IsNull()) throw new ArgumentNullException(nameof(entries));
+            if (entries == null) throw new ArgumentNullException(nameof(entries));
             else if (entries.ContainsNull()) throw new ArgumentException(nameof(entries), "Cannot contain null items.");
             foreach (Entry e in entries)
                 Add(e);

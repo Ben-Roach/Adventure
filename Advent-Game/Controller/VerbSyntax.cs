@@ -42,12 +42,12 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>
         public VerbSyntax(string syntaxString, VerbSyntaxDelegate syntaxDelegate, Type arg1, Type arg2, SyntFlag flags = SyntFlag.None)
         {
-            if (syntaxString.IsNull()) throw new ArgumentNullException(nameof(syntaxString));
+            if (syntaxString == null) throw new ArgumentNullException(nameof(syntaxString));
             syntax = new List<string>(syntaxString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             Delegate = syntaxDelegate ?? throw new ArgumentNullException(nameof(syntaxDelegate));
-            Arg1 = arg1.IsNull() || typeof(Node).IsAssignableFrom(arg1) ? arg1
+            Arg1 = arg1 == null || typeof(Node).IsAssignableFrom(arg1) ? arg1
                 : throw new ArgumentException(nameof(arg1), "Must be a type inherited from " + nameof(Node));
-            Arg2 = arg2.IsNull() || typeof(Node).IsAssignableFrom(arg1) ? arg2
+            Arg2 = arg2 == null || typeof(Node).IsAssignableFrom(arg1) ? arg2
                 : throw new ArgumentException(nameof(arg2), "Must be a type inherited from " + nameof(Node));
             Flags = flags;
         }
