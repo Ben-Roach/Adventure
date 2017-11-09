@@ -28,7 +28,7 @@ namespace Adventure.Controller
         public Sentence(string inputString, Glossary glossary, out string errorMessage)
         {
             // PREPARATION -- Argument checking, property/field instantiation.
-            if (inputString == null) throw new ArgumentNullException(nameof(inputString));
+            if (inputString.IsNull()) throw new ArgumentNullException(nameof(inputString));
             baseList = new List<Node>();
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
             List<string> tokenList = Tokenize(inputString, glossary, out errorMessage);

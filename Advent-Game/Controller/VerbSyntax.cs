@@ -35,27 +35,27 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
-        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type.</param>
-        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type.</param>
+        /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type or null.</param>
+        /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="arg1"/> or <paramref name="arg2"/> are not types inherited from <see cref="Node"/>.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>
         public VerbSyntax(string syntaxString, VerbSyntaxDelegate syntaxDelegate, Type arg1, Type arg2, SyntFlag flags = SyntFlag.None)
         {
-            syntax = syntaxString != null ? new List<string>(syntaxString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries))
-                : throw new ArgumentNullException(nameof(syntaxString));
+            if (syntaxString.IsNull()) throw new ArgumentNullException(nameof(syntaxString));
+            syntax = new List<string>(syntaxString.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             Delegate = syntaxDelegate ?? throw new ArgumentNullException(nameof(syntaxDelegate));
-            Arg1 = arg1 == null || typeof(Node).IsAssignableFrom(arg1) ? arg1
-                : throw new ArgumentException(nameof(arg1) + " must be a type inherited from " + nameof(Node));
-            Arg2 = arg2 == null || typeof(Node).IsAssignableFrom(arg1) ? arg2
-                : throw new ArgumentException(nameof(arg2) + " must be a type inherited from " + nameof(Node));
+            Arg1 = arg1.IsNull() || typeof(Node).IsAssignableFrom(arg1) ? arg1
+                : throw new ArgumentException(nameof(arg1), "Must be a type inherited from " + nameof(Node));
+            Arg2 = arg2.IsNull() || typeof(Node).IsAssignableFrom(arg1) ? arg2
+                : throw new ArgumentException(nameof(arg2), "Must be a type inherited from " + nameof(Node));
             Flags = flags;
         }
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with one wildcard argument.</summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
         /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
-        /// <param name="arg1">The wildcard's Type. Will be the direct object by default. Must be an INode Type.</param>
+        /// <param name="arg1">The wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="arg1"/> is not a type inherited from <see cref="Node"/>.</exception>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>

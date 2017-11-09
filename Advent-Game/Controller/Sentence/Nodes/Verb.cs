@@ -21,10 +21,10 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="syntaxes"/> is null.</exception>
         public Verb(string origToken, ICollection<VerbSyntax> syntaxes) : base(origToken)
         {
-            if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
-            else if (syntaxes.Count == 0) throw new ArgumentException(nameof(syntaxes) + " is zero-length.");
-            foreach (VerbSyntax s in syntaxes) { if (s == null) throw new ArgumentException(nameof(syntaxes) + " contains a null item."); }
-            this.syntaxes = new List<VerbSyntax>(syntaxes);
+            if (syntaxes.IsNull()) throw new ArgumentNullException(nameof(syntaxes));
+            else if (syntaxes.IsNullOrEmpty()) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
+            else if (syntaxes.ContainsNull()) throw new ArgumentException(nameof(syntaxes), "Cannot contain null items.");
+            else this.syntaxes = new List<VerbSyntax>(syntaxes);
         }
     }
 }

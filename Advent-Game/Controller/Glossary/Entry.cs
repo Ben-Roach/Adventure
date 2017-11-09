@@ -20,13 +20,10 @@ namespace Adventure.Controller
         /// <param name="wordGroup">The words to include in this <see cref="Entry"/>.</param>
         protected Entry(ICollection<string> wordGroup)
         {
-            if (wordGroup == null) throw new ArgumentNullException(nameof(wordGroup));
-            else if (wordGroup.Count == 0) throw new ArgumentException(nameof(wordGroup) + " is zero-length.");
-            foreach (string s in wordGroup)
-            {
-                if (string.IsNullOrWhiteSpace(s)) throw new ArgumentException(nameof(wordGroup) + " contains a null, empty, or whitespace item.");
-            }
-            this.wordGroup = new List<string>(wordGroup);
+            if (wordGroup.IsNull()) throw new ArgumentNullException(nameof(wordGroup));
+            else if (wordGroup.IsNullOrEmpty()) throw new ArgumentException(nameof(wordGroup), "Cannot be zero-length.");
+            else if (wordGroup.ContainsNullOrWhiteSpace()) throw new ArgumentException(nameof(wordGroup), "Cannot contain a null, empty, or whitespace string.");
+            else this.wordGroup = new List<string>(wordGroup);
         }
 
         /// <summary>
@@ -35,8 +32,9 @@ namespace Adventure.Controller
         /// <param name="word">The word to include in this <see cref="Entry"/>.</param>
         protected Entry(string word)
         {
-            if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word) + " is a null, empty, or whitespace string.");
-            wordGroup = new List<string>() { word };
+            if (word.IsNull()) throw new ArgumentNullException(nameof(word));
+            else if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word), "Cannot be empty or whitespace.");
+            else wordGroup = new List<string>() { word };
         }
 
         /// <summary>
@@ -78,13 +76,13 @@ namespace Adventure.Controller
                 string word = glossary.Normalize(wordGroup[i]);
                 // check if word contains invalid characters
                 if (glossary.ContainsInvalidChar(word))
-                    throw new GlossaryValidationException(word, "Syntax word contains an invalid character.");
+                    throw new GlossaryValidationException(word, "Word contains an invalid character.");
                 // check if word fails glossary validation
                 if (glossary.IsInvalidWord(word))
                     throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
                 // check for duplicates
-                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
-                    throw new GlossaryValidationException(word, "Duplicate word found.");
+                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType.IsNull() || !t.Equals(exceptedEntryType)))
+                    throw new GlossaryValidationException(word, "Attempted to add a duplicate word.");
                 // validation passed, apply normalization
                 wordGroup[i] = word;
             }

@@ -28,7 +28,7 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="adj"/> is null.</exception>
         public void AddAdjective(Adjective adj)
         {
-            if (adj == null) throw new ArgumentNullException(nameof(adj));
+            if (adj.IsNull()) throw new ArgumentNullException(nameof(adj));
             containedAdjectives.Add(adj);
         }
     }
