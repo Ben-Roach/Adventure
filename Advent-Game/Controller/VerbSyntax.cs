@@ -81,11 +81,8 @@ namespace Adventure.Controller
                 if (word != glossary.SyntaxWildcard.ToString())
                 {
                     // check if syntax word contains invalid characters
-                    foreach (char c in word)
-                    {
-                        if (glossary.IsInvalidChar(c))
-                            throw new GlossaryValidationException(word, "Syntax word contains an invalid character.");
-                    }
+                    if (glossary.ContainsInvalidChar(word))
+                        throw new GlossaryValidationException(word, "Syntax word contains an invalid character.");
                     // check if syntax word fails glossary validation
                     if (glossary.IsInvalidWord(word))
                         throw new GlossaryValidationException(word, "Syntax word is considered invalid by the glossary.");

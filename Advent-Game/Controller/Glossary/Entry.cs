@@ -77,11 +77,8 @@ namespace Adventure.Controller
                 // normalize before validating
                 string word = glossary.Normalize(wordGroup[i]);
                 // check if word contains invalid characters
-                foreach (char c in word)
-                {
-                    if (glossary.IsInvalidChar(c))
-                        throw new GlossaryValidationException(word, "Word contains an invalid character.");
-                }
+                if (glossary.ContainsInvalidChar(word))
+                    throw new GlossaryValidationException(word, "Syntax word contains an invalid character.");
                 // check if word fails glossary validation
                 if (glossary.IsInvalidWord(word))
                     throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
@@ -100,9 +97,6 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="Node"/> that represents <paramref name="origToken"/>.</returns>
         public abstract Node CreateNode(string origToken);
 
-        /// <summary>
-        /// Enumerates the words in the <see cref="Entry"/>.
-        /// </summary>
         public IEnumerator<string> GetEnumerator()
         {
             foreach (string s in wordGroup)

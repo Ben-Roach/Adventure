@@ -44,6 +44,17 @@ namespace Adventure.Controller
         }
 
         /// <summary>
+        /// Reports if a string contains a character that is invalid according to <see cref="IsInvalidChar"/>.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public bool ContainsInvalidChar(string s)
+        {
+            foreach (char c in s) { if (IsInvalidChar(c)) return true; }
+            return false;
+        }
+
+        /// <summary>
         /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>, after validating and normalizing
         /// the <see cref="Entry"/>.
         /// </summary>
