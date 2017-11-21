@@ -7,7 +7,7 @@ namespace Adventure
     public static partial class Load
     {
         /// <summary>
-        /// Returns the initial <see cref="Definition"/> objects to add to the <see cref="Glossary"/>.
+        /// Builds and returns a new <see cref="Glossary"/>.
         /// </summary>
         public static Glossary BuildGlossary()
         {
