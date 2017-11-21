@@ -6,13 +6,13 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a known <see cref="Conjunction"/> group in the <see cref="Glossary"/>.
     /// </summary>
-    public sealed class ConjunctionEntry : Entry
+    public sealed class ConjunctionDef : Definition
     {
         /// <summary>
-        /// Create a new <see cref="ConjunctionEntry"/>.
+        /// Create a new <see cref="ConjunctionDef"/>.
         /// </summary>
         /// <param name="word">The word that represents the new known <see cref="Conjunction"/>.</param>
-        public ConjunctionEntry(string word) : base(word)
+        public ConjunctionDef(string word) : base(word)
         { }
 
         /// <summary>

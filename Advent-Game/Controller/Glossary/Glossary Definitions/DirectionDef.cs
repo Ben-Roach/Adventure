@@ -6,17 +6,17 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a known <see cref="Direction"/> group in the <see cref="Glossary"/>.
     /// </summary>
-    public sealed class DirectionEntry : Entry
+    public sealed class DirectionDef : Definition
     {
         /// <summary>Represents the actual direction to use.</summary>
         DirCode directionCode;
 
         /// <summary>
-        /// Create a new <see cref="DirectionEntry"/>.
+        /// Create a new <see cref="DirectionDef"/>.
         /// </summary>
         /// <param name="wordGroup">The words that each represent a new known <see cref="Direction"/>.</param>
         /// <param name="directionCode">Signifies the direction represented by the words in <paramref name="wordGroup"/>.</param>
-        public DirectionEntry(ICollection<string> wordGroup, DirCode directionCode) : base(wordGroup)
+        public DirectionDef(ICollection<string> wordGroup, DirCode directionCode) : base(wordGroup)
         {
             this.directionCode = directionCode;
         }

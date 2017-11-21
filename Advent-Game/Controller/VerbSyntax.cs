@@ -87,7 +87,7 @@ namespace Adventure.Controller
                     if (glossary.IsInvalidWord(word))
                         throw new GlossaryValidationException(word, "Syntax word is considered invalid by the glossary.");
                     // check that syntax word refers to a particle
-                    if (!(glossary.TryGetEntryType(word, out Type t) == true && t.Equals(typeof(ParticleEntry))))
+                    if (!(glossary.TryGetEntryType(word, out Type t) == true && t.Equals(typeof(ParticleDef))))
                         throw new GlossaryValidationException(word, "Syntax contains non-particle word.");
                 }
                 // validation passed, apply normalization

@@ -6,23 +6,23 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a known <see cref="Adjective"/> group in the <see cref="Glossary"/>.
     /// </summary>
-    public sealed class AdjectiveEntry : Entry
+    public sealed class AdjectiveDef : Definition
     {
         /// <summary>
-        /// Create a new <see cref="AdjectiveEntry"/>.
+        /// Create a new <see cref="AdjectiveDef"/>.
         /// </summary>
         /// <param name="word">The word that represents the new known <see cref="Adjective"/>.</param>
-        public AdjectiveEntry(string word) : base(word)
+        public AdjectiveDef(string word) : base(word)
         { }
 
         /// <summary>
         /// Ensures that the words in this entry are not already contained in <paramref name="glossary"/>,
-        /// unless it already exists in another <see cref="AdjectiveEntry"/>.
+        /// unless it already exists in another <see cref="AdjectiveDef"/>.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
         public override void ValidateAndNormalize(Glossary glossary)
         {
-            BaseValidateAndNormalize(glossary, typeof(AdjectiveEntry));
+            BaseValidateAndNormalize(glossary, typeof(AdjectiveDef));
         }
 
         /// <summary>

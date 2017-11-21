@@ -9,9 +9,9 @@ namespace Adventure.Controller
     /// </summary>
     public class Glossary
     {
-        /// <summary>Every <see cref="Entry"/> contained in the <see cref="Glossary"/>.</summary>
-        private HashSet<Entry> entrySet;
-        /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Entry"/> that contains it.</summary>
+        /// <summary>Every <see cref="Definition"/> contained in the <see cref="Glossary"/>.</summary>
+        private HashSet<Definition> entrySet;
+        /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Definition"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
         /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered an invalid character.</summary>
         public char SyntaxWildcard { get; }
@@ -26,15 +26,15 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
-        /// <param name="entries">The <see cref="Entry"/> objects to include in the <see cref="Glossary"/>.</param>
+        /// <param name="entries">The <see cref="Definition"/> objects to include in the <see cref="Glossary"/>.</param>
         /// <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.</param>
         /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        public Glossary(IEnumerable<Entry> entries, char syntaxWildcard, Func<string, string> normalize,
+        public Glossary(IEnumerable<Definition> entries, char syntaxWildcard, Func<string, string> normalize,
             Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
-            entrySet = new HashSet<Entry>();
+            entrySet = new HashSet<Definition>();
             wordDict = new Dictionary<string, Type>();
             SyntaxWildcard = syntaxWildcard;
             Normalize = normalize;
@@ -55,18 +55,18 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Add a new <see cref="Entry"/> to the <see cref="Glossary"/>, after validating and normalizing
-        /// the <see cref="Entry"/>.
+        /// Add a new <see cref="Definition"/> to the <see cref="Glossary"/>, after validating and normalizing
+        /// the <see cref="Definition"/>.
         /// </summary>
         /// <remarks>
         /// Always use this method in some way when adding to the <see cref="Glossary"/>. 
         /// Do not add directly to <see cref="entrySet"/>!
-        /// All <see cref="ParticleEntry"/> items containing words used in a <see cref="VerbSyntax"/> must be present before
-        /// the <see cref="VerbEntry"/> containing the <see cref="VerbSyntax"/> may be added!
+        /// All <see cref="ParticleDef"/> items containing words used in a <see cref="VerbSyntax"/> must be present before
+        /// the <see cref="VerbDef"/> containing the <see cref="VerbSyntax"/> may be added!
         /// </remarks>
-        /// <param name="entry">The <see cref="Entry"/> to add.</param>
+        /// <param name="entry">The <see cref="Definition"/> to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
-        public void Add(Entry entry)
+        public void Add(Definition entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
             entry.ValidateAndNormalize(this);
@@ -76,23 +76,23 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Add new <see cref="Entry"/> items to the <see cref="Glossary"/>.
+        /// Add new <see cref="Definition"/> items to the <see cref="Glossary"/>.
         /// </summary>
-        /// <param name="entries">The <see cref="Entry"/> items to add.</param>
+        /// <param name="entries">The <see cref="Definition"/> items to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
-        public void Add(IEnumerable<Entry> entries)
+        public void Add(IEnumerable<Definition> entries)
         {
             if (entries == null) throw new ArgumentNullException(nameof(entries));
             else if (entries.ContainsNull()) throw new ArgumentException(nameof(entries), "Cannot contain null items.");
-            foreach (Entry e in entries)
+            foreach (Definition e in entries)
                 Add(e);
         }
 
         /// <summary>
-        /// Reports if the glossary contains an <see cref="Entry"/> that contains <paramref name="word"/> , and gets the type of the <see cref="Entry"/>.
+        /// Reports if the glossary contains an <see cref="Definition"/> that contains <paramref name="word"/> , and gets the type of the <see cref="Definition"/>.
         /// </summary>
         /// <param name="word">The word to check.</param>
-        /// <param name="entryType">Set to the type of the <see cref="Entry"/> containing <paramref name="word"/> if found.</param>
+        /// <param name="entryType">Set to the type of the <see cref="Definition"/> containing <paramref name="word"/> if found.</param>
         /// <returns>True if <paramref name="word"/> is in the <see cref="Glossary"/>, else false.</returns>
         public bool TryGetEntryType(string word, out Type entryType)
         {
@@ -106,7 +106,7 @@ namespace Adventure.Controller
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
         public Node CreateNodeFromToken(string token)
         {
-            foreach (Entry entry in entrySet)
+            foreach (Definition entry in entrySet)
             {
                 if (entry.Contains(token))
                     return entry.CreateNode(token);

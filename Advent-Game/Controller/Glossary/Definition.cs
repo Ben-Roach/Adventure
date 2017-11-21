@@ -9,16 +9,16 @@ namespace Adventure.Controller
     /// Represents an entry in the <see cref="Glossary"/>, a group of words that the player
     /// can use that should be treated as synonyms.
     /// </summary>
-    public abstract class Entry : IEnumerable<string>
+    public abstract class Definition : IEnumerable<string>
     {
         /// <summary>A group of words that should be treated as synonyms.</summary>
         protected List<string> wordGroup;
 
         /// <summary>
-        /// Create a new <see cref="Entry"/>.
+        /// Create a new <see cref="Definition"/>.
         /// </summary>
-        /// <param name="wordGroup">The words to include in this <see cref="Entry"/>.</param>
-        protected Entry(ICollection<string> wordGroup)
+        /// <param name="wordGroup">The words to include in this <see cref="Definition"/>.</param>
+        protected Definition(ICollection<string> wordGroup)
         {
             if (wordGroup == null) throw new ArgumentNullException(nameof(wordGroup));
             else if (wordGroup.Count == 0) throw new ArgumentException(nameof(wordGroup), "Cannot be zero-length.");
@@ -27,10 +27,10 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Create a new <see cref="Entry"/> containing only one word.
+        /// Create a new <see cref="Definition"/> containing only one word.
         /// </summary>
-        /// <param name="word">The word to include in this <see cref="Entry"/>.</param>
-        protected Entry(string word)
+        /// <param name="word">The word to include in this <see cref="Definition"/>.</param>
+        protected Definition(string word)
         {
             if (word == null) throw new ArgumentNullException(nameof(word));
             else if (string.IsNullOrWhiteSpace(word)) throw new ArgumentException(nameof(word), "Cannot be empty or whitespace.");
@@ -38,10 +38,10 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Reports whether the <see cref="Entry"/> includes the specified word.
+        /// Reports whether the <see cref="Definition"/> includes the specified word.
         /// </summary>
         /// <param name="word">The word to test.</param>
-        /// <returns>True if the <see cref="Entry"/> includes <paramref name="word"/>, else false.</returns>
+        /// <returns>True if the <see cref="Definition"/> includes <paramref name="word"/>, else false.</returns>
         public bool Contains(string word)
         {
             if (wordGroup.Contains(word))
@@ -62,12 +62,12 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Validates that this <see cref="Entry"/> can be added to <paramref name="glossary"/>, and normalizes the
+        /// Validates that this <see cref="Definition"/> can be added to <paramref name="glossary"/>, and normalizes the
         /// words in <see cref="wordGroup"/> if so.
         /// </summary>
         /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        /// <param name="exceptedEntryType">No exception is thrown if a word in this <see cref="Entry"/>
-        /// is found in another <see cref="Entry"/> of this type in <paramref name="glossary"/>.</param>
+        /// <param name="exceptedEntryType">No exception is thrown if a word in this <see cref="Definition"/>
+        /// is found in another <see cref="Definition"/> of this type in <paramref name="glossary"/>.</param>
         protected void BaseValidateAndNormalize(Glossary glossary, Type exceptedEntryType = null)
         {
             for (int i = 0; i < wordGroup.Count; i++)
@@ -89,7 +89,7 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Create a new <see cref="Node"/> using the data specified in this <see cref="Entry"/>.
+        /// Create a new <see cref="Node"/> using the data specified in this <see cref="Definition"/>.
         /// </summary>
         /// <param name="origToken">The token originally used by the player.</param>
         /// <returns>The new <see cref="Node"/> that represents <paramref name="origToken"/>.</returns>
