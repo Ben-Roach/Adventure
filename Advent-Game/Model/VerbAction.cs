@@ -4,7 +4,7 @@ using Adventure.Controller;
 namespace Adventure.Model
 {
     /// <summary>
-    /// Contains methods used with <see cref="VerbSyntax.VerbSyntaxDelegate"/> delegates to enact a <see cref="Verb"/>.
+    /// Contains methods used with <see cref="VerbSyntax.VerbSyntaxDelegate"/> delegates to enact a <see cref="VerbNode"/>.
     /// </summary>
     static class VerbAction
     {

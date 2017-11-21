@@ -6,12 +6,12 @@ using System.Collections.ObjectModel;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// A <see cref="Glossary"/> element that represents a valid usage of a <see cref="Verb"/> in a <see cref="Sentence"/>.
+    /// A <see cref="Glossary"/> element that represents a valid usage of a <see cref="VerbNode"/> in a <see cref="Sentence"/>.
     /// </summary>
     public class VerbSyntax
     {
         /// <summary>
-        /// Meant to contain the method to call when the <see cref="Verb"/> associated with this
+        /// Meant to contain the method to call when the <see cref="VerbNode"/> associated with this
         /// <see cref="VerbSyntax"/> is encountered in a <see cref="Sentence"/>.
         /// </summary>
         /// <param name="directObject">The first argument of the method. Should be the direct object of the verb (more or less).</param>
@@ -19,9 +19,9 @@ namespace Adventure.Controller
         public delegate void VerbSyntaxDelegate(Node directObject, Node indirectObject);
 
         List<string> syntax;
-        /// <summary>Contains wildcards and/or strings matching valid <see cref="Particle.Lemma"/> values.</summary>
+        /// <summary>Contains wildcards and/or strings matching valid <see cref="ParticleNode.Lemma"/> values.</summary>
         public IReadOnlyCollection<string> Syntax { get => syntax.AsReadOnly(); }
-        /// <summary>The method to call on behalf of the <see cref="Verb"/>.</summary>
+        /// <summary>The method to call on behalf of the <see cref="VerbNode"/>.</summary>
         public VerbSyntaxDelegate Delegate { get; }
         /// <summary>The first wildcard's Type. Must be a <see cref="Node"/> type.</summary>
         public Type Arg1 { get; }
@@ -34,7 +34,7 @@ namespace Adventure.Controller
         /// Create a new <see cref="VerbSyntax"/> with two wildcard arguments.
         /// </summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
-        /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
+        /// <param name="syntaxDelegate">The method to call when the associated <see cref="VerbNode"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="flags">The flags for this syntax.</param>
@@ -54,7 +54,7 @@ namespace Adventure.Controller
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with one wildcard argument.</summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
-        /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
+        /// <param name="syntaxDelegate">The method to call when the associated <see cref="VerbNode"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="arg1">The wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="arg1"/> is not a type inherited from <see cref="Node"/>.</exception>
@@ -65,7 +65,7 @@ namespace Adventure.Controller
 
         /// <summary>Create a new <see cref="VerbSyntax"/> with no arguments.</summary>
         /// <param name="syntaxString">The represented syntax, in the form of a string.</param>
-        /// <param name="syntaxDelegate">The method to call when the associated <see cref="Verb"/> is encountered is a <see cref="Sentence"/>.</param>
+        /// <param name="syntaxDelegate">The method to call when the associated <see cref="VerbNode"/> is encountered is a <see cref="Sentence"/>.</param>
         /// <param name="flags">The flags for this syntax.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntaxString"/> or <paramref name="syntaxDelegate"/> are null.</exception>
         public VerbSyntax(string syntaxString, VerbSyntaxDelegate syntaxDelegate, SyntFlag flags = SyntFlag.None) :

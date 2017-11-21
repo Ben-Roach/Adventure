@@ -5,17 +5,17 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="Verb"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="VerbNode"/> group in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class VerbDef : Definition
     {
-        /// <summary>Syntaxes that are valid for a <see cref="Verb"/>.</summary>
+        /// <summary>Syntaxes that are valid for a <see cref="VerbNode"/>.</summary>
         List<VerbSyntax> syntaxes;
 
         /// <summary>
         /// Create a new <see cref="VerbDef"/>.
         /// </summary>
-        /// <param name="wordGroup">The words that each represent a new known <see cref="Verb"/>.</param>
+        /// <param name="wordGroup">The words that each represent a new known <see cref="VerbNode"/>.</param>
         /// <param name="syntaxes">Represent syntaxes that are valid for the words in <paramref name="wordGroup"/>.</param>
         public VerbDef(ICollection<string> wordGroup, ICollection<VerbSyntax> syntaxes) : base(wordGroup)
         {
@@ -38,12 +38,12 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Create a new <see cref="Verb"/> from this entry.
+        /// Create a new <see cref="VerbNode"/> from this entry.
         /// </summary>
-        /// <returns>The new <see cref="Verb"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Verb(origToken, syntaxes);
+            return new VerbNode(origToken, syntaxes);
         }
     }
 }

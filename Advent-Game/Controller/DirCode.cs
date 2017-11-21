@@ -2,7 +2,7 @@
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Valid directional codes used by <see cref="Direction"/> objects.
+    /// Valid directional codes used by <see cref="DirectionNode"/> objects.
     /// Each represents a physical direction.
     /// </summary>
     public enum DirCode

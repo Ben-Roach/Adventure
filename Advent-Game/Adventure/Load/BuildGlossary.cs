@@ -23,21 +23,21 @@ namespace Adventure
 
                 // VERBS
                 new VerbDef(new[] { "take", "grab" }, new[] {
-                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                 }),
                 new VerbDef(new[] { "go", "walk", "climb" }, new[] {
-                    new VerbSyntax("*", VerbAction.Placeholder, typeof(Direction)),
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(DirectionNode)),
                     new VerbSyntax("in", VerbAction.Placeholder),
                     new VerbSyntax("out", VerbAction.Placeholder),
                     new VerbSyntax("up", VerbAction.Placeholder),
                     new VerbSyntax("down", VerbAction.Placeholder),
                 }),
                 new VerbDef(new[] { "examine", "describe", "ex", "x" }, new[] {
-                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                 }),
                 new VerbDef(new[] { "look", "l" }, new[] {
-                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
-                    new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounGroup), SyntFlag.MakeSingular),
+                    new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
+                    new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                     new VerbSyntax("", VerbAction.Placeholder)
                 }),
 

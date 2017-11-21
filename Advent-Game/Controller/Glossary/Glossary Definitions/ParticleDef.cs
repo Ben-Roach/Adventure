@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="Particle"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="ParticleNode"/> group in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class ParticleDef : Definition
     {
@@ -16,7 +16,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="ParticleDef"/>.
         /// </summary>
-        /// <param name="wordGroup">The words that each represent a new known <see cref="Particle"/>.</param>
+        /// <param name="wordGroup">The words that each represent a new known <see cref="ParticleNode"/>.</param>
         /// <param name="lemma">The commonly understood form or synonym of the words in <paramref name="wordGroup"/>.</param>
         public ParticleDef(ICollection<string> wordGroup, string lemma) : base(wordGroup)
         {
@@ -24,12 +24,12 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Create a new <see cref="Particle"/> from this entry.
+        /// Create a new <see cref="ParticleNode"/> from this entry.
         /// </summary>
-        /// <returns>The new <see cref="Particle"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="ParticleNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new Particle(origToken, lemma);
+            return new ParticleNode(origToken, lemma);
         }
     }
 }

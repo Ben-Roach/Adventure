@@ -4,12 +4,12 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a word input by the player that is not in the <see cref="Glossary"/>.
     /// </summary>
-    public sealed class UnknownWord : Node
+    public sealed class UnknownNode : Node
     {
         /// <summary>
-        /// Create a new <see cref="UnknownWord"/>.
+        /// Create a new <see cref="UnknownNode"/>.
         /// </summary>
-        public UnknownWord(string origToken) : base(origToken)
+        public UnknownNode(string origToken) : base(origToken)
         { }
     }
 }

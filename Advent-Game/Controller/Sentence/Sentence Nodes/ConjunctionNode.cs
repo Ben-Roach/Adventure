@@ -4,12 +4,12 @@ namespace Adventure.Controller
     /// <summary>
     /// Represents a word used for sentence structure.
     /// </summary>
-    public sealed class Conjunction : Node
+    public sealed class ConjunctionNode : Node
     {
         /// <summary>
-        /// Create a new <see cref="Conjunction"/>.
+        /// Create a new <see cref="ConjunctionNode"/>.
         /// </summary>
-        public Conjunction(string origToken) : base(origToken)
+        public ConjunctionNode(string origToken) : base(origToken)
         { }
     }
 }

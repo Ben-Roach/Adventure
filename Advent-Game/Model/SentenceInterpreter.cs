@@ -17,13 +17,13 @@ namespace Adventure.Model
         {
             for (int i = 0; i < sentence.Length; i++)
             {
-                if (sentence[i] is Conjunction)
+                if (sentence[i] is ConjunctionNode)
                     continue;
 
-                else if (sentence[i] is Command command)
+                else if (sentence[i] is CommandNode command)
                     command.Delegate();
 
-                else if (sentence[i] is Verb verb)
+                else if (sentence[i] is VerbNode verb)
                 {
                     foreach(VerbSyntax syntax in verb.Syntaxes)
                     {
@@ -35,7 +35,7 @@ namespace Adventure.Model
                     // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
                 }
 
-                else if (sentence[i] is UnknownWord)
+                else if (sentence[i] is UnknownNode)
                 {
                     ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigToken + ".\"");
                     return;

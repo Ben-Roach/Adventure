@@ -111,7 +111,7 @@ namespace Adventure.Controller
                 if (entry.Contains(token))
                     return entry.CreateNode(token);
             }
-            return new UnknownWord(token);
+            return new UnknownNode(token);
         }
     }
 }

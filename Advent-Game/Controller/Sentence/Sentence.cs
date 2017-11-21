@@ -86,23 +86,23 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Collects <see cref="Adjective"/> objects in <see cref="baseList"/> contiguous to each <see cref="Noun"/>,
-        /// and adds them to the <see cref="Noun"/>.
+        /// Collects <see cref="AdjectiveNode"/> objects in <see cref="baseList"/> contiguous to each <see cref="NounNode"/>,
+        /// and adds them to the <see cref="NounNode"/>.
         /// </summary>
         private void CollectAdjectives()
         {
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
-                if (baseList[i] is Noun n)
+                if (baseList[i] is NounNode n)
                 {
                     // collect preceeding Adjectives
-                    while (i - 1 >= 0 && baseList[i - 1] is Adjective adj)
+                    while (i - 1 >= 0 && baseList[i - 1] is AdjectiveNode adj)
                     {
                         n.AddAdjective(adj);
                         baseList.RemoveAt(--i);
                     }
                     // collect subsequent Adjectives
-                    while (i + 1 < baseList.Count && baseList[i + 1] is Adjective adj)
+                    while (i + 1 < baseList.Count && baseList[i + 1] is AdjectiveNode adj)
                     {
                         n.AddAdjective(adj);
                         baseList.RemoveAt(i + 1);
@@ -112,24 +112,24 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Collects chained <see cref="Noun"/> objects in <see cref="baseList"/> (those with one or more
-        /// <see cref="Conjunction"/> objects between them), replacing the words wit a new <see cref="NounGroup"/> object.
+        /// Collects chained <see cref="NounNode"/> objects in <see cref="baseList"/> (those with one or more
+        /// <see cref="ConjunctionNode"/> objects between them), replacing the words wit a new <see cref="NounGroupNode"/> object.
         /// </summary>
         private void CollectNouns()
         {
             int chainLength = 0;
-            List<Noun> nounList = new List<Noun>();
+            List<NounNode> nounList = new List<NounNode>();
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
                 // try to start/continue chain, if current word is noun and preceeding word is conjunction
-                if (i - 2 >= 0 && baseList[i] is Noun nCurrent && baseList[i - 1] is Conjunction)
+                if (i - 2 >= 0 && baseList[i] is NounNode nCurrent && baseList[i - 1] is ConjunctionNode)
                 {
                     int p = i - 2;
                     // skip all preceeding consecutive conjunctions
-                    while (p >= 0 && baseList[p] is Conjunction)
+                    while (p >= 0 && baseList[p] is ConjunctionNode)
                         p--;
                     // check if preceeding non-conjunction is a noun
-                    if (baseList[p] is Noun)
+                    if (baseList[p] is NounNode)
                     {
                         nounList.Insert(0, nCurrent);
                         chainLength += i - p;
@@ -138,11 +138,11 @@ namespace Adventure.Controller
                     }
                 }
                 // otherwise, try to add noun to existing chain, then terminate
-                if (nounList.Count > 0 && baseList[i] is Noun nFinal)
+                if (nounList.Count > 0 && baseList[i] is NounNode nFinal)
                 {
                     nounList.Insert(0, nFinal);
                     // turn first Noun in chain into NounCollection
-                    baseList[i] = new NounGroup(nounList);
+                    baseList[i] = new NounGroupNode(nounList);
                     // remove chained nouns and conjunctions from sentence
                     for (int j = 0; j < chainLength; j++)
                         baseList.RemoveAt(i + 1);
