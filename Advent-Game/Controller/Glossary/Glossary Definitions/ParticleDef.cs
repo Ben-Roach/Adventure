@@ -11,16 +11,16 @@ namespace Adventure.Controller
     {
         /// <summary>The commonly understood form of the words in <see cref="Definition.WordGroup"/>, used to test if
         /// one of those words is used by the player.</summary>
-        string lemma;
+        string syntaxName;
 
         /// <summary>
         /// Create a new <see cref="ParticleDef"/>.
         /// </summary>
         /// <param name="wordGroup">The words that each represent a new known <see cref="ParticleNode"/>.</param>
-        /// <param name="lemma">The commonly understood form or synonym of the words in <paramref name="wordGroup"/>.</param>
-        public ParticleDef(ICollection<string> wordGroup, string lemma) : base(wordGroup)
+        /// <param name="syntaxName">The commonly understood form of the word used in <see cref="VerbSyntax"/> objects.</param>
+        public ParticleDef(ICollection<string> wordGroup, string syntaxName) : base(wordGroup)
         {
-            this.lemma = lemma ?? throw new ArgumentNullException(nameof(lemma));
+            this.syntaxName = syntaxName ?? throw new ArgumentNullException(nameof(syntaxName));
         }
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="ParticleNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new ParticleNode(origToken, lemma);
+            return new ParticleNode(origToken, syntaxName);
         }
     }
 }

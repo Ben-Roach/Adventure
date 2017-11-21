@@ -19,7 +19,7 @@ namespace Adventure.Controller
         public delegate void VerbSyntaxDelegate(Node directObject, Node indirectObject);
 
         List<string> syntax;
-        /// <summary>Contains wildcards and/or strings matching valid <see cref="ParticleNode.Lemma"/> values.</summary>
+        /// <summary>Contains wildcards and/or strings matching valid <see cref="ParticleNode.SyntaxName"/> values.</summary>
         public IReadOnlyCollection<string> Syntax { get => syntax.AsReadOnly(); }
         /// <summary>The method to call on behalf of the <see cref="VerbNode"/>.</summary>
         public VerbSyntaxDelegate Delegate { get; }

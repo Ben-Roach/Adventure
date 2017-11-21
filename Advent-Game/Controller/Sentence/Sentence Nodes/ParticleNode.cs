@@ -9,16 +9,16 @@ namespace Adventure.Controller
     public sealed class ParticleNode : Node
     {
         /// <summary>The commonly understood form of <see cref="OrigToken"/>, used to test if a synonym was used by the player.</summary>
-        public string Lemma { get; }
+        public string SyntaxName { get; }
 
         /// <summary>
         /// Create a new <see cref="ParticleNode"/>.
         /// </summary>
-        /// <param name="lemma">The commonly understood form or synonym of the word.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="lemma"/> is null.</exception>
-        public ParticleNode(string origToken, string lemma) : base(origToken)
+        /// <param name="syntaxName">The commonly understood form of the word used in <see cref="VerbSyntax"/> objects.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="syntaxName"/> is null.</exception>
+        public ParticleNode(string origToken, string syntaxName) : base(origToken)
         {
-            Lemma = lemma ?? throw new ArgumentNullException(nameof(lemma));
+            SyntaxName = syntaxName ?? throw new ArgumentNullException(nameof(syntaxName));
         }
     }
 }
