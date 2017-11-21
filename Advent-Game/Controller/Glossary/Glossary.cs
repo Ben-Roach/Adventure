@@ -9,10 +9,18 @@ namespace Adventure.Controller
     /// </summary>
     public class Glossary
     {
-        /// <summary>Every <see cref="Definition"/> contained in the <see cref="Glossary"/>.</summary>
+        /// <summary>A dictionary of synonyms (keys) and their respective headwords (values).</summary>
+        Dictionary<string, string> synonyms;
+        /// <summary>A dictionary of headwords (keys) and their respective <see cref="Definition"/> objects (values) to use by default.</summary>
+        Dictionary<string, Definition> defaultDefs;
+        /// <summary>A dictionary of headwords (keys), each with a list of associated <see cref="ConditionalDef"/> objects.</summary>
+        Dictionary<string, List<ConditionalDef>> conditionalDefs;
+
+        // <summary>Every <see cref="Definition"/> contained in the <see cref="Glossary"/>.</summary>
         private HashSet<Definition> entrySet;
-        /// <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Definition"/> that contains it.</summary>
+        // <summary>All word strings contained in the <see cref="Glossary"/>, each with the type of the <see cref="Definition"/> that contains it.</summary>
         private Dictionary<string, Type> wordDict;
+
         /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered an invalid character.</summary>
         public char SyntaxWildcard { get; }
         /// <summary>Normalizes player input and words in the <see cref="Glossary"/> so they match correctly. Used before validation.</summary>
@@ -43,29 +51,18 @@ namespace Adventure.Controller
             Add(entries);
         }
 
-        /// <summary>
-        /// Reports if a string contains a character that is invalid according to <see cref="IsInvalidChar"/>.
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        public bool ContainsInvalidChar(string s)
-        {
-            foreach (char c in s) { if (IsInvalidChar(c)) return true; }
-            return false;
-        }
-
-        /// <summary>
-        /// Add a new <see cref="Definition"/> to the <see cref="Glossary"/>, after validating and normalizing
-        /// the <see cref="Definition"/>.
-        /// </summary>
-        /// <remarks>
-        /// Always use this method in some way when adding to the <see cref="Glossary"/>. 
-        /// Do not add directly to <see cref="entrySet"/>!
-        /// All <see cref="ParticleDef"/> items containing words used in a <see cref="VerbSyntax"/> must be present before
-        /// the <see cref="VerbDef"/> containing the <see cref="VerbSyntax"/> may be added!
-        /// </remarks>
-        /// <param name="entry">The <see cref="Definition"/> to add.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
+        // <summary>
+        // Add a new <see cref="Definition"/> to the <see cref="Glossary"/>, after validating and normalizing
+        // the <see cref="Definition"/>.
+        // </summary>
+        // <remarks>
+        // Always use this method in some way when adding to the <see cref="Glossary"/>. 
+        // Do not add directly to <see cref="entrySet"/>!
+        // All <see cref="ParticleDef"/> items containing words used in a <see cref="VerbSyntax"/> must be present before
+        // the <see cref="VerbDef"/> containing the <see cref="VerbSyntax"/> may be added!
+        // </remarks>
+        // <param name="entry">The <see cref="Definition"/> to add.</param>
+        // <exception cref="ArgumentNullException">Thrown if <paramref name="entry"/> is null.</exception>
         public void Add(Definition entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
@@ -75,17 +72,28 @@ namespace Adventure.Controller
             entrySet.Add(entry);
         }
 
-        /// <summary>
-        /// Add new <see cref="Definition"/> items to the <see cref="Glossary"/>.
-        /// </summary>
-        /// <param name="entries">The <see cref="Definition"/> items to add.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
+        // <summary>
+        // Add new <see cref="Definition"/> items to the <see cref="Glossary"/>.
+        // </summary>
+        // <param name="entries">The <see cref="Definition"/> items to add.</param>
+        // <exception cref="ArgumentNullException">Thrown if <paramref name="entries"/> is null or contains null objects.</exception>
         public void Add(IEnumerable<Definition> entries)
         {
             if (entries == null) throw new ArgumentNullException(nameof(entries));
             else if (entries.ContainsNull()) throw new ArgumentException(nameof(entries), "Cannot contain null items.");
             foreach (Definition e in entries)
                 Add(e);
+        }
+
+        /// <summary>
+        /// Reports if a string contains a character that is invalid according to <see cref="IsInvalidChar"/>.
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public bool ContainsInvalidChar(string s)
+        {
+            foreach (char c in s) { if (IsInvalidChar(c)) return true; }
+            return false;
         }
 
         /// <summary>
