@@ -104,6 +104,17 @@ namespace Adventure.Controller
                 Add(e);
         }
 
+        // <summary>
+        // Reports if the glossary contains an <see cref="Definition"/> that contains <paramref name="word"/>, and gets the type of the <see cref="Definition"/>.
+        // </summary>
+        // <param name="word">The word to check.</param>
+        // <param name="entryType">Set to the type of the <see cref="Definition"/> containing <paramref name="word"/> if found.</param>
+        // <returns>True if <paramref name="word"/> is in the <see cref="Glossary"/>, else false.</returns>
+        public bool TryGetEntryType(string word, out Type entryType)
+        {
+            throw new NotImplementedException("TryGetEntryType");
+        }
+
         /// <summary>
         /// Adds a new entry to the <see cref="Glossary"/>.
         /// </summary>
@@ -129,7 +140,6 @@ namespace Adventure.Controller
                 if (synonymDict.ContainsKey(headword))
                     throw new GlossaryValidationException("Attempted to add an existing synonym.");
             }
-            // ADD SYNTAX VALIDATION HERE ==========================================================================================================
             // add to glossary
             defaultDefDict[headword] = defaultDefinition;
             foreach (string s in synonyms)
@@ -154,7 +164,6 @@ namespace Adventure.Controller
             // validation
             if (!defaultDefDict.ContainsKey(headword))
                 throw new GlossaryValidationException("Attempted to add a definition to a nonexistent headword.");
-            // ADD SYNTAX VALIDATION HERE ==========================================================================================================
             // add to glossary
             if (!conditionalDefDict.ContainsKey(headword))
                 conditionalDefDict[headword] = new List<ConditionalDef>();
@@ -170,17 +179,6 @@ namespace Adventure.Controller
         {
             foreach (char c in s) { if (IsInvalidChar(c)) return true; }
             return false;
-        }
-
-        /// <summary>
-        /// Reports if the glossary contains an <see cref="Definition"/> that contains <paramref name="word"/>, and gets the type of the <see cref="Definition"/>.
-        /// </summary>
-        /// <param name="word">The word to check.</param>
-        /// <param name="entryType">Set to the type of the <see cref="Definition"/> containing <paramref name="word"/> if found.</param>
-        /// <returns>True if <paramref name="word"/> is in the <see cref="Glossary"/>, else false.</returns>
-        public bool TryGetEntryType(string word, out Type entryType)
-        {
-            throw new NotImplementedException("TryGetEntryType");
         }
 
         /// <summary>
