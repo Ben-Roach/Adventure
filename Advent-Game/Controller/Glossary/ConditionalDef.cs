@@ -11,12 +11,10 @@ namespace Adventure.Controller
     /// </summary>
     class ConditionalDef
     {
-        public delegate bool DefCondition(Type nodeType, string nodeHeadword);
-
         public Definition Def { get; }
-        public DefCondition Conditional { get; }
+        public Func<Type, string, bool> Conditional { get; }
 
-        public ConditionalDef(Definition def, DefCondition conditional)
+        public ConditionalDef(Definition def, Func<Type, string, bool> conditional)
         {
             Def = def;
             Conditional = conditional;

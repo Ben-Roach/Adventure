@@ -9,12 +9,12 @@ namespace Adventure.Controller
     /// </summary>
     public class Glossary
     {
-        /// <summary>A dictionary of synonyms (keys) and their respective headwords (values).</summary>
-        Dictionary<string, string> synonyms;
-        /// <summary>A dictionary of headwords (keys) and their respective <see cref="Definition"/> objects (values) to use by default.</summary>
-        Dictionary<string, Definition> defaultDefs;
+        /// <summary>A dictionary of all synonyms (keys) and their respective headwords (values).</summary>
+        Dictionary<string, string> synonymDict;
+        /// <summary>A dictionary of all headwords (keys) and their respective <see cref="Definition"/> objects (values) to use by default.</summary>
+        Dictionary<string, Definition> defaultDefDict;
         /// <summary>A dictionary of headwords (keys), each with a list of associated <see cref="ConditionalDef"/> objects.</summary>
-        Dictionary<string, List<ConditionalDef>> conditionalDefs;
+        Dictionary<string, List<ConditionalDef>> conditionalDefDict;
 
         // <summary>Every <see cref="Definition"/> contained in the <see cref="Glossary"/>.</summary>
         private HashSet<Definition> entrySet;
@@ -34,11 +34,30 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
-        /// <param name="entries">The <see cref="Definition"/> objects to include in the <see cref="Glossary"/>.</param>
         /// <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.</param>
         /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
+        public Glossary(char syntaxWildcard, Func<string, string> normalize,
+            Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
+        {
+            synonymDict = new Dictionary<string, string>();
+            defaultDefDict = new Dictionary<string, Definition>();
+            conditionalDefDict = new Dictionary<string, List<ConditionalDef>>();
+            SyntaxWildcard = syntaxWildcard;
+            Normalize = normalize;
+            IsInvalidChar = (s => isInvalidChar(s) || s == SyntaxWildcard);
+            IsInvalidWord = isInvalidWord;
+        }
+
+        // <summary>
+        // Create a new <see cref="Glossary"/>.
+        // </summary>
+        // <param name="entries">The <see cref="Definition"/> objects to include in the <see cref="Glossary"/>.</param>
+        // <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.</param>
+        // <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
+        // <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
+        // <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         public Glossary(IEnumerable<Definition> entries, char syntaxWildcard, Func<string, string> normalize,
             Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
@@ -83,6 +102,54 @@ namespace Adventure.Controller
             else if (entries.ContainsNull()) throw new ArgumentException(nameof(entries), "Cannot contain null items.");
             foreach (Definition e in entries)
                 Add(e);
+        }
+
+        /// <summary>
+        /// Adds a new entry to the <see cref="Glossary"/>.
+        /// </summary>
+        /// <param name="headword">The headword under which the entry is placed in the <see cref="Glossary"/>.</param>
+        /// <param name="synonyms">All of the words that the player may use to reference this entry.</param>
+        /// <param name="defaultDefinition">The default <see cref="Definition"/> associated with this entry.</param>
+        /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="synonyms"/> contains a null item.</exception>
+        /// <exception cref="GlossaryValidationException">Thrown if <paramref name="headword"/> already exists in the <see cref="Glossary"/>.</exception>
+        public void Add(string headword, IEnumerable<string> synonyms, Definition defaultDefinition)
+        {
+            // param checking
+            if (headword == null) throw new ArgumentNullException(nameof(headword));
+            if (synonyms == null) throw new ArgumentNullException(nameof(synonyms));
+            if (defaultDefinition == null) throw new ArgumentNullException(nameof(defaultDefinition));
+            if (synonyms.ContainsNull()) throw new ArgumentException(nameof(defaultDefinition) + "contains a null item.");
+            // dupe checking
+            if (defaultDefDict.ContainsKey(headword)) throw new GlossaryValidationException("Attempted to add an existing headword.");
+            foreach (string s in synonyms)
+            {
+                if (synonymDict.ContainsKey(headword))
+                    throw new GlossaryValidationException("Attempted to add an existing synonym.");
+            }
+            // add to glossary
+            defaultDefDict[headword] = defaultDefinition;
+            foreach (string s in synonyms)
+                synonymDict[s] = headword;
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="ConditionalDef"/> to an existing entry.
+        /// </summary>
+        /// <param name="headword">The headword of the entry to add the definition to.</param>
+        /// <param name="conditional">The conditional that determines if <paramref name="definition"/> is used.</param>
+        /// <param name="definition">The <see cref="Definition"/> to add.</param>
+        /// /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+        public void AppendDef(string headword, Func<Type, string, bool> conditional, Definition definition)
+        {
+            // param checking
+            if (headword == null) throw new ArgumentNullException(nameof(headword));
+            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (!defaultDefDict.ContainsKey(headword)) throw new GlossaryValidationException("Attempted to add a definition to a nonexistent headword.");
+            // add to glossary
+            if (!conditionalDefDict.ContainsKey(headword))
+                conditionalDefDict[headword] = new List<ConditionalDef>();
+            conditionalDefDict[headword].Add(new ConditionalDef(definition, conditional));
         }
 
         /// <summary>
