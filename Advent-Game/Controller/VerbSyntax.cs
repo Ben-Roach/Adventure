@@ -71,28 +71,5 @@ namespace Adventure.Controller
         public VerbSyntax(string syntaxString, VerbSyntaxDelegate syntaxDelegate, SyntFlag flags = SyntFlag.None) :
             this(syntaxString, syntaxDelegate, null, null, flags)
         { }
-
-        public void ValidateAndNormalize(Glossary glossary)
-        {
-            for (int i = 0; i < syntax.Count; i++)
-            {
-                // normalize before validating
-                string word = glossary.Normalize(syntax[i]);
-                if (word != glossary.SyntaxWildcard.ToString())
-                {
-                    // check if syntax word contains invalid characters
-                    if (glossary.ContainsInvalidChar(word))
-                        throw new GlossaryValidationException(word, "Syntax word contains an invalid character.");
-                    // check if syntax word fails glossary validation
-                    if (glossary.IsInvalidWord(word))
-                        throw new GlossaryValidationException(word, "Syntax word is considered invalid by the glossary.");
-                    // check that syntax word refers to a particle
-                    if (!(glossary.TryGetEntryType(word, out Type t) == true && t.Equals(typeof(ParticleDef))))
-                        throw new GlossaryValidationException(word, "Syntax contains non-particle word.");
-                }
-                // validation passed, apply normalization
-                syntax[i] = word;
-            }
-        }
     }
 }

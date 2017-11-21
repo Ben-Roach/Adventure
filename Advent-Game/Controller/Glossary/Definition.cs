@@ -50,45 +50,6 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Calls <see cref="BaseValidateAndNormalize(Glossary, Type)"/>.
-        /// <para>Can be overridden to set different validation rules, but always call
-        /// <see cref="BaseValidateAndNormalize(Glossary, Type)"/> in the override first.</para>
-        /// </summary>
-        /// <seealso cref="BaseValidateAndNormalize(Glossary, Type)"/>
-        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public virtual void ValidateAndNormalize(Glossary glossary)
-        {
-            BaseValidateAndNormalize(glossary);
-        }
-
-        /// <summary>
-        /// Validates that this <see cref="Definition"/> can be added to <paramref name="glossary"/>, and normalizes the
-        /// words in <see cref="wordGroup"/> if so.
-        /// </summary>
-        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        /// <param name="exceptedEntryType">No exception is thrown if a word in this <see cref="Definition"/>
-        /// is found in another <see cref="Definition"/> of this type in <paramref name="glossary"/>.</param>
-        protected void BaseValidateAndNormalize(Glossary glossary, Type exceptedEntryType = null)
-        {
-            for (int i = 0; i < wordGroup.Count; i++)
-            {
-                // normalize before validating
-                string word = glossary.Normalize(wordGroup[i]);
-                // check if word contains invalid characters
-                if (glossary.ContainsInvalidChar(word))
-                    throw new GlossaryValidationException(word, "Word contains an invalid character.");
-                // check if word fails glossary validation
-                if (glossary.IsInvalidWord(word))
-                    throw new GlossaryValidationException(word, "Word is considered invalid by the glossary.");
-                // check for duplicates
-                if (glossary.TryGetEntryType(word, out Type t) == true && (exceptedEntryType == null || !t.Equals(exceptedEntryType)))
-                    throw new GlossaryValidationException(word, "Cannot add a duplicate word.");
-                // validation passed, apply normalization
-                wordGroup[i] = word;
-            }
-        }
-
-        /// <summary>
         /// Create a new <see cref="Node"/> using the data specified in this <see cref="Definition"/>.
         /// </summary>
         /// <param name="origToken">The token originally used by the player.</param>

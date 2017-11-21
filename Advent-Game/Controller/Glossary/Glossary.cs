@@ -69,7 +69,7 @@ namespace Adventure.Controller
         public void Add(Definition entry)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
-            entry.ValidateAndNormalize(this);
+            // validate and normalize here!
             foreach (string word in entry)
                 wordDict[word] = entry.GetType();
             entrySet.Add(entry);
@@ -96,7 +96,7 @@ namespace Adventure.Controller
         /// <returns>True if <paramref name="word"/> is in the <see cref="Glossary"/>, else false.</returns>
         public bool TryGetEntryType(string word, out Type entryType)
         {
-            return wordDict.TryGetValue(word, out entryType);
+            throw new NotImplementedException("TryGetEntryType");
         }
 
         /// <summary>

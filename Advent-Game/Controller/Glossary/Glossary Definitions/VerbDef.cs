@@ -26,18 +26,6 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Ensures that the words in this entry are not already contained in <paramref name="glossary"/>,
-        /// and that all contained <see cref="VerbSyntax"/> objects are valid.
-        /// </summary>
-        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public override void ValidateAndNormalize(Glossary glossary)
-        {
-            BaseValidateAndNormalize(glossary);
-            foreach (VerbSyntax syntax in syntaxes)
-                syntax.ValidateAndNormalize(glossary);
-        }
-
-        /// <summary>
         /// Create a new <see cref="VerbNode"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>

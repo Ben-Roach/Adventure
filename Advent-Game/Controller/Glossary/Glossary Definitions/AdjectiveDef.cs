@@ -16,16 +16,6 @@ namespace Adventure.Controller
         { }
 
         /// <summary>
-        /// Ensures that the words in this entry are not already contained in <paramref name="glossary"/>,
-        /// unless it already exists in another <see cref="AdjectiveDef"/>.
-        /// </summary>
-        /// <param name="glossary">The <see cref="Glossary"/> to check against.</param>
-        public override void ValidateAndNormalize(Glossary glossary)
-        {
-            BaseValidateAndNormalize(glossary, typeof(AdjectiveDef));
-        }
-
-        /// <summary>
         /// Create a new <see cref="AdjectiveNode"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="AdjectiveNode"/>, created from this entry.</returns>
