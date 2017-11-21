@@ -112,8 +112,9 @@ namespace Adventure.Controller
         /// <param name="defaultDefinition">The default <see cref="Definition"/> associated with this entry.</param>
         /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
         /// <exception cref="ArgumentException">Thrown if <paramref name="synonyms"/> contains a null item.</exception>
-        /// <exception cref="GlossaryValidationException">Thrown if <paramref name="headword"/> already exists in the <see cref="Glossary"/>.</exception>
-        public void Add(string headword, IEnumerable<string> synonyms, Definition defaultDefinition)
+        /// <exception cref="GlossaryValidationException">Thrown if <paramref name="headword"/> or an item in <paramref name="synonyms"/>
+        /// already exists in the <see cref="Glossary"/>.</exception>
+        public void AddNewEntry(string headword, IEnumerable<string> synonyms, Definition defaultDefinition)
         {
             // param checking
             if (headword == null) throw new ArgumentNullException(nameof(headword));
@@ -121,16 +122,20 @@ namespace Adventure.Controller
             if (defaultDefinition == null) throw new ArgumentNullException(nameof(defaultDefinition));
             if (synonyms.ContainsNull()) throw new ArgumentException(nameof(defaultDefinition) + "contains a null item.");
             // dupe checking
-            if (defaultDefDict.ContainsKey(headword)) throw new GlossaryValidationException("Attempted to add an existing headword.");
+            if (defaultDefDict.ContainsKey(headword))
+                throw new GlossaryValidationException("Attempted to add an existing headword.");
             foreach (string s in synonyms)
             {
                 if (synonymDict.ContainsKey(headword))
                     throw new GlossaryValidationException("Attempted to add an existing synonym.");
             }
+            // ADD SYNTAX VALIDATION HERE ==========================================================================================================
             // add to glossary
             defaultDefDict[headword] = defaultDefinition;
             foreach (string s in synonyms)
+            {
                 synonymDict[s] = headword;
+            }
         }
 
         /// <summary>
@@ -144,8 +149,12 @@ namespace Adventure.Controller
         {
             // param checking
             if (headword == null) throw new ArgumentNullException(nameof(headword));
+            if (conditional == null) throw new ArgumentNullException(nameof(conditional));
             if (definition == null) throw new ArgumentNullException(nameof(definition));
-            if (!defaultDefDict.ContainsKey(headword)) throw new GlossaryValidationException("Attempted to add a definition to a nonexistent headword.");
+            // validation
+            if (!defaultDefDict.ContainsKey(headword))
+                throw new GlossaryValidationException("Attempted to add a definition to a nonexistent headword.");
+            // ADD SYNTAX VALIDATION HERE ==========================================================================================================
             // add to glossary
             if (!conditionalDefDict.ContainsKey(headword))
                 conditionalDefDict[headword] = new List<ConditionalDef>();
@@ -164,7 +173,7 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Reports if the glossary contains an <see cref="Definition"/> that contains <paramref name="word"/> , and gets the type of the <see cref="Definition"/>.
+        /// Reports if the glossary contains an <see cref="Definition"/> that contains <paramref name="word"/>, and gets the type of the <see cref="Definition"/>.
         /// </summary>
         /// <param name="word">The word to check.</param>
         /// <param name="entryType">Set to the type of the <see cref="Definition"/> containing <paramref name="word"/> if found.</param>
