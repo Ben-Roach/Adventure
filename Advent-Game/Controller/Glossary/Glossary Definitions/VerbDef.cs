@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="VerbNode"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="VerbNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class VerbDef : Definition
     {
@@ -17,7 +17,7 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="wordGroup">The words that each represent a new known <see cref="VerbNode"/>.</param>
         /// <param name="syntaxes">Represent syntaxes that are valid for the words in <paramref name="wordGroup"/>.</param>
-        public VerbDef(ICollection<string> wordGroup, ICollection<VerbSyntax> syntaxes) : base(wordGroup)
+        public VerbDef(string id, ICollection<VerbSyntax> syntaxes) : base(id)
         {
             if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
             else if (syntaxes.Count == 0) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
@@ -31,7 +31,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new VerbNode(origToken, syntaxes);
+            return new VerbNode(id, origToken, syntaxes);
         }
     }
 }

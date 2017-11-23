@@ -4,19 +4,18 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="DirectionNode"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="DirectionNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class DirectionDef : Definition
     {
-        /// <summary>Represents the actual direction to use.</summary>
+        /// <summary>Signifies the direction represented by the defined <see cref="DirectionNode"/>.</summary>
         DirCode directionCode;
 
         /// <summary>
         /// Create a new <see cref="DirectionDef"/>.
         /// </summary>
-        /// <param name="wordGroup">The words that each represent a new known <see cref="DirectionNode"/>.</param>
-        /// <param name="directionCode">Signifies the direction represented by the words in <paramref name="wordGroup"/>.</param>
-        public DirectionDef(ICollection<string> wordGroup, DirCode directionCode) : base(wordGroup)
+        /// <param name="directionCode">Signifies the direction represented by the defined <see cref="DirectionNode"/>.</param>
+        public DirectionDef(string id, DirCode directionCode) : base(id)
         {
             this.directionCode = directionCode;
         }
@@ -27,7 +26,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="DirectionNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new DirectionNode(origToken, directionCode);
+            return new DirectionNode(id, origToken, directionCode);
         }
     }
 }

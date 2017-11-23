@@ -4,15 +4,14 @@ using System;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="ConjunctionNode"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="ConjunctionNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class ConjunctionDef : Definition
     {
         /// <summary>
         /// Create a new <see cref="ConjunctionDef"/>.
         /// </summary>
-        /// <param name="word">The word that represents the new known <see cref="ConjunctionNode"/>.</param>
-        public ConjunctionDef(string word) : base(word)
+        public ConjunctionDef(string id) : base(id)
         { }
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="ConjunctionNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new ConjunctionNode(origToken);
+            return new ConjunctionNode(id, origToken);
         }
     }
 }

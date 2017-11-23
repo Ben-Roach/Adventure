@@ -13,7 +13,7 @@ namespace Adventure.Controller
         /// Create a new <see cref="DirectionNode"/>.
         /// </summary>
         /// <param name="directionCode">Signifies the direction represented by the <see cref="DirectionNode"/>.</param>
-        public DirectionNode(string origToken, DirCode directionCode) : base(origToken)
+        public DirectionNode(string id, string origToken, DirCode directionCode) : base(id, origToken)
         {
             DirectionCode = directionCode;
         }

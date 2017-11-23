@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="CommandNode"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="CommandNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class CommandDef : Definition
     {
@@ -15,9 +15,8 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="CommandDef"/>.
         /// </summary>
-        /// <param name="wordGroup">The words that each represent a new known <see cref="CommandNode"/>.</param>
-        /// <param name="commandDelegate">The method to call on behalf of the words in <paramref name="wordGroup"/>.</param>
-        public CommandDef(ICollection<string> wordGroup, Action commandDelegate) : base(wordGroup)
+        /// <param name="commandDelegate">The method to call on behalf of the <see cref="CommandNode"/>.</param>
+        public CommandDef(string id, Action commandDelegate) : base(id)
         {
             this.commandDelegate = commandDelegate ?? throw new ArgumentNullException(nameof(commandDelegate));
         }
@@ -28,7 +27,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="CommandNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new CommandNode(origToken, commandDelegate);
+            return new CommandNode(id, origToken, commandDelegate);
         }
     }
 }

@@ -11,69 +11,55 @@ namespace Adventure
         /// </summary>
         public static Glossary BuildGlossary()
         {
-            HashSet<Definition> entries = new HashSet<Definition>
-            {
-                // PARTICLES
-                new ParticleDef(new[] { "at" }, "at"),
-                // Remember that the following particles are similar to some directions:
-                new ParticleDef(new[] { "in", "inside" }, "in"),
-                new ParticleDef(new[] { "out" }, "out"),
-                new ParticleDef(new[] { "up" }, "up"),
-                new ParticleDef(new[] { "down" }, "down"),
+            Glossary g = new Glossary('*',  s => s.Trim().ToLower(),
+                c => !(char.IsLetter(c) || char.IsNumber(c) || c == '&' || c == '?' || c == '\'' || c == '-'),
+                s => (s == "the" || s == "a" || s == "an" || s == "of"));
 
-                // VERBS
-                new VerbDef(new[] { "take", "grab" }, new[] {
+            // PARTICLES
+            g.AddNewEntry(new[] { "at" }, new ParticleDef("at"));
+
+            // VERBS
+            g.AddNewEntry(new[] { "take", "grab" }, new VerbDef("take", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
-                }),
-                new VerbDef(new[] { "go", "walk", "climb" }, new[] {
+                }));
+            g.AddNewEntry(new[] { "go", "walk", "climb" }, new VerbDef("go", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(DirectionNode)),
-                    new VerbSyntax("in", VerbAction.Placeholder),
-                    new VerbSyntax("out", VerbAction.Placeholder),
-                    new VerbSyntax("up", VerbAction.Placeholder),
-                    new VerbSyntax("down", VerbAction.Placeholder),
-                }),
-                new VerbDef(new[] { "examine", "describe", "ex", "x" }, new[] {
+                }));
+            g.AddNewEntry(new[] { "examine", "describe", "ex", "x" }, new VerbDef("examine", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
-                }),
-                new VerbDef(new[] { "look", "l" }, new[] {
+                }));
+            g.AddNewEntry(new[] { "look", "l" }, new VerbDef("look", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                     new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                     new VerbSyntax("", VerbAction.Placeholder)
-                }),
+                }));
 
-                // DIRECTIONS
-                new DirectionDef(new[] { "north", "n" }, DirCode.North),
-                new DirectionDef(new[] { "east", "e" }, DirCode.South),
-                new DirectionDef(new[] { "south", "s" }, DirCode.East),
-                new DirectionDef(new[] { "west", "w" }, DirCode.West),
-                new DirectionDef(new[] { "northeast", "ne" }, DirCode.Northeast),
-                new DirectionDef(new[] { "northwest", "nw" }, DirCode.Northwest),
-                new DirectionDef(new[] { "southeast", "se" }, DirCode.Southeast),
-                new DirectionDef(new[] { "southwest", "sw" }, DirCode.Southwest),
-                // Remember that the following directions are similar to some particles:
-                new DirectionDef(new[] { "u" }, DirCode.Up),
-                new DirectionDef(new[] { "d" }, DirCode.Down),
-                new DirectionDef(new[] { "enter" }, DirCode.In),
-                new DirectionDef(new[] { "exit", "outside" }, DirCode.Out),
+            // DIRECTIONS
+            g.AddNewEntry(new[] { "north", "n" }, new DirectionDef("north", DirCode.North));
+            g.AddNewEntry(new[] { "east", "e" }, new DirectionDef("east", DirCode.South));
+            g.AddNewEntry(new[] { "south", "s" }, new DirectionDef("south", DirCode.East));
+            g.AddNewEntry(new[] { "west", "w" }, new DirectionDef("west", DirCode.West));
+            g.AddNewEntry(new[] { "northeast", "ne" }, new DirectionDef("northeast", DirCode.Northeast));
+            g.AddNewEntry(new[] { "northwest", "nw" }, new DirectionDef("northwest", DirCode.Northwest));
+            g.AddNewEntry(new[] { "southeast", "se" }, new DirectionDef("southeast", DirCode.Southeast));
+            g.AddNewEntry(new[] { "southwest", "sw" }, new DirectionDef("southwest", DirCode.Southwest));
+            g.AddNewEntry(new[] { "up", "u" }, new DirectionDef("up", DirCode.Up));
+            g.AddNewEntry(new[] { "down", "d" }, new DirectionDef("down", DirCode.Down));
+            g.AddNewEntry(new[] { "in", "inside" }, new DirectionDef("in", DirCode.In));
+            g.AddNewEntry(new[] { "out", "outside" }, new DirectionDef("out", DirCode.Out));
 
-                // COMMANDS
-                new CommandDef(new[] { "commands" }, CommandAction.Placeholder),
-                new CommandDef(new[] { "credits" }, CommandAction.Placeholder),
-                new CommandDef(new[] { "help", "?" }, CommandAction.Placeholder),
-                new CommandDef(new[] { "quit" }, CommandAction.Placeholder),
-                new CommandDef(new[] { "verbose" }, CommandAction.Placeholder),
-                new CommandDef(new[] { "brief" }, CommandAction.Placeholder),
+            // COMMANDS
+            g.AddNewEntry(new[] { "commands" }, new CommandDef("commands", CommandAction.Placeholder));
+            g.AddNewEntry(new[] { "credits" }, new CommandDef("credits", CommandAction.Placeholder));
+            g.AddNewEntry(new[] { "help", "?" }, new CommandDef("help", CommandAction.Placeholder));
+            g.AddNewEntry(new[] { "quit" }, new CommandDef("quit", CommandAction.Placeholder));
+            g.AddNewEntry(new[] { "verbose" }, new CommandDef("verbose", CommandAction.Placeholder));
+            g.AddNewEntry(new[] { "brief" }, new CommandDef("breif", CommandAction.Placeholder));
 
-                // CONJUNCTIONS
-                new ConjunctionDef("and"),
-                new ConjunctionDef("then"),
-                new ConjunctionDef("&")
-            };
+            // CONJUNCTIONS
+            g.AddNewEntry(new[] { "and", "then", "&" }, new ConjunctionDef("&"));
 
-            return new Glossary(entries, '*',  s => s.Trim().ToLower(),
-                c => !(char.IsLetter(c) || char.IsNumber(c) || c == '&' || c == '?' || c == '\'' || c == '-'),
-                s => (s == "the" || s == "a" || s == "an" || s == "of")
-                );
+            return g;
         }
     }
 }

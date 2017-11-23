@@ -4,15 +4,14 @@ using System;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents a known <see cref="NounNode"/> group in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="NounNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class NounDef : Definition
     {
         /// <summary>
         /// Create a new <see cref="NounDef"/>.
         /// </summary>
-        /// <param name="word">The word that represents the new known <see cref="NounNode"/>.</param>
-        public NounDef(string word) : base(word)
+        public NounDef(string id) : base(id)
         { }
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="NounNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origToken)
         {
-            return new NounNode(origToken);
+            return new NounNode(id, origToken);
         }
     }
 }

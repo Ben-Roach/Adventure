@@ -19,7 +19,7 @@ namespace Adventure.Controller
         /// <param name="syntaxes">Represent syntaxes that are valid for the <see cref="VerbNode"/>.</param>
         /// <exception cref="ArgumentException">Thrown when <paramref name="syntaxes"/> is zero length or contains null items.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="syntaxes"/> is null.</exception>
-        public VerbNode(string origToken, ICollection<VerbSyntax> syntaxes) : base(origToken)
+        public VerbNode(string id, string origToken, ICollection<VerbSyntax> syntaxes) : base(id, origToken)
         {
             if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
             else if (syntaxes.Count == 0) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
