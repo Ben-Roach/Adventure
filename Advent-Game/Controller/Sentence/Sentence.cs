@@ -49,17 +49,19 @@ namespace Adventure.Controller
         private List<string> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
             // Split inputString into outputList -- a list of string tokens, each representing one word
-            List<string> outputList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> wordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
             // Check for empty / whitespace input
-            if (outputList.Count == 0)
+            if (wordList.Count == 0)
             {
                 errorMessage = "Speak up, please.";
                 return null;
             }
+            // Create tuples of twins for each word, one to normalize/validate, one to keep untouched
+
             // Remove invalid characters and words
-            for (int i = outputList.Count - 1; i >= 0; i--)
+            for (int i = wordList.Count - 1; i >= 0; i--)
             {
-                string word = glossary.Normalize(outputList[i]);
+                string word = glossary.Normalize(wordList[i]);
                 // remove invalid chars
                 StringBuilder strBuilder = new StringBuilder(word);
                 for (int j = strBuilder.Length - 1; j >= 0; j--)
@@ -70,19 +72,19 @@ namespace Adventure.Controller
                 string s = strBuilder.ToString();
                 // remove strings that are empty or invalid
                 if (s == String.Empty || glossary.IsInvalidWord(s))
-                    outputList.RemoveAt(i);
+                    wordList.RemoveAt(i);
                 else
-                    outputList[i] = s;
+                    wordList[i] = s;
             }
             // Check if any tokens remain
-            if (outputList.Count == 0)
+            if (wordList.Count == 0)
             {
                 errorMessage = "I'm pretty sure that isn't a sentence.";
                 return null;
             }
             // Input passed validation
             errorMessage = null;
-            return outputList;
+            return wordList;
         }
 
         /// <summary>

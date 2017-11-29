@@ -1,6 +1,5 @@
 ﻿using Adventure.Controller;
 using Adventure.Model;
-using System.Collections.Generic;
 
 namespace Adventure
 {
