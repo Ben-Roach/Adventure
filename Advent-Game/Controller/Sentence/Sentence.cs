@@ -49,50 +49,38 @@ namespace Adventure.Controller
         private List<Token> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
             // Split inputString into outputList -- a list of string tokens, each representing one word
-            List<string> origWordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> wordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
             // Check for empty / whitespace input
-            if (origWordList.Count == 0)
+            if (wordList.Count == 0)
             {
                 errorMessage = "Speak up, please.";
                 return null;
             }
-            // Duplicate word list, one to normalize/validate, one to keep untouched
-            List<string> newWordList = new List<string>();
-            foreach (string word in origWordList)
+            List<Token> tokenList = new List<Token>();
+            foreach (string oldWord in wordList)
             {
-                newWordList.Add(string.Copy(word));
-            }
-            // Remove invalid characters and words
-            for (int i = origWordList.Count - 1; i >= 0; i--)
-            {
-                string word = glossary.Normalize(origWordList[i]);
+                // copy and normalize word
+                string n = glossary.Normalize(string.Copy(oldWord));
                 // remove invalid chars
-                StringBuilder strBuilder = new StringBuilder(word);
+                StringBuilder strBuilder = new StringBuilder(n);
                 for (int j = strBuilder.Length - 1; j >= 0; j--)
                 {
                     if (glossary.IsInvalidChar(strBuilder[j]))
                         strBuilder.Remove(j, 1);
                 }
-                string s = strBuilder.ToString();
-                // remove strings that are empty or invalid
-                if (s == String.Empty || glossary.IsInvalidWord(s))
-                    origWordList.RemoveAt(i);
-                else
-                    origWordList[i] = s;
+                string newWord = strBuilder.ToString();
+                // Make tokens, but not of empty or invalid words
+                if (!(newWord == String.Empty || glossary.IsInvalidWord(newWord)))
+                    tokenList.Add(new Token(oldWord, newWord));
             }
-            // Check if any tokens remain
-            if (origWordList.Count == 0)
+            // Check if entire input contained invalid chars / words / whitespace
+            if (tokenList.Count == 0)
             {
                 errorMessage = "I'm pretty sure that isn't a sentence.";
                 return null;
             }
-            // Input passed validation, construct token list
+            // Input passed validation
             errorMessage = null;
-            List<Token> tokenList = new List<Token>();
-            for (int i = 0; i < origWordList.Count; i++)
-            {
-                tokenList.Add(new Token(origWordList[i], newWordList[i]));
-            }
             return tokenList;
         }
 

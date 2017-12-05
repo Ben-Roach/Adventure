@@ -9,7 +9,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="AdjectiveNode"/>.
         /// </summary>
-        public AdjectiveNode(Token token) : base(token)
+        public AdjectiveNode(string origWord, string defID) : base(origWord, defID)
         { }
     }
 }

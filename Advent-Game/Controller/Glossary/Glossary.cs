@@ -108,7 +108,8 @@ namespace Adventure.Controller
             {
                 return def.CreateNode(token);
             }
-            return new UnknownNode(token);
+            // Set the unknown DefID to syntax wildcard as no other ID can be it, it is filtered out.
+            return new UnknownNode(token.OrigWord, SyntaxWildcard.ToString());
         }
     }
 }

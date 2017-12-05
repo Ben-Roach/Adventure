@@ -12,7 +12,7 @@ namespace Adventure.Controller
     {
         /// <summary>The unique name of this <see cref="Definition"/>, used to
         /// identify any <see cref="Node"/> created by it.</summary>
-        protected string id;
+        public string ID { get; }
 
         /// <summary>
         /// Create a new <see cref="Definition"/>.
@@ -21,7 +21,7 @@ namespace Adventure.Controller
         /// identify any <see cref="Node"/> created by it.</param>
         public Definition(string id)
         {
-            this.id = id ?? throw new ArgumentNullException(nameof(id));
+            ID = id ?? throw new ArgumentNullException(nameof(id));
         }
 
         /// <summary>

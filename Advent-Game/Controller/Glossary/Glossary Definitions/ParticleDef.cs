@@ -21,7 +21,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="ParticleNode"/>, created from this entry.</returns>
         public override Node CreateNode(Token token)
         {
-            return new ParticleNode(token);
+            return new ParticleNode(token.OrigWord, ID);
         }
     }
 }

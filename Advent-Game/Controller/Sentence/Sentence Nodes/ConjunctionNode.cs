@@ -9,7 +9,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="ConjunctionNode"/>.
         /// </summary>
-        public ConjunctionNode(Token token) : base(token)
+        public ConjunctionNode(string origWord, string defID) : base(origWord, defID)
         { }
     }
 }

@@ -16,7 +16,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="NounNode"/>.
         /// </summary>
-        public NounNode(Token token) : base(token)
+        public NounNode(string origWord, string defID) : base(origWord, defID)
         {
             containedAdjectives = new List<AdjectiveNode>();
         }

@@ -27,7 +27,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="CommandNode"/>, created from this entry.</returns>
         public override Node CreateNode(Token token)
         {
-            return new CommandNode(token, commandDelegate);
+            return new CommandNode(token.OrigWord, ID, commandDelegate);
         }
     }
 }

@@ -8,22 +8,23 @@ namespace Adventure.Controller
     /// </summary>
     public abstract class Node
     {
-        /// <summary>The ID of the <see cref="Definition"/> that created this <see cref="Node"/>.
-        /// Used to uniquely identify this <see cref="Node"/> in a <see cref="Sentence"/>.</summary>
-        public string DefID { get; }
         /// <summary>The original word entered by the player. Used primarily for error messages.</summary>
         public string OrigWord { get; }
+        /// <summary>The ID of the <see cref="Definition"/> that created this <see cref="Node"/>.
+        /// Used to uniquely identify this <see cref="Node"/> in a <see cref="Sentence"/>,
+        /// according to the <see cref="Definition"/> that created it.</summary>
+        public string DefID { get; }
 
         /// <summary>
         /// Create a new <see cref="Node"/>.
         /// </summary>
-        /// <param name="token">Derived from the word initially entered by the player.</param>
+        /// <param name="origWord">The original word entered by the player.</param>
+        /// <param name="defID">The ID of the <see cref="Definition"/> that created this <see cref="Node"/>.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="token"/> is null.</exception>
-        protected Node(Token token)
+        protected Node(string origWord, string defID)
         {
-            if (token == null) throw new ArgumentNullException(nameof(token));
-            DefID = token.LookupWord;
-            OrigWord = token.OrigWord;
+            OrigWord = origWord ?? throw new ArgumentNullException(nameof(origWord));
+            DefID = defID ?? throw new ArgumentNullException(nameof(defID));
         }
     }
 }

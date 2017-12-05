@@ -31,7 +31,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>
         public override Node CreateNode(Token token)
         {
-            return new VerbNode(token, syntaxes);
+            return new VerbNode(token.OrigWord, ID, syntaxes);
         }
     }
 }
