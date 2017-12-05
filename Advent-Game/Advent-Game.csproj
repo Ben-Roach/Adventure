@@ -59,7 +59,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Adventure\Debug\ObjectDumper.cs" />
     <Compile Include="Adventure\Exceptions\GlossaryValidationException.cs" />
     <Compile Include="Adventure\ClassExtensions.cs" />
     <Compile Include="Adventure\Load\BuildGlossary.cs" />
@@ -112,7 +111,9 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Adventure\Exceptions\Debug\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
