@@ -28,4 +28,4 @@ This project is currently under the [Mozilla Public License 2.0](https://www.moz
 
 ## Acknowledgments
 
-* Shoutouts to the creators of ZORK and Colossal Cave Adventure for concieving a game genre that seems simple to program but is decievingly complex.
+* Shoutouts to the creators of ZORK and Colossal Cave Adventure for concieving a game genre that seems simple to program but is decievingly complex. It's been a fun project so far.
