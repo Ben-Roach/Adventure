@@ -20,7 +20,7 @@ There is currently no versioning system in place, and there will not be one unti
 
 ## Authors
 
-* **Benjamin Roach** - *Everything (currently)* -- [GitHub](https://github.com/Ben-Roach)
+* **Benjamin Roach** - *Everything (currently)* – [GitHub](https://github.com/Ben-Roach)
 
 ## License
 
