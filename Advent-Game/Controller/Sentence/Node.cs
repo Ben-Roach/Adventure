@@ -10,7 +10,7 @@ namespace Adventure.Controller
     {
         /// <summary>The ID of the <see cref="Definition"/> that created this <see cref="Node"/>.
         /// Used to uniquely identify this <see cref="Node"/> in a <see cref="Sentence"/>.</summary>
-        public string ID { get; }
+        public string DefID { get; }
         /// <summary>The original word entered by the player. Used primarily for error messages.</summary>
         public string OrigWord { get; }
 
@@ -22,7 +22,7 @@ namespace Adventure.Controller
         protected Node(Token token)
         {
             if (token == null) throw new ArgumentNullException(nameof(token));
-            ID = token.LookupWord;
+            DefID = token.LookupWord;
             OrigWord = token.OrigWord;
         }
     }
