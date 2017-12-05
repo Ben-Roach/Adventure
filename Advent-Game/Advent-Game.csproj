@@ -74,6 +74,7 @@
     <Compile Include="Controller\Glossary\Glossary Definitions\CommandDef.cs" />
     <Compile Include="Controller\Glossary\Glossary Definitions\AdjectiveDef.cs" />
     <Compile Include="Controller\Glossary\Definition.cs" />
+    <Compile Include="Controller\Sentence\Token.cs" />
     <Compile Include="Controller\SyntFlag.cs" />
     <Compile Include="Controller\VerbSyntax.cs" />
     <Compile Include="Controller\Sentence\Sentence Nodes\AdjectiveNode.cs" />

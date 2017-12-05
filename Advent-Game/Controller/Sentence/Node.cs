@@ -12,18 +12,18 @@ namespace Adventure.Controller
         /// Used to uniquely identify this <see cref="Node"/> in a <see cref="Sentence"/>.</summary>
         public string ID { get; }
         /// <summary>The original word entered by the player. Used primarily for error messages.</summary>
-        public string OrigToken { get; }
+        public string OrigWord { get; }
 
         /// <summary>
         /// Create a new <see cref="Node"/>.
         /// </summary>
-        /// <param name="id">The ID of the <see cref="Definition"/> that created this <see cref="Node"/>.</param>
-        /// <param name="origToken">The original word entered by the player.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="origToken"/> is null.</exception>
-        protected Node(string id, string origToken)
+        /// <param name="token">Derived from the word initially entered by the player.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="token"/> is null.</exception>
+        protected Node(Token token)
         {
-            ID = id ?? throw new ArgumentNullException(nameof(id));
-            OrigToken = origToken ?? throw new ArgumentNullException(nameof(origToken));
+            if (token == null) throw new ArgumentNullException(nameof(token));
+            ID = token.LookupWord;
+            OrigWord = token.OrigWord;
         }
     }
 }

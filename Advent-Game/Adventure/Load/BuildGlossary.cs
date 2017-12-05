@@ -58,6 +58,10 @@ namespace Adventure
             // CONJUNCTIONS
             g.AddNewEntry(new[] { "and", "then", "&" }, new ConjunctionDef("&"));
 
+            // OTHER / TEST
+            g.AddNewEntry(new[] { "lamp" }, new NounDef("lamp"));
+            g.AddNewEntry(new[] { "brass" }, new AdjectiveDef("brass"));
+
             return g;
         }
     }

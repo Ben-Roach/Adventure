@@ -98,13 +98,13 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Creates an <see cref="Node"/> object derived from <paramref name="token"/>.
+        /// Creates a <see cref="Node"/> object derived from <paramref name="token"/>.
         /// </summary>
-        /// <param name="token">A word input by the player.</param>
+        /// <param name="token">The <see cref="Token"/> to interpret.</param>
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
-        public Node CreateNodeFromToken(string token)
+        public Node CreateNodeFromToken(Token token)
         {
-            if (defaultDefDict.TryGetValue(token, out Definition def))
+            if (defaultDefDict.TryGetValue(token.LookupWord, out Definition def))
             {
                 return def.CreateNode(token);
             }

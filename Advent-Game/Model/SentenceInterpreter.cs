@@ -37,13 +37,13 @@ namespace Adventure.Model
 
                 else if (sentence[i] is UnknownNode)
                 {
-                    ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigToken + ".\"");
+                    ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigWord + ".\"");
                     return;
                 }
 
                 else
                 {
-                    ConsoleGUI.Print("You lost me at \"" + sentence[i].OrigToken + ".\"");
+                    ConsoleGUI.Print("You lost me at \"" + sentence[i].OrigWord + ".\"");
                     return;
                 }
             }

@@ -11,7 +11,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="ParticleNode"/>.
         /// </summary>
-        public ParticleNode(string id, string origToken) : base(id, origToken)
+        public ParticleNode(Token token) : base(token)
         {
 
         }

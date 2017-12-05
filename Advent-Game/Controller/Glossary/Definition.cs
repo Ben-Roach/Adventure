@@ -25,10 +25,11 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Create a new <see cref="Node"/> using the data specified in this <see cref="Definition"/>.
+        /// Create a new <see cref="Node"/> from a <see cref="Token"/> and the data specified
+        /// in this <see cref="Definition"/>.
         /// </summary>
-        /// <param name="origToken">The token originally used by the player.</param>
-        /// <returns>The new <see cref="Node"/> that represents <paramref name="origToken"/>.</returns>
-        public abstract Node CreateNode(string origToken);
+        /// <param name="token">The <see cref="Token"/> representing the word used by the player.</param>
+        /// <returns>The new <see cref="Node"/> created from <paramref name="token"/> and this <see cref="Definition"/>.</returns>
+        public abstract Node CreateNode(Token token);
     }
 }

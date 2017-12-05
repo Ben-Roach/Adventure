@@ -18,9 +18,9 @@ namespace Adventure.Controller
         /// Create a new <see cref="ConjunctionNode"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="ConjunctionNode"/>, created from this entry.</returns>
-        public override Node CreateNode(string origToken)
+        public override Node CreateNode(Token token)
         {
-            return new ConjunctionNode(id, origToken);
+            return new ConjunctionNode(token);
         }
     }
 }

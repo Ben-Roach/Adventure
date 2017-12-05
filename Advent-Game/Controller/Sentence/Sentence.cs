@@ -31,37 +31,41 @@ namespace Adventure.Controller
             if (inputString == null) throw new ArgumentNullException(nameof(inputString));
             baseList = new List<Node>();
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
-            List<string> tokenList = Tokenize(inputString, glossary, out errorMessage);
+            List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-            foreach (string token in tokenList) { baseList.Add(glossary.CreateNodeFromToken(token)); }
+            foreach (Token t in tokenList) { baseList.Add(glossary.CreateNodeFromToken(t)); }
             CollectAdjectives();
             CollectNouns();
         }
 
         /// <summary>
-        /// Removes invalid characters from <paramref name="inputString"/>, splits it into a list, and removes unnecessary words.
+        /// Converts a player input string into a list of <see cref="Token"/> objects.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
-        /// <param name="glossary">The <see cref="Glossary"/> used to validate and interpret the input.</param>
+        /// <param name="glossary">The <see cref="Glossary"/> used to normalize and validate the input.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
-        /// <returns>A list of tokens, which are acceptable strings that represent words.</returns>
-        private List<string> Tokenize(string inputString, Glossary glossary, out string errorMessage)
+        /// <returns>A list of <see cref="Token"/> objects, or null if an error occured.</returns>
+        private List<Token> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
             // Split inputString into outputList -- a list of string tokens, each representing one word
-            List<string> wordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
+            List<string> origWordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
             // Check for empty / whitespace input
-            if (wordList.Count == 0)
+            if (origWordList.Count == 0)
             {
                 errorMessage = "Speak up, please.";
                 return null;
             }
-            // Create tuples of twins for each word, one to normalize/validate, one to keep untouched
-
-            // Remove invalid characters and words
-            for (int i = wordList.Count - 1; i >= 0; i--)
+            // Duplicate word list, one to normalize/validate, one to keep untouched
+            List<string> newWordList = new List<string>();
+            foreach (string word in origWordList)
             {
-                string word = glossary.Normalize(wordList[i]);
+                newWordList.Add(string.Copy(word));
+            }
+            // Remove invalid characters and words
+            for (int i = origWordList.Count - 1; i >= 0; i--)
+            {
+                string word = glossary.Normalize(origWordList[i]);
                 // remove invalid chars
                 StringBuilder strBuilder = new StringBuilder(word);
                 for (int j = strBuilder.Length - 1; j >= 0; j--)
@@ -72,19 +76,24 @@ namespace Adventure.Controller
                 string s = strBuilder.ToString();
                 // remove strings that are empty or invalid
                 if (s == String.Empty || glossary.IsInvalidWord(s))
-                    wordList.RemoveAt(i);
+                    origWordList.RemoveAt(i);
                 else
-                    wordList[i] = s;
+                    origWordList[i] = s;
             }
             // Check if any tokens remain
-            if (wordList.Count == 0)
+            if (origWordList.Count == 0)
             {
                 errorMessage = "I'm pretty sure that isn't a sentence.";
                 return null;
             }
-            // Input passed validation
+            // Input passed validation, construct token list
             errorMessage = null;
-            return wordList;
+            List<Token> tokenList = new List<Token>();
+            for (int i = 0; i < origWordList.Count; i++)
+            {
+                tokenList.Add(new Token(origWordList[i], newWordList[i]));
+            }
+            return tokenList;
         }
 
         /// <summary>

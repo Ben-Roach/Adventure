@@ -24,9 +24,9 @@ namespace Adventure.Controller
         /// Create a new <see cref="DirectionNode"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="DirectionNode"/>, created from this entry.</returns>
-        public override Node CreateNode(string origToken)
+        public override Node CreateNode(Token token)
         {
-            return new DirectionNode(id, origToken, directionCode);
+            return new DirectionNode(token, directionCode);
         }
     }
 }

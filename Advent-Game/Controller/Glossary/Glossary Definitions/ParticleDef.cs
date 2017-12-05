@@ -19,9 +19,9 @@ namespace Adventure.Controller
         /// Create a new <see cref="ParticleNode"/> from this entry.
         /// </summary>
         /// <returns>The new <see cref="ParticleNode"/>, created from this entry.</returns>
-        public override Node CreateNode(string origToken)
+        public override Node CreateNode(Token token)
         {
-            return new ParticleNode(id, origToken);
+            return new ParticleNode(token);
         }
     }
 }
