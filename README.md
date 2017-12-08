@@ -24,7 +24,7 @@ There is currently no versioning system in place, and there will not be one unti
 
 ## License
 
-This project is currently under the [Mozilla Public License 2.0](https://www.mozilla.org/en-US/MPL/2.0/).
+This project is currently under the [GNU General Public License v3](https://www.gnu.org/licenses/gpl-3.0.en.html).
 
 ## Acknowledgments
 
