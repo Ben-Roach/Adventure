@@ -106,7 +106,7 @@ namespace Adventure.Controller
         {
             if (defaultDefDict.TryGetValue(token.LookupWord, out Definition def))
             {
-                return def.CreateNode(token);
+                return def.CreateNode(token.OrigWord);
             }
             // Set the unknown DefID to syntax wildcard as no other ID can be it, it is filtered out.
             return new UnknownNode(token.OrigWord, SyntaxWildcard.ToString());
