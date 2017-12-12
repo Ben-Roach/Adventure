@@ -34,7 +34,7 @@ namespace Adventure.Controller
             List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-            foreach (Token t in tokenList) { baseList.Add(glossary.CreateNodeFromToken(t)); }
+            // LOOKUP TOKENS HERE
             CollectAdjectives();
             CollectNouns();
         }
