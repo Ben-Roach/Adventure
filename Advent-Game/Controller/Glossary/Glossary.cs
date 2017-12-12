@@ -111,34 +111,9 @@ namespace Adventure.Controller
             wordConditionalDefs[word].Add(conditionalDef);
         }
 
-        /// <summary>
-        /// Gets the default <see cref="Definition"/> and the <see cref="ConditionalDef"/> objects associated with
-        /// the given word.
-        /// </summary>
-        /// <param name="word">The word to look up.</param>
-        /// <param name="defaultDef">The default <see cref="Definition"/> associated with the given word.</param>
-        /// <param name="conditionalDefs">The <see cref="ConditionalDef"/> objects associated with the given word.</param>
-        /// <returns>True if the word is found, else false.</returns>
-        public bool GetDefinitionsOfWord(string word, out Definition defaultDef, out List<ConditionalDef> conditionalDefs)
+        public IEnumerable<Node> ConvertToNodes(IEnumerable<Token> tokenList)
         {
-            conditionalDefs = new List<ConditionalDef>();
-            // get default def, if possible
-            if (wordDefaultDefs.TryGetValue(word, out string defID))
-            {
-                // get def and set to out param, throw exception if not found
-                if (!defIDs.TryGetValue(defID, out defaultDef))
-                    throw new GlossaryValidationException("Could not find definition for def ID '" + defID + "'.");
-            }
-            else
-            {
-                // no default def found
-                defaultDef = null;
-                return false;
-            }
-            // get conditional defs, if possible
-            if (wordConditionalDefs.TryGetValue(word, out List<ConditionalDef> conDefs))
-                conditionalDefs = conDefs;
-            return true;
+            throw new NotImplementedException();
         }
     }
 }

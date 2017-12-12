@@ -15,52 +15,92 @@ namespace Adventure
                 s => (s == "the" || s == "a" || s == "an" || s == "of"));
 
             // PARTICLES
-            g.AddNewEntry(new[] { "at" }, new ParticleDef("at"));
+            g.AddDef(new ParticleDef("at"));
+            g.AddWords(new[] { "at" }, "at");
+
+            // DIRECTIONS
+            g.AddDef(new DirectionDef("north", DirCode.North));
+            g.AddWords(new[] { "north", "n" }, "north");
+
+            g.AddDef(new DirectionDef("east", DirCode.South));
+            g.AddWords(new[] { "east", "e" }, "east");
+
+            g.AddDef(new DirectionDef("south", DirCode.East));
+            g.AddWords(new[] { "south", "s" }, "south");
+
+            g.AddDef(new DirectionDef("west", DirCode.West));
+            g.AddWords(new[] { "west", "w" }, "west");
+
+            g.AddDef(new DirectionDef("northeast", DirCode.Northeast));
+            g.AddWords(new[] { "northeast", "ne" }, "northeast");
+
+            g.AddDef(new DirectionDef("northwest", DirCode.Northwest));
+            g.AddWords(new[] { "northwest", "nw" }, "northwest");
+
+            g.AddDef(new DirectionDef("southeast", DirCode.Southeast));
+            g.AddWords(new[] { "southeast", "se" }, "southeast");
+
+            g.AddDef(new DirectionDef("southwest", DirCode.Southwest));
+            g.AddWords(new[] { "southwest", "sw" }, "southwest");
+
+            g.AddDef(new DirectionDef("up", DirCode.Up));
+            g.AddWords(new[] { "up", "u" }, "up");
+
+            g.AddDef(new DirectionDef("down", DirCode.Down));
+            g.AddWords(new[] { "down", "d" }, "down");
+
+            g.AddDef(new DirectionDef("in", DirCode.In));
+            g.AddWords(new[] { "in", "inside" }, "in");
+
+            g.AddDef(new DirectionDef("out", DirCode.Out));
+            g.AddWords(new[] { "out", "outside" }, "out");
 
             // VERBS
-            g.AddNewEntry(new[] { "take", "grab" }, new VerbDef("take", new[] {
+            g.AddDef(new VerbDef("take", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                 }));
-            g.AddNewEntry(new[] { "go", "walk", "climb" }, new VerbDef("go", new[] {
+            g.AddWords(new[] { "take", "grab" }, "take");
+
+            g.AddDef(new VerbDef("go", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(DirectionNode)),
                 }));
-            g.AddNewEntry(new[] { "examine", "describe", "ex", "x" }, new VerbDef("examine", new[] {
+            g.AddWords(new[] { "go", "walk", "climb" }, "go");
+
+            g.AddDef(new VerbDef("examine", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                 }));
-            g.AddNewEntry(new[] { "look", "l" }, new VerbDef("look", new[] {
+            g.AddWords(new[] { "examine", "describe", "ex", "x" }, "examine");
+
+            g.AddDef(new VerbDef("look", new[] {
                     new VerbSyntax("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                     new VerbSyntax("at *", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
                     new VerbSyntax("", VerbAction.Placeholder)
                 }));
-
-            // DIRECTIONS
-            g.AddNewEntry(new[] { "north", "n" }, new DirectionDef("north", DirCode.North));
-            g.AddNewEntry(new[] { "east", "e" }, new DirectionDef("east", DirCode.South));
-            g.AddNewEntry(new[] { "south", "s" }, new DirectionDef("south", DirCode.East));
-            g.AddNewEntry(new[] { "west", "w" }, new DirectionDef("west", DirCode.West));
-            g.AddNewEntry(new[] { "northeast", "ne" }, new DirectionDef("northeast", DirCode.Northeast));
-            g.AddNewEntry(new[] { "northwest", "nw" }, new DirectionDef("northwest", DirCode.Northwest));
-            g.AddNewEntry(new[] { "southeast", "se" }, new DirectionDef("southeast", DirCode.Southeast));
-            g.AddNewEntry(new[] { "southwest", "sw" }, new DirectionDef("southwest", DirCode.Southwest));
-            g.AddNewEntry(new[] { "up", "u" }, new DirectionDef("up", DirCode.Up));
-            g.AddNewEntry(new[] { "down", "d" }, new DirectionDef("down", DirCode.Down));
-            g.AddNewEntry(new[] { "in", "inside" }, new DirectionDef("in", DirCode.In));
-            g.AddNewEntry(new[] { "out", "outside" }, new DirectionDef("out", DirCode.Out));
+            g.AddWords(new[] { "look", "l" }, "look");
 
             // COMMANDS
-            g.AddNewEntry(new[] { "commands" }, new CommandDef("commands", CommandAction.Placeholder));
-            g.AddNewEntry(new[] { "credits" }, new CommandDef("credits", CommandAction.Placeholder));
-            g.AddNewEntry(new[] { "help", "?" }, new CommandDef("help", CommandAction.Placeholder));
-            g.AddNewEntry(new[] { "quit" }, new CommandDef("quit", CommandAction.Placeholder));
-            g.AddNewEntry(new[] { "verbose" }, new CommandDef("verbose", CommandAction.Placeholder));
-            g.AddNewEntry(new[] { "brief" }, new CommandDef("breif", CommandAction.Placeholder));
+            g.AddDef(new CommandDef("commands", CommandAction.Placeholder));
+            g.AddWords(new[] { "commands" }, "commands");
+            g.AddDef(new CommandDef("credits", CommandAction.Placeholder));
+            g.AddWords(new[] { "credits" }, "credits");
+            g.AddDef(new CommandDef("help", CommandAction.Placeholder));
+            g.AddWords(new[] { "help", "?" }, "help");
+            g.AddDef(new CommandDef("quit", CommandAction.Placeholder));
+            g.AddWords(new[] { "quit" }, "quit");
+            g.AddDef(new CommandDef("verbose", CommandAction.Placeholder));
+            g.AddWords(new[] { "verbose" }, "verbose");
+            g.AddDef(new CommandDef("breif", CommandAction.Placeholder));
+            g.AddWords(new[] { "brief" }, "brief");
 
             // CONJUNCTIONS
-            g.AddNewEntry(new[] { "and", "then", "&" }, new ConjunctionDef("&"));
+            g.AddDef(new ConjunctionDef("and"));
+            g.AddWords(new[] { "and", "then", "&" }, "and");
 
             // OTHER / TEST
-            g.AddNewEntry(new[] { "lamp" }, new NounDef("lamp"));
-            g.AddNewEntry(new[] { "brass" }, new AdjectiveDef("brass"));
+            g.AddDef(new NounDef("lamp"));
+            g.AddWords(new[] { "lamp" }, "lamp");
+            g.AddDef(new AdjectiveDef("brass"));
+            g.AddWords(new[] { "brass" }, "brass");
 
             return g;
         }

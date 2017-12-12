@@ -29,12 +29,11 @@ namespace Adventure.Controller
         {
             // PREPARATION -- Argument checking, property/field instantiation.
             if (inputString == null) throw new ArgumentNullException(nameof(inputString));
-            baseList = new List<Node>();
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
             List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-            // LOOKUP TOKENS HERE
+            baseList = (List<Node>)glossary.ConvertToNodes(tokenList);
             CollectAdjectives();
             CollectNouns();
         }
