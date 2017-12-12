@@ -7,17 +7,20 @@ using System.Threading.Tasks;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Used to wrap a <see cref="Definition"/> with a conditional delegate. Does not inherit from <see cref="Definition"/>.
+    /// Used to point to a <see cref="Definition"/> with a conditional delegate and a priority rank.
+    /// Does not inherit from or contain a <see cref="Definition"/>.
     /// </summary>
-    class ConditionalDef
+    public class ConditionalDef
     {
-        public Definition Def { get; }
+        public string DefID { get; }
         public Func<Type, string, bool> Conditional { get; }
+        public int Priority { get; }
 
-        public ConditionalDef(Definition def, Func<Type, string, bool> conditional)
+        public ConditionalDef(string defID, Func<Type, string, bool> conditional, int priority)
         {
-            Def = def;
+            DefID = defID;
             Conditional = conditional;
+            Priority = priority;
         }
     }
 }

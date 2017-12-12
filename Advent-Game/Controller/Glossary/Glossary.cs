@@ -7,16 +7,19 @@ namespace Adventure.Controller
 {
     /// <summary>
     /// Contains collections with all known words, and all properties associated with them,
-    /// as well as variables and methods for validationg, normalizing and interpreting words.
+    /// as well as variables and methods for validating, normalizing and interpreting words.
     /// </summary>
     public class Glossary
     {
-        /// <summary>A dictionary of all synonyms (keys) and their respective <see cref="Definition"/>
-        /// objects (values) to use by default.</summary>
-        Dictionary<string, Definition> defaultDefDict;
-        /// <summary>A dictionary of synonyms (keys), each with a list of associated <see cref="ConditionalDef"/>
-        /// objects.</summary>
-        Dictionary<string, List<ConditionalDef>> conditionalDefDict;
+        /// <summary>A dictionary of all words usable by the player (keys) with the ID of each word's <see cref="Definition"/>
+        /// (values) to use by default.</summary>
+        Dictionary<string, string> wordDefaultDefs;
+        /// <summary>A dictionary of all usable words (keys) with a list of their associated <see cref="ConditionalDef"/>
+        /// objects (values).</summary>
+        Dictionary<string, List<ConditionalDef>> wordConditionalDefs;
+        /// <summary>A dictionary of all <see cref="Definition.ID"/> strings (keys), with their respective <see cref="Definition"/>
+        /// objects (values).</summary>
+        Dictionary<string, Definition> defIDs;
 
         /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered
         /// an invalid character in <see cref="IsInvalidChar"/>.</summary>
@@ -40,8 +43,9 @@ namespace Adventure.Controller
         public Glossary(char syntaxWildcard, Func<string, string> normalize,
             Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
-            defaultDefDict = new Dictionary<string, Definition>();
-            conditionalDefDict = new Dictionary<string, List<ConditionalDef>>();
+            wordDefaultDefs = new Dictionary<string, string>();
+            wordConditionalDefs = new Dictionary<string, List<ConditionalDef>>();
+            defIDs = new Dictionary<string, Definition>();
             SyntaxWildcard = syntaxWildcard;
             Normalize = normalize;
             IsInvalidChar = (s => isInvalidChar(s) || s == SyntaxWildcard);
@@ -49,52 +53,62 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Adds a new entry to the <see cref="Glossary"/>.
+        /// Adds a new <see cref="Definition"/> to the glossary.
         /// </summary>
-        /// <param name="words">All of the words that the player may use to reference this entry.</param>
-        /// <param name="defaultDefinition">The default <see cref="Definition"/> associated with <paramref name="words"/>.</param>
+        /// <param name="def">The <see cref="Definition"/> to add.</param>
         /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="words"/> contains a null item.</exception>
-        /// <exception cref="GlossaryValidationException">Thrown if an item in <paramref name="words"/>
-        /// already exists in the <see cref="Glossary"/>.</exception>
-        public void AddNewEntry(IEnumerable<string> words, Definition defaultDefinition)
+        public void AddDef(Definition def)
         {
-            // param checking
-            if (words == null) throw new ArgumentNullException(nameof(words));
-            if (defaultDefinition == null) throw new ArgumentNullException(nameof(defaultDefinition));
-            if (words.ContainsNull()) throw new ArgumentException(nameof(words) + "contains a null item.");
-            foreach (string s in words)
-            {
-                if (defaultDefDict.ContainsKey(s))
-                    throw new GlossaryValidationException("Attempted to add a default definition to an existing entry.");
-            }
-            // add to glossary
-            foreach (string s in words)
-            {
-                defaultDefDict[s] = defaultDefinition;
-            }
+            // validation
+            //  if def with id already exists -- warning
+            //  if def is invalid -- error
+            // add def
+            defIDs[def.ID] = def ?? throw new ArgumentNullException(nameof(def));
         }
 
         /// <summary>
-        /// Adds a new <see cref="ConditionalDef"/> to an existing entry.
+        /// Adds new words to the <see cref="Glossary"/>, all sharing the same default <see cref="Definition"/>.
         /// </summary>
-        /// <param name="word">The headword to add the definition to.</param>
-        /// <param name="conditional">The conditional that determines if <paramref name="definition"/> is used.</param>
-        /// <param name="definition">The <see cref="Definition"/> to add.</param>
-        /// /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
-        public void AppendDef(string word, Func<Type, string, bool> conditional, Definition definition)
+        /// <param name="words">The words to add, that the player may use.</param>
+        /// <param name="defaultDefID">The <see cref="Definition.ID"/> of the default <see cref="Definition"/>
+        /// associated with <paramref name="words"/>.</param>
+        /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="words"/> contains a null item.</exception>
+        public void AddWords(IEnumerable<string> words, string defaultDefID)
+        {
+            // param checking
+            if (words == null) throw new ArgumentNullException(nameof(words));
+            if (defaultDefID == null) throw new ArgumentNullException(nameof(defaultDefID));
+            if (words.ContainsNull()) throw new ArgumentException(nameof(words) + "contains a null item.");
+            // validation
+            //  if def with id doesn't exist -- error
+            //  if words contain invalid chars or are invalid strings -- error
+            //  if any word already exists -- warning
+            // add words
+            foreach (string word in words)
+                wordDefaultDefs[word] = defaultDefID;
+        }
+
+        /// <summary>
+        /// Associates a <see cref="Definition"/> with a word using a <see cref="ConditionalDef"/>.
+        /// </summary>
+        /// <param name="word">The word to associate with the <see cref="Definition"/>.</param>
+        /// <param name="conditionalDef">Used to determine what <see cref="Definition"/> to use, and when.</param>
+        /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+        public void AssociateDef(string word, ConditionalDef conditionalDef)
         {
             // param checking
             if (word == null) throw new ArgumentNullException(nameof(word));
-            if (conditional == null) throw new ArgumentNullException(nameof(conditional));
-            if (definition == null) throw new ArgumentNullException(nameof(definition));
+            if (conditionalDef == null) throw new ArgumentNullException(nameof(conditionalDef));
             // validation
-            if (!defaultDefDict.ContainsKey(word))
-                throw new GlossaryValidationException("Attempted to add a conditional definition to a nonexistent entry.");
+            //  if def with id doesn't exist -- error
+            //  if word contains invalid chars or is invalid string -- error
+            //  if word does not have a default def -- error
+            //  if word already has conditional def with the same def id -- warning
             // add to glossary
-            if (!conditionalDefDict.ContainsKey(word))
-                conditionalDefDict[word] = new List<ConditionalDef>();
-            conditionalDefDict[word].Add(new ConditionalDef(definition, conditional));
+            if (!wordConditionalDefs.ContainsKey(word))
+                wordConditionalDefs[word] = new List<ConditionalDef>();
+            wordConditionalDefs[word].Add(conditionalDef);
         }
 
         /// <summary>
@@ -104,12 +118,11 @@ namespace Adventure.Controller
         /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
         public Node CreateNodeFromToken(Token token)
         {
-            if (defaultDefDict.TryGetValue(token.LookupWord, out Definition def))
+            if (wordDefaultDefs.TryGetValue(token.LookupWord, out Definition def))
             {
                 return def.CreateNode(token.OrigWord);
             }
-            // Set the unknown DefID to syntax wildcard as no other ID can be it, it is filtered out.
-            return new UnknownNode(token.OrigWord, SyntaxWildcard.ToString());
+            return new UnknownNode(token.OrigWord, "UNKNOWN");
         }
     }
 }
