@@ -112,17 +112,33 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Creates a <see cref="Node"/> object derived from <paramref name="token"/>.
+        /// Gets the default <see cref="Definition"/> and the <see cref="ConditionalDef"/> objects associated with
+        /// the given word.
         /// </summary>
-        /// <param name="token">The <see cref="Token"/> to interpret.</param>
-        /// <returns>An <see cref="Node"/> that represents the <paramref name="token"/>.</returns>
-        public Node CreateNodeFromToken(Token token)
+        /// <param name="word">The word to look up.</param>
+        /// <param name="defaultDef">The default <see cref="Definition"/> associated with the given word.</param>
+        /// <param name="conditionalDefs">The <see cref="ConditionalDef"/> objects associated with the given word.</param>
+        /// <returns>True if the word is found, else false.</returns>
+        public bool GetDefinitionsOfWord(string word, out Definition defaultDef, out List<ConditionalDef> conditionalDefs)
         {
-            if (wordDefaultDefs.TryGetValue(token.LookupWord, out Definition def))
+            conditionalDefs = new List<ConditionalDef>();
+            // get default def, if possible
+            if (wordDefaultDefs.TryGetValue(word, out string defID))
             {
-                return def.CreateNode(token.OrigWord);
+                // get def and set to out param, throw exception if not found
+                if (!defIDs.TryGetValue(defID, out defaultDef))
+                    throw new GlossaryValidationException("Could not find definition for def ID '" + defID + "'.");
             }
-            return new UnknownNode(token.OrigWord, "UNKNOWN");
+            else
+            {
+                // no default def found
+                defaultDef = null;
+                return false;
+            }
+            // get conditional defs, if possible
+            if (wordConditionalDefs.TryGetValue(word, out List<ConditionalDef> conDefs))
+                conditionalDefs = conDefs;
+            return true;
         }
     }
 }
