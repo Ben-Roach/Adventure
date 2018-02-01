@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Adventure.Controller
 {
@@ -15,7 +14,7 @@ namespace Adventure.Controller
         /// (values) to use by default.</summary>
         Dictionary<string, string> wordDefaultDefs;
         /// <summary>A dictionary of all usable words (keys) with a list of their associated <see cref="ConditionalDef"/>
-        /// objects (values).</summary>
+        /// objects in order of precedence (values).</summary>
         Dictionary<string, List<ConditionalDef>> wordConditionalDefs;
         /// <summary>A dictionary of all <see cref="Definition.ID"/> strings (keys), with their respective <see cref="Definition"/>
         /// objects (values).</summary>
@@ -24,6 +23,9 @@ namespace Adventure.Controller
         /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered
         /// an invalid character in <see cref="IsInvalidChar"/>.</summary>
         public char SyntaxWildcard { get; }
+        /// <summary>The string to use as the <see cref="Definition.ID"/> for any word that is undefined in this
+        /// <see cref="Glossary"/>.</summary>
+        public string UnknownDefID { get; }
         /// <summary>Normalizes player input and words in the <see cref="Glossary"/> so they match correctly.
         /// Used before validation.</summary>
         public Func<string, string> Normalize { get; }
@@ -37,16 +39,19 @@ namespace Adventure.Controller
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
         /// <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.</param>
+        /// <param name="unknownDefID">The <see cref="Definition.ID"/> to use for unknown words.</param>
         /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        public Glossary(char syntaxWildcard, Func<string, string> normalize,
+        public Glossary(char syntaxWildcard, string unknownDefID, Func<string, string> normalize,
             Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
             wordDefaultDefs = new Dictionary<string, string>();
             wordConditionalDefs = new Dictionary<string, List<ConditionalDef>>();
             defIDs = new Dictionary<string, Definition>();
+
             SyntaxWildcard = syntaxWildcard;
+            UnknownDefID = unknownDefID;
             Normalize = normalize;
             IsInvalidChar = (s => isInvalidChar(s) || s == SyntaxWildcard);
             IsInvalidWord = isInvalidWord;
@@ -83,7 +88,7 @@ namespace Adventure.Controller
             // validation
             //  if def with id doesn't exist -- error
             //  if words contain invalid chars or are invalid strings -- error
-            //  if any word already exists -- warning
+            //  if any word already exists -- error
             // add words
             foreach (string word in words)
                 wordDefaultDefs[word] = defaultDefID;
@@ -104,16 +109,44 @@ namespace Adventure.Controller
             //  if def with id doesn't exist -- error
             //  if word contains invalid chars or is invalid string -- error
             //  if word does not have a default def -- error
-            //  if word already has conditional def with the same def id -- warning
+            //  if word already has conditional def with the same def id -- error
             // add to glossary
             if (!wordConditionalDefs.ContainsKey(word))
                 wordConditionalDefs[word] = new List<ConditionalDef>();
             wordConditionalDefs[word].Add(conditionalDef);
         }
 
-        public IEnumerable<Node> ConvertToNodes(IEnumerable<Token> tokenList)
+        /// <summary>
+        /// Gets the default <see cref="Definition"/> for the given word. Returns null if not found.
+        /// </summary>
+        public Definition GetDefaultDef(string word)
         {
-            throw new NotImplementedException();
+            wordDefaultDefs.TryGetValue(word, out string id);
+            if (id == null)
+                return null;
+            return GetDefFromID(id);
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="ConditionalDef"/> objects associated with the given word.
+        /// Returns an empty list if none found.
+        /// </summary>
+        public List<ConditionalDef> GetConditionalDefs(string word)
+        {
+            wordConditionalDefs.TryGetValue(word, out List<ConditionalDef> defs);
+            if (defs == null)
+                return new List<ConditionalDef>();
+            return defs;
+        }
+
+        /// <summary>
+        /// Gets the <see cref="Definition"/> with an ID matching the given string.
+        /// Returns null if not found.
+        /// </summary>
+        public Definition GetDefFromID(string id)
+        {
+            defIDs.TryGetValue(id, out Definition def);
+            return def;
         }
     }
 }

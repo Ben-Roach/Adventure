@@ -2,10 +2,10 @@
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Valid directional codes used by <see cref="DirectionNode"/> objects.
+    /// Directional flags used by <see cref="DirectionNode"/> objects.
     /// Each represents a physical direction.
     /// </summary>
-    public enum DirCode
+    public enum DirFlag
     {
         North, East, South, West,
         Northeast, Northwest, Southeast, Southwest,

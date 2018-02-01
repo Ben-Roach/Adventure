@@ -7,13 +7,13 @@ namespace Adventure.Controller
     public sealed class DirectionNode : Node
     {
         /// <summary>Signifies the actual direction to use.</summary>
-        public DirCode DirectionCode { get; }
+        public DirFlag DirectionCode { get; }
 
         /// <summary>
         /// Create a new <see cref="DirectionNode"/>.
         /// </summary>
         /// <param name="directionCode">Signifies the direction represented by the <see cref="DirectionNode"/>.</param>
-        public DirectionNode(string origWord, string defID, DirCode directionCode) : base(origWord, defID)
+        public DirectionNode(string origWord, string defID, DirFlag directionCode) : base(origWord, defID)
         {
             DirectionCode = directionCode;
         }

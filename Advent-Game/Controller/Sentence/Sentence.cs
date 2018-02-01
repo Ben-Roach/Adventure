@@ -32,8 +32,8 @@ namespace Adventure.Controller
             // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
             List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
-            // PARSING -- Construct a sentence out of tokens by validating words, assigning data to them, and organizing them syntactically.
-            baseList = (List<Node>)glossary.ConvertToNodes(tokenList);
+            // PARSING -- Construct a sentence out of tokens by converting them to meaningful nodes and organizing them syntactically.
+            baseList = ConvertToNodes(tokenList, glossary);
             CollectAdjectives();
             CollectNouns();
         }
@@ -47,7 +47,6 @@ namespace Adventure.Controller
         /// <returns>A list of <see cref="Token"/> objects, or null if an error occured.</returns>
         private List<Token> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
-            // Split inputString into outputList -- a list of string tokens, each representing one word
             List<string> wordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
             // Check for empty / whitespace input
             if (wordList.Count == 0)
@@ -56,10 +55,10 @@ namespace Adventure.Controller
                 return null;
             }
             List<Token> tokenList = new List<Token>();
-            foreach (string oldWord in wordList)
+            foreach (string origWord in wordList)
             {
                 // copy and normalize word
-                string n = glossary.Normalize(string.Copy(oldWord));
+                string n = glossary.Normalize(string.Copy(origWord));
                 // remove invalid chars
                 StringBuilder strBuilder = new StringBuilder(n);
                 for (int j = strBuilder.Length - 1; j >= 0; j--)
@@ -70,7 +69,7 @@ namespace Adventure.Controller
                 string newWord = strBuilder.ToString();
                 // Make tokens, but not of empty or invalid words
                 if (!(newWord == String.Empty || glossary.IsInvalidWord(newWord)))
-                    tokenList.Add(new Token(oldWord, newWord));
+                    tokenList.Add(new Token(origWord, newWord));
             }
             // Check if entire input contained invalid chars / words / whitespace
             if (tokenList.Count == 0)
@@ -81,6 +80,31 @@ namespace Adventure.Controller
             // Input passed validation
             errorMessage = null;
             return tokenList;
+        }
+
+        /// <summary>
+        /// Converts the given <see cref="Token"/> list into a <see cref="Node"/> list using the given <see cref="Glossary"/>.
+        /// </summary>
+        /// <param name="tokenList">The <see cref="Tokens"/> to convert.</param>
+        /// <param name="glossary">The <see cref="Glossary"/> to reference for interpretation.</param>
+        private List<Node> ConvertToNodes(List<Token> tokenList, Glossary glossary)
+        {
+            List<Node> nodeList = new List<Node>();
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                Token token = tokenList[i];
+                Definition defaultDef = glossary.GetDefaultDef(token.LookupWord);
+                // if not defined
+                if (defaultDef == null)
+                {
+                    nodeList.Add(new UnknownNode(token.OrigWord, glossary.UnknownDefID));
+                    continue;
+                }
+                List<ConditionalDef> condDefs = glossary.GetConditionalDefs(token.LookupWord);
+                // TEST CONDITIONAL DEFS HERE --------------------------------------------------------------------------------------
+                nodeList.Add(defaultDef.CreateNode(token.OrigWord));
+            }
+            return nodeList;
         }
 
         /// <summary>
@@ -111,7 +135,7 @@ namespace Adventure.Controller
 
         /// <summary>
         /// Collects chained <see cref="NounNode"/> objects in <see cref="baseList"/> (those with one or more
-        /// <see cref="ConjunctionNode"/> objects between them), replacing the words wit a new <see cref="NounGroupNode"/> object.
+        /// <see cref="ConjunctionNode"/> objects between them), replacing the words with a new <see cref="NounGroupNode"/> object.
         /// </summary>
         private void CollectNouns()
         {
@@ -120,7 +144,7 @@ namespace Adventure.Controller
             for (int i = baseList.Count - 1; i >= 0; i--)
             {
                 // try to start/continue chain, if current word is noun and preceeding word is conjunction
-                if (i - 2 >= 0 && baseList[i] is NounNode nCurrent && baseList[i - 1] is ConjunctionNode)
+                if (i - 2 >= 0 && baseList[i] is NounNode currNoun && baseList[i - 1] is ConjunctionNode)
                 {
                     int p = i - 2;
                     // skip all preceeding consecutive conjunctions
@@ -129,7 +153,7 @@ namespace Adventure.Controller
                     // check if preceeding non-conjunction is a noun
                     if (baseList[p] is NounNode)
                     {
-                        nounList.Insert(0, nCurrent);
+                        nounList.Insert(0, currNoun);
                         chainLength += i - p;
                         i = p + 1; // p is now position of preceeding noun
                         continue;

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using System;
 
 namespace Adventure.Controller
 {
@@ -15,9 +12,6 @@ namespace Adventure.Controller
         /// <summary>The <see cref="Definition.ID"/> of the <see cref="Definition"/> this <see cref="ConditionalDef"/>
         /// points to.</summary>
         public string DefID { get; }
-        /// <summary>The priority level of this conditional; higher priority conditionals will be evaluated first.
-        /// A higher priority is represented by a larger number.</summary>
-        public int Priority { get; }
         /// <summary>Denotes that the previous <see cref="Node"/> in the <see cref="Sentence"/> must be of this type
         ///  before using this <see cref="ConditionalDef"/>. Null if not applicable.</summary>
         public Type PrevNodeType { get; }
@@ -31,15 +25,42 @@ namespace Adventure.Controller
         /// must match before using this <see cref="ConditionalDef"/>. Null if not applicable.</summary>
         public string NextNodeID { get; }
 
-        public ConditionalDef(string defID, int priority,
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="defID"></param>
+        /// <param name="prevNodeType"></param>
+        /// <param name="prevNodeID"></param>
+        /// <param name="nextNodeType"></param>
+        /// <param name="nextNodeID"></param>
+        public ConditionalDef(string defID,
             Type prevNodeType = null, string prevNodeID = null, Type nextNodeType = null, string nextNodeID = null)
         {
             DefID = defID ?? throw new ArgumentNullException(nameof(defID));
-            Priority = priority;
             PrevNodeType = prevNodeType;
             PrevNodeID = prevNodeID;
             NextNodeType = nextNodeType;
             NextNodeID = nextNodeID;
+        }
+
+        /// <summary>
+        /// Returns true if this <see cref="ConditionalDef"/> depends on the previous <see cref="Node"/> in the <see cref="Sentence"/>.
+        /// </summary>
+        public bool DependsOnPrev()
+        {
+            if (PrevNodeType == null && PrevNodeID == null)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Returns true if this <see cref="ConditionalDef"/> depends on the next <see cref="Node"/> in the <see cref="Sentence"/>.
+        /// </summary>
+        public bool DependsOnNext()
+        {
+            if (NextNodeType == null && NextNodeID == null)
+                return false;
+            return true;
         }
     }
 }

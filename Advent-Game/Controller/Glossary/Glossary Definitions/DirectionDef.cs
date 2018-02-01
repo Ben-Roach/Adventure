@@ -1,6 +1,4 @@
 ﻿
-using System.Collections.Generic;
-
 namespace Adventure.Controller
 {
     /// <summary>
@@ -9,15 +7,15 @@ namespace Adventure.Controller
     public sealed class DirectionDef : Definition
     {
         /// <summary>Signifies the direction represented by the defined <see cref="DirectionNode"/>.</summary>
-        DirCode directionCode;
+        DirFlag directionFlag;
 
         /// <summary>
         /// Create a new <see cref="DirectionDef"/>.
         /// </summary>
-        /// <param name="directionCode">Signifies the direction represented by the defined <see cref="DirectionNode"/>.</param>
-        public DirectionDef(string id, DirCode directionCode) : base(id)
+        /// <param name="directionFlag">Signifies the direction represented by the defined <see cref="DirectionNode"/>.</param>
+        public DirectionDef(string id, DirFlag directionFlag) : base(id)
         {
-            this.directionCode = directionCode;
+            this.directionFlag = directionFlag;
         }
 
         /// <summary>
@@ -26,7 +24,7 @@ namespace Adventure.Controller
         /// <returns>The new <see cref="DirectionNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origWord)
         {
-            return new DirectionNode(origWord, ID, directionCode);
+            return new DirectionNode(origWord, ID, directionFlag);
         }
     }
 }
