@@ -89,22 +89,94 @@ namespace Adventure.Controller
         /// <param name="glossary">The <see cref="Glossary"/> to reference for interpretation.</param>
         private List<Node> ConvertToNodes(List<Token> tokenList, Glossary glossary)
         {
-            List<Node> nodeList = new List<Node>();
+            Node[] nodeArray = new Node[tokenList.Count];
             for (int i = 0; i < tokenList.Count; i++)
             {
                 Token token = tokenList[i];
                 Definition defaultDef = glossary.GetDefaultDef(token.LookupWord);
-                // if not defined
+                // Check if defined
                 if (defaultDef == null)
                 {
-                    nodeList.Add(new UnknownNode(token.OrigWord, glossary.UnknownDefID));
+                    nodeArray[i] = new UnknownNode(token.OrigWord, glossary.UnknownDefID);
                     continue;
                 }
+
+                // Check conditional defs
+                bool defined = false;
                 List<ConditionalDef> condDefs = glossary.GetConditionalDefs(token.LookupWord);
-                // TEST CONDITIONAL DEFS HERE --------------------------------------------------------------------------------------
-                nodeList.Add(defaultDef.CreateNode(token.OrigWord));
+                foreach(ConditionalDef cDef in condDefs)
+                {
+                    // if depends on previous node and the previous node matches
+                    if(i > 0 && cDef.DependsOnPrev() && cDef.MatchesPrevNode(nodeArray[i - 1]))
+                    {
+                        // use cDef, move on
+                        nodeArray[i] = glossary.GetDefFromID(cDef.DefID).CreateNode(token.OrigWord);
+                        defined = true;
+                        break;
+                    }
+                    // if depends on next node
+                    if(i < tokenList.Count - 1 && cDef.DependsOnNext())
+                    {
+                        // speculate what next node will be, assume current token resolves using cDef
+                        Node assumption = glossary.GetDefFromID(cDef.DefID).CreateNode(token.OrigWord);
+                        Node guess = Speculate(tokenList, i + 1, assumption);
+                        // if speculation matches, use assumption
+                        if (cDef.MatchesNextNode(guess))
+                        {
+                            nodeArray[i] = assumption;
+                            defined = true;
+                            break;
+                        }
+                    }
+                }
+                // use default def if still undefined
+                if (!defined)
+                    nodeArray[i] = defaultDef.CreateNode(token.OrigWord);
             }
-            return nodeList;
+            return nodeArray.ToList();
+
+            /// <summary>
+            /// Used to speculatively define a <see cref="Token"/>, assuming that the previous <see cref="Token"/>
+            /// resolves to a certain <see cref="Node"/>. Used to resolve a circular dependency that can result if
+            /// two adjacent <see cref="Token"/> objects each contain a <see cref="ConditionalDef"/> that relies on
+            /// the <see cref="Node"/> that the other <see cref="Token"/> resolves to.
+            /// </summary>
+            /// <param name="tList">The list of <see cref="Token"/> objects to interpret.</param>
+            /// <param name="index">The index of the <see cref="Token"/> to speculatively define.</param>
+            /// <param name="assumption">The assumed previous <see cref="Node"/>.</param>
+            /// <returns>A speculation as to what <see cref="Node"/> the <see cref="Token"/> will resolve to.</returns>
+            Node Speculate(List<Token> tList, int index, Node assumption)
+            {
+                Token token = tList[index];
+                Definition defaultDef = glossary.GetDefaultDef(token.LookupWord);
+                // Check if defined
+                if (defaultDef == null)
+                    return new UnknownNode(token.OrigWord, glossary.UnknownDefID);
+
+                // Check conditional defs
+                List<ConditionalDef> condDefs = glossary.GetConditionalDefs(token.LookupWord);
+                foreach (ConditionalDef cDef in condDefs)
+                {
+                    // if depends on previous node and the assumption matches
+                    if (cDef.DependsOnPrev() && cDef.MatchesPrevNode(assumption))
+                    {
+                        // use conditional def, return resulting node
+                        return glossary.GetDefFromID(cDef.DefID).CreateNode(token.OrigWord);
+                    }
+                    // if depends on next node, recursively speculate
+                    if (cDef.DependsOnNext())
+                    {
+                        // speculate what next node will be, assume current token resolves using cDef
+                        Node newAssumption = glossary.GetDefFromID(cDef.DefID).CreateNode(token.OrigWord);
+                        Node guess = Speculate(tList, index + 1, newAssumption);
+                        // if speculation matches, use assumption
+                        if (cDef.MatchesNextNode(guess))
+                            return newAssumption;
+                    }
+                }
+                // return default def
+                return defaultDef.CreateNode(token.OrigWord);
+            }
         }
 
         /// <summary>

@@ -17,36 +17,49 @@ namespace Adventure
             // PARTICLES
             g.AddDef(new ParticleDef("at"));
             g.AddWords(new[] { "at" }, "at");
+            g.AddDef(new ParticleDef("up"));
+            g.AddWords(new[] { "up" }, "up");
+            g.AddDef(new ParticleDef("down"));
+            g.AddWords(new[] { "down" }, "down");
+            g.AddDef(new ParticleDef("in"));
+            g.AddWords(new[] { "in" }, "in");
+            g.AddDef(new ParticleDef("out"));
+            g.AddWords(new[] { "out" }, "out");
 
             // CONJUNCTIONS
             g.AddDef(new ConjunctionDef("and"));
             g.AddWords(new[] { "and", "then", "&" }, "and");
 
             // DIRECTIONS
-            g.AddDef(new DirectionDef("north", DirFlag.North));
-            g.AddWords(new[] { "north", "n" }, "north");
-            g.AddDef(new DirectionDef("east", DirFlag.South));
-            g.AddWords(new[] { "east", "e" }, "east");
-            g.AddDef(new DirectionDef("south", DirFlag.East));
-            g.AddWords(new[] { "south", "s" }, "south");
-            g.AddDef(new DirectionDef("west", DirFlag.West));
-            g.AddWords(new[] { "west", "w" }, "west");
-            g.AddDef(new DirectionDef("northeast", DirFlag.Northeast));
-            g.AddWords(new[] { "northeast", "ne" }, "northeast");
-            g.AddDef(new DirectionDef("northwest", DirFlag.Northwest));
-            g.AddWords(new[] { "northwest", "nw" }, "northwest");
-            g.AddDef(new DirectionDef("southeast", DirFlag.Southeast));
-            g.AddWords(new[] { "southeast", "se" }, "southeast");
-            g.AddDef(new DirectionDef("southwest", DirFlag.Southwest));
-            g.AddWords(new[] { "southwest", "sw" }, "southwest");
-            g.AddDef(new DirectionDef("up", DirFlag.Up));
-            g.AddWords(new[] { "up", "u" }, "up");
-            g.AddDef(new DirectionDef("down", DirFlag.Down));
-            g.AddWords(new[] { "down", "d" }, "down");
-            g.AddDef(new DirectionDef("in", DirFlag.In));
-            g.AddWords(new[] { "in", "inside" }, "in");
-            g.AddDef(new DirectionDef("out", DirFlag.Out));
-            g.AddWords(new[] { "out", "outside" }, "out");
+            g.AddDef(new DirectionDef("direction_north", DirFlag.North));
+            g.AddWords(new[] { "north", "n" }, "direction_north");
+            g.AddDef(new DirectionDef("direction_east", DirFlag.South));
+            g.AddWords(new[] { "east", "e" }, "direction_east");
+            g.AddDef(new DirectionDef("direction_south", DirFlag.East));
+            g.AddWords(new[] { "south", "s" }, "direction_south");
+            g.AddDef(new DirectionDef("direction_west", DirFlag.West));
+            g.AddWords(new[] { "west", "w" }, "direction_west");
+            g.AddDef(new DirectionDef("direction_northeast", DirFlag.Northeast));
+            g.AddWords(new[] { "northeast", "ne" }, "direction_northeast");
+            g.AddDef(new DirectionDef("direction_northwest", DirFlag.Northwest));
+            g.AddWords(new[] { "northwest", "nw" }, "direction_northwest");
+            g.AddDef(new DirectionDef("direction_southeast", DirFlag.Southeast));
+            g.AddWords(new[] { "southeast", "se" }, "direction_southeast");
+            g.AddDef(new DirectionDef("direction_southwest", DirFlag.Southwest));
+            g.AddWords(new[] { "southwest", "sw" }, "direction_southwest");
+
+            g.AddDef(new DirectionDef("direction_up", DirFlag.Up));
+            g.AddWords(new[] { "u" }, "direction_up");
+            g.AssociateDef("up", new ConditionalDef("direction_up", null, "go"));
+            g.AddDef(new DirectionDef("direction_down", DirFlag.Down));
+            g.AddWords(new[] { "d" }, "direction_down");
+            g.AssociateDef("down", new ConditionalDef("direction_down", null, "go"));
+            g.AddDef(new DirectionDef("direction_in", DirFlag.In));
+            g.AddWords(new[] { "i", "inside" }, "direction_in");
+            g.AssociateDef("in", new ConditionalDef("direction_in", null, "go"));
+            g.AddDef(new DirectionDef("direction_out", DirFlag.Out));
+            g.AddWords(new[] { "o", "outside" }, "direction_out");
+            g.AssociateDef("out", new ConditionalDef("direction_out", null, "go"));
 
             // VERBS
             g.AddDef(new VerbDef("take", new[] {

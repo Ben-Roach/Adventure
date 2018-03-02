@@ -65,8 +65,9 @@ namespace Adventure.Controller
         public void AddDef(Definition def)
         {
             // validation
-            //  if def with id already exists -- warning
+            //  if def with id already exists -- error
             //  if def is invalid -- error
+            //  if unknown def id -- error
             // add def
             defIDs[def.ID] = def ?? throw new ArgumentNullException(nameof(def));
         }
