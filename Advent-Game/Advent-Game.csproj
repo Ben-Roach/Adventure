@@ -64,7 +64,6 @@
     <Compile Include="Adventure\Load\BuildGlossary.cs" />
     <Compile Include="Adventure\Game.cs" />
     <Compile Include="Controller\DirFlag.cs" />
-    <Compile Include="Controller\Glossary\ConditionalDef.cs" />
     <Compile Include="Controller\Glossary\Glossary Definitions\ConjunctionDef.cs" />
     <Compile Include="Controller\Glossary\Glossary Definitions\VerbDef.cs" />
     <Compile Include="Controller\Glossary\Glossary Definitions\ParticleDef.cs" />
@@ -76,7 +75,7 @@
     <Compile Include="Controller\Sentence\Sentence Nodes\ConjunctionNode.cs" />
     <Compile Include="Controller\Sentence\Token.cs" />
     <Compile Include="Controller\SyntFlag.cs" />
-    <Compile Include="Controller\VerbSyntax.cs" />
+    <Compile Include="Controller\VerbPhrase.cs" />
     <Compile Include="Controller\Sentence\Sentence Nodes\AdjectiveNode.cs" />
     <Compile Include="Controller\Sentence\Sentence Nodes\CommandNode.cs" />
     <Compile Include="Controller\Sentence\Sentence Nodes\DirectionNode.cs" />

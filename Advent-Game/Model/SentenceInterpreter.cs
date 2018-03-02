@@ -25,7 +25,7 @@ namespace Adventure.Model
 
                 else if (sentence[i] is VerbNode verb)
                 {
-                    foreach(VerbSyntax syntax in verb.Syntaxes)
+                    foreach(VerbPhrase syntax in verb.Syntaxes)
                     {
 
                     }

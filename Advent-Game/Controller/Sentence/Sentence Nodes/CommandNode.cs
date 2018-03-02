@@ -16,7 +16,7 @@ namespace Adventure.Controller
         /// </summary>
         /// <param name="commandDelegate">The method to call on behalf of the <see cref="CommandNode"/>.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="commandDelegate"/> is null.</exception>
-        public CommandNode(string origWord, string defID, Action commandDelegate) : base(origWord, defID)
+        public CommandNode(string origWord, string id, Action commandDelegate) : base(origWord, id)
         {
             Delegate = commandDelegate ?? throw new ArgumentNullException(nameof(commandDelegate));
         }

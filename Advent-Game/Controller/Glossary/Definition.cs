@@ -6,19 +6,19 @@ using System.Collections.Generic;
 namespace Adventure.Controller
 {
     /// <summary>
-    /// Represents the definition of a headword in the <see cref="Glossary"/>.
+    /// Represents the definition of a word.
     /// </summary>
     public abstract class Definition
     {
         /// <summary>The unique name of this <see cref="Definition"/>, used to
-        /// identify any <see cref="Node"/> created by it.</summary>
+        /// identify any <see cref="Node"/> using it.</summary>
         public string ID { get; }
 
         /// <summary>
         /// Create a new <see cref="Definition"/>.
         /// </summary>
         /// <param name="id">The unique name of this <see cref="Definition"/>, used to
-        /// identify any <see cref="Node"/> created by it.</param>
+        /// identify any <see cref="Node"/> using it.</param>
         public Definition(string id)
         {
             ID = id ?? throw new ArgumentNullException(nameof(id));

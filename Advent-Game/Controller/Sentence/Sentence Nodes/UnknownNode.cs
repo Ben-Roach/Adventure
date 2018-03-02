@@ -9,7 +9,7 @@ namespace Adventure.Controller
         /// <summary>
         /// Create a new <see cref="UnknownNode"/>.
         /// </summary>
-        public UnknownNode(string origWord, string defID) : base(origWord, defID)
+        public UnknownNode(string origWord, string id) : base(origWord, id)
         { }
     }
 }

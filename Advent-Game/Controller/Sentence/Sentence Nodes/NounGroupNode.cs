@@ -15,12 +15,12 @@ namespace Adventure.Controller
 
         /// <summary>
         /// Create a new <see cref="NounGroupNode"/> containing <paramref name="nouns"/>.
-        /// Note that its <see cref="Node.OrigWord"/> and <see cref="Node.DefID"/> will be from the first <see cref="NounNode"/> in <paramref name="nouns"/>.
+        /// Note that its <see cref="Node.OrigWord"/> and <see cref="Node.ID"/> will be from the first <see cref="NounNode"/> in <paramref name="nouns"/>.
         /// </summary>
         /// <param name="nouns">The <see cref="NounNode"/> objects contained in the <see cref="NounGroupNode"/>.</param>
         /// <exception cref="ArgumentException">Thrown when nouns is zero length or contains null items.</exception>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="nouns"/> is null.</exception>
-        public NounGroupNode(ICollection<NounNode> nouns) : base(nouns.ToList()[0].OrigWord, nouns.ToList()[0].DefID)
+        public NounGroupNode(ICollection<NounNode> nouns) : base(nouns.ToList()[0].OrigWord, nouns.ToList()[0].ID)
         {
             if (nouns == null) throw new ArgumentNullException(nameof(nouns));
             else if (nouns.Count == 0) throw new ArgumentException(nameof(nouns), "Cannot be zero-length.");
