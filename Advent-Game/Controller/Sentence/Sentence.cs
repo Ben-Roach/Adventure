@@ -1,9 +1,9 @@
 ﻿
 using System;
 using System.Text;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using Adventure.View;
 
 namespace Adventure.Controller
 {
@@ -13,51 +13,80 @@ namespace Adventure.Controller
     public class Sentence : IReadOnlyList<Node>
     {
         /// <summary>The <see cref="Node"/> objects in the <see cref="Sentence"/>.</summary>
-        private List<Node> baseList = new List<Node>();
+        private List<Node> baseList;
 
         /// <summary>The number of top-level nodes this <see cref="Sentence"/> contains.</summary>
         public int Length => baseList.Count;
         /// <summary>The number of top-level nodes this <see cref="Sentence"/> contains.</summary>
-        int IReadOnlyCollection<Node>.Count => Length;
+        int IReadOnlyCollection<Node>.Count => baseList.Count;
         /// <summary>Gets the top-level <see cref="Node"/> in the <see cref="Sentence"/> at the specified index.</summary>
         public Node this[int i] => baseList[i];
 
+
         /// <summary>
-        /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the <see cref="Glossary"/>.
+        /// Create a new <see cref="Sentence"/>.
         /// </summary>
-        /// <param name="inputString">The string input by the player.</param>
-        /// <param name="glossary">The <see cref="Glossary"/> used to validate and interpret the input.</param>
-        /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="inputString"/> is null.</exception>
-        public Sentence(string inputString, Glossary glossary, out string errorMessage)
+        private Sentence(List<Node> nodeList)
         {
-            // PREPARATION -- Argument checking, property/field instantiation.
-            if (inputString == null) throw new ArgumentNullException(nameof(inputString));
-            // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
-            List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
-            if (errorMessage != null) return;
-            // PARSING -- Construct a sentence out of tokens by converting them to meaningful nodes and organizing them syntactically.
-            baseList = glossary.ConvertToNodes(tokenList);
-            CollectAdjectives();
-            CollectNouns();
+            baseList = nodeList;
         }
 
         /// <summary>
+        /// Enumerates the top-level <see cref="Node"/> objects in the <see cref="Sentence"/>.
+        /// </summary>
+        public IEnumerator<Node> GetEnumerator()
+        {
+            foreach (Node n in baseList)
+                yield return n;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        { return GetEnumerator(); }
+
+
+        /// <summary>
+        /// Construct a new <see cref="Sentence"/> from a string, using the specified <see cref="Glossary"/>.
+        /// </summary>
+        /// <param name="inputString">The raw string input by the player.</param>
+        /// <param name="glossary">The <see cref="Glossary"/> to use when parsing the input string.</param>
+        /// <param name="errorMessage">Describes any issue that occurred when parsing, else null if parsed successfully.</param>
+        /// <returns>A new, interpretable <see cref="Sentence"/>, or null if parsing failed.</returns>
+        /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
+        public static Sentence Parse(string inputString, Glossary glossary, out string errorMessage)
+        {
+            // PREPARATION -- Argument checking, property/field instantiation.
+            if (inputString == null) throw new ArgumentNullException(nameof(inputString));
+            if (glossary == null) throw new ArgumentNullException(nameof(glossary));
+            // TOKENIZATION -- Split input string into a list of strings, while removing invalid characters and unnecessary words.
+            List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
+            if (errorMessage != null) return null;
+            // PARSING -- Construct a sentence out of tokens by converting them to meaningful nodes and organizing them syntactically.
+            List<Node> nodeList = glossary.ConvertToNodes(tokenList);
+            CollectAdjectives(nodeList);
+            CollectNouns(nodeList);
+            // FINISH -- Set base data structure, return
+            return new Sentence(nodeList);
+        }
+
+        /// <summary>
+        /// Constructor helper method.
         /// Converts a player input string into a list of <see cref="Token"/> objects.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
         /// <param name="glossary">The <see cref="Glossary"/> used to normalize and validate the input.</param>
         /// <param name="errorMessage">Null if no error occurs, otherwise a string that describes the problem.</param>
         /// <returns>A list of <see cref="Token"/> objects, or null if an error occured.</returns>
-        private List<Token> Tokenize(string inputString, Glossary glossary, out string errorMessage)
+        private static List<Token> Tokenize(string inputString, Glossary glossary, out string errorMessage)
         {
-            List<string> wordList = inputString.Split((char[])null, StringSplitOptions.RemoveEmptyEntries).ToList();
+            // trim and split string by whitespace
+            string[] wordList = inputString.Trim().Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
             // Check for empty / whitespace input
-            if (wordList.Count == 0)
+            if (wordList.Length == 0)
             {
                 errorMessage = "Speak up, please.";
                 return null;
             }
+            // create tokens
             List<Token> tokenList = new List<Token>();
             foreach (string origWord in wordList)
             {
@@ -87,50 +116,52 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Collects <see cref="AdjectiveNode"/> objects in <see cref="baseList"/> contiguous to each <see cref="NounNode"/>,
+        /// Constructor helper method.
+        /// Collects <see cref="AdjectiveNode"/> objects in <see paramref="nodeList"/> contiguous to each <see cref="NounNode"/>,
         /// and adds them to the <see cref="NounNode"/>.
         /// </summary>
-        private void CollectAdjectives()
+        private static void CollectAdjectives(List<Node> nodeList)
         {
-            for (int i = baseList.Count - 1; i >= 0; i--)
+            for (int i = nodeList.Count - 1; i >= 0; i--)
             {
-                if (baseList[i] is NounNode n)
+                if (nodeList[i] is NounNode n)
                 {
                     // collect preceeding Adjectives
-                    while (i - 1 >= 0 && baseList[i - 1] is AdjectiveNode adj)
+                    while (i - 1 >= 0 && nodeList[i - 1] is AdjectiveNode adj)
                     {
                         n.AddAdjective(adj);
-                        baseList.RemoveAt(--i);
+                        nodeList.RemoveAt(--i);
                     }
                     // collect subsequent Adjectives
-                    while (i + 1 < baseList.Count && baseList[i + 1] is AdjectiveNode adj)
+                    while (i + 1 < nodeList.Count && nodeList[i + 1] is AdjectiveNode adj)
                     {
                         n.AddAdjective(adj);
-                        baseList.RemoveAt(i + 1);
+                        nodeList.RemoveAt(i + 1);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Collects chained <see cref="NounNode"/> objects in <see cref="baseList"/> (those with one or more
+        /// Constructor helper method.
+        /// Collects chained <see cref="NounNode"/> objects in <see paramref="nodeList"/> (those with one or more
         /// <see cref="ConjunctionNode"/> objects between them), replacing the words with a new <see cref="NounGroupNode"/> object.
         /// </summary>
-        private void CollectNouns()
+        private static void CollectNouns(List<Node> nodeList)
         {
             int chainLength = 0;
             List<NounNode> nounList = new List<NounNode>();
-            for (int i = baseList.Count - 1; i >= 0; i--)
+            for (int i = nodeList.Count - 1; i >= 0; i--)
             {
                 // try to start/continue chain, if current word is noun and preceeding word is conjunction
-                if (i - 2 >= 0 && baseList[i] is NounNode currNoun && baseList[i - 1] is ConjunctionNode)
+                if (i - 2 >= 0 && nodeList[i] is NounNode currNoun && nodeList[i - 1] is ConjunctionNode)
                 {
                     int p = i - 2;
                     // skip all preceeding consecutive conjunctions
-                    while (p >= 0 && baseList[p] is ConjunctionNode)
+                    while (p >= 0 && nodeList[p] is ConjunctionNode)
                         p--;
                     // check if preceeding non-conjunction is a noun
-                    if (baseList[p] is NounNode)
+                    if (nodeList[p] is NounNode)
                     {
                         nounList.Insert(0, currNoun);
                         chainLength += i - p;
@@ -139,14 +170,14 @@ namespace Adventure.Controller
                     }
                 }
                 // otherwise, try to add noun to existing chain, then terminate
-                if (nounList.Count > 0 && baseList[i] is NounNode nFinal)
+                if (nounList.Count > 0 && nodeList[i] is NounNode nFinal)
                 {
                     nounList.Insert(0, nFinal);
                     // turn first Noun in chain into NounCollection
-                    baseList[i] = new NounGroupNode(nounList);
+                    nodeList[i] = new NounGroupNode(nounList);
                     // remove chained nouns and conjunctions from sentence
                     for (int j = 0; j < chainLength; j++)
-                        baseList.RemoveAt(i + 1);
+                        nodeList.RemoveAt(i + 1);
                     // prep for next chain
                     nounList.Clear();
                     chainLength = 0;
@@ -155,15 +186,45 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Enumerates the top-level <see cref="Node"/> objects in the <see cref="Sentence"/>.
+        /// Interprets a given <see cref="Sentence"/>. Initiates game model manipulation.
         /// </summary>
-        public IEnumerator<Node> GetEnumerator()
+        /// <param name="sentence">The <see cref="Sentence"/> to interpret.</param>
+        public static void Interpret(Sentence sentence)
         {
-            foreach (Node n in baseList)
-                yield return n;
-        }
+            if (sentence == null) throw new ArgumentNullException(nameof(sentence));
+            // iterate through each top level node in sentence
+            for (int i = 0; i < sentence.Length; i++)
+            {
+                if (sentence[i] is ConjunctionNode)
+                    continue;
 
-        IEnumerator IEnumerable.GetEnumerator()
-        { return GetEnumerator(); }
+                else if (sentence[i] is CommandNode command)
+                    command.Delegate();
+
+                else if (sentence[i] is VerbNode verb)
+                {
+                    foreach (VerbPhrase syntax in verb.Syntaxes)
+                    {
+
+                    }
+                    // new verb logic here: check each word against all syntaxes in syntaxList, if end of a syntax is reached, it is potentially correct, if a word does not
+                    // match, throw syntax out. Once all syntaxes have been checked: if there are no potentialy correct syntaxes, use the current word in the error message.
+                    // Otherwise, go with the longest potentially correct syntax. Only go with an empty syntax if all other syntaxes were thrown out on the first check,
+                    // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
+                }
+
+                else if (sentence[i] is UnknownNode)
+                {
+                    ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigWord + ".\"");
+                    return;
+                }
+
+                else
+                {
+                    ConsoleGUI.Print("You lost me at \"" + sentence[i].OrigWord + ".\"");
+                    return;
+                }
+            }
+        }
     }
 }

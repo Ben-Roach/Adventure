@@ -21,9 +21,9 @@ namespace Adventure
 
             while (true)
             {
-                Sentence sentence = new Sentence(ConsoleGUI.GetPlayerInput(), glossary, out string errorMessage);
+                Sentence sentence = Sentence.Parse(ConsoleGUI.GetPlayerInput(), glossary, out string errorMessage);
                 if (errorMessage != null) ConsoleGUI.Print(errorMessage);
-                else SentenceInterpreter.Interpret(sentence);
+                else Sentence.Interpret(sentence);
             }
         }
     }

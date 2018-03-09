@@ -88,7 +88,6 @@
     <Compile Include="Model\CommandAction.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Controller\Glossary\Glossary.cs" />
-    <Compile Include="Model\SentenceInterpreter.cs" />
     <Compile Include="Model\VerbAction.cs" />
     <Compile Include="View\ConsoleGUI.cs" />
     <Compile Include="Controller\Sentence\Sentence.cs" />
