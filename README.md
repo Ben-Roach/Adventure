@@ -8,7 +8,7 @@ I initially started this project in Python, to experiment with the language as I
 ## Current State
 
 The project is still very early in development. No development GUI is implemented, and the engine itself can interpret very simple player input, but it can't do anything else with it. No framework for game objects or interaction exists yet.
-The engine is currently undergoing a major structural redesign, and much of its file structure, namespacing, and object structure can and will change without notice. It won't be stable for a while.
+Much of the project's structure, namespacing, and object structure can and will change without notice. It won't be stable for a while.
 
 ## Contributing
 
@@ -28,4 +28,4 @@ This project is currently under the [GNU General Public License v3](https://www.
 
 ## Acknowledgments
 
-* Shoutouts to the creators of ZORK and Colossal Cave Adventure for concieving a game genre that seems simple to program but is decievingly complex. It's been a fun project so far.
+* Shoutouts to the creators of ZORK and Colossal Cave Adventure for developing a game genre that seems simple to program but is decievingly complex. It's been a frustratingly fun project so far.
