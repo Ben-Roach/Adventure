@@ -64,7 +64,7 @@ namespace Adventure.Controller
             List<Node> nodeList = glossary.ConvertToNodes(tokenList);
             CollectAdjectives(nodeList);
             CollectNouns(nodeList);
-            // FINISH -- Set base data structure, return
+            // FINISH -- Return new sentence
             return new Sentence(nodeList);
         }
 
@@ -195,12 +195,15 @@ namespace Adventure.Controller
             // iterate through each top level node in sentence
             for (int i = 0; i < sentence.Length; i++)
             {
+                // Conjunction
                 if (sentence[i] is ConjunctionNode)
                     continue;
 
+                // Command
                 else if (sentence[i] is CommandNode command)
                     command.Delegate();
 
+                // Verb
                 else if (sentence[i] is VerbNode verb)
                 {
                     foreach (VerbPhrase syntax in verb.Syntaxes)
@@ -213,12 +216,14 @@ namespace Adventure.Controller
                     // and throw all pending syntaxes out if the end of the sentence is reached (unless the end of the syntax is reached at the same time).
                 }
 
+                // Unknown
                 else if (sentence[i] is UnknownNode)
                 {
                     ConsoleGUI.Print("I don't understand the word \"" + sentence[i].OrigWord + ".\"");
                     return;
                 }
 
+                // anything else
                 else
                 {
                     ConsoleGUI.Print("You lost me at \"" + sentence[i].OrigWord + ".\"");

@@ -40,8 +40,7 @@ namespace Adventure.Controller
         /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        public Glossary(char syntaxWildcard,
-            Func<string, string> normalize, Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
+        public Glossary(char syntaxWildcard, Func<string, string> normalize, Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
             wordDefs = new Dictionary<string, string>();
             defIDs = new Dictionary<string, Definition>();
@@ -60,12 +59,13 @@ namespace Adventure.Controller
         /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
         public void AddDef(Definition def)
         {
+            if (def == null) throw new ArgumentNullException(nameof(def));
             // validation
             //  if def with id already exists -- error
             //  if def is invalid -- error
             //  if unknown def id -- error
             // add def
-            defIDs[def.ID] = def ?? throw new ArgumentNullException(nameof(def));
+            defIDs[def.ID] = def;
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Adventure.Controller
         /// <param name="words">The words to add, that the player may use.</param>
         /// <param name="defID">The <see cref="Definition.ID"/> of the <see cref="Definition"/> associated with the words.</param>
         /// <exception cref="ArgumentNullException">Thrown if any parameter is null.</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="words"/> contains a null item.</exception>
+        /// <exception cref="ArgumentException">Thrown if any parameter is null or <paramref name="words"/> contains a null item.</exception>
         public void AddWords(IEnumerable<string> words, string defID)
         {
             // param checking
@@ -94,8 +94,13 @@ namespace Adventure.Controller
         /// Converts the given <see cref="Token"/> list into a <see cref="Node"/> list using this <see cref="Glossary"/>.
         /// </summary>
         /// <param name="tokenList">The <see cref="Token"/> list to convert to a <see cref="Node"/> list.</param>
+        /// <exception cref="ArgumentException">Thrown if any parameter is null or <paramref name="tokenList"/> contains a null item.</exception>
         public List<Node> ConvertToNodes(List<Token> tokenList)
         {
+            // param checking
+            if (tokenList == null) throw new ArgumentNullException(nameof(tokenList));
+            if (tokenList.ContainsNull()) throw new ArgumentException(nameof(tokenList) + "contains a null item.");
+
             List<Node> nodeList = new List<Node>();
             for (int i = 0; i < tokenList.Count; i++)
             {
