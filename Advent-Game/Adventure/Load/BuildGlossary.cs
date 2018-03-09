@@ -50,7 +50,7 @@ namespace Adventure
 
             // VERBS
             g.AddDef(new VerbDef("TAKE", new[] {
-                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
+                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), flags: SyntFlag.MakeSingular),
                 }));
             g.AddWords(new[] { "take", "grab" }, "TAKE");
 
@@ -60,13 +60,13 @@ namespace Adventure
             g.AddWords(new[] { "go", "walk", "climb" }, "GO");
 
             g.AddDef(new VerbDef("EXAMINE", new[] {
-                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
+                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), flags: SyntFlag.MakeSingular),
                 }));
             g.AddWords(new[] { "examine", "describe", "ex", "x" }, "EXAMINE");
 
             g.AddDef(new VerbDef("LOOK", new[] {
-                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
-                    new VerbPhrase("at *", VerbAction.Placeholder, typeof(NounGroupNode), SyntFlag.MakeSingular),
+                    new VerbPhrase("*", VerbAction.Placeholder, typeof(NounGroupNode), flags: SyntFlag.MakeSingular),
+                    new VerbPhrase("at *", VerbAction.Placeholder, typeof(NounGroupNode), flags: SyntFlag.MakeSingular),
                     new VerbPhrase("", VerbAction.Placeholder)
                 }));
             g.AddWords(new[] { "look", "l" }, "LOOK");

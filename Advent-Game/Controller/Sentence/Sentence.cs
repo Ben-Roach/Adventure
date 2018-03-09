@@ -190,9 +190,7 @@ namespace Adventure.Controller
         public IEnumerator<Node> GetEnumerator()
         {
             foreach (Node n in baseList)
-            {
                 yield return n;
-            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
