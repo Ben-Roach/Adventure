@@ -91,25 +91,26 @@ namespace Adventure.Controller
         }
 
         /// <summary>
-        /// Gets the <see cref="Definition"/> for the given word.
+        /// Converts the given <see cref="Token"/> list into a <see cref="Node"/> list using this <see cref="Glossary"/>.
         /// </summary>
-        /// <returns>The <see cref="Definition"/> for the given word, or null if it cannot be found.</returns>
-        public Definition GetDefOfWord(string word)
+        /// <param name="tokenList">The <see cref="Token"/> list to convert to a <see cref="Node"/> list.</param>
+        public List<Node> ConvertToNodes(List<Token> tokenList)
         {
-            wordDefs.TryGetValue(word, out string id);
-            if (id == null)
-                return null;
-            return GetDefFromID(id);
-        }
-
-        /// <summary>
-        /// Gets the <see cref="Definition"/> with an ID matching the given string.
-        /// </summary>
-        /// <returns>The <see cref="Definition"/> with the given ID, or null if it cannot be found.</returns>
-        public Definition GetDefFromID(string id)
-        {
-            defIDs.TryGetValue(id, out Definition def);
-            return def;
+            List<Node> nodeList = new List<Node>();
+            for (int i = 0; i < tokenList.Count; i++)
+            {
+                // look up word
+                Token token = tokenList[i];
+                wordDefs.TryGetValue(token.LookupWord, out string id);
+                defIDs.TryGetValue(id, out Definition def);
+                // check if defined
+                if (def == null)
+                    nodeList.Add(new UnknownNode(token.OrigWord, UnknownID));
+                // use definition
+                else
+                    nodeList.Add(def.CreateNode(token.OrigWord));
+            }
+            return nodeList;
         }
     }
 }

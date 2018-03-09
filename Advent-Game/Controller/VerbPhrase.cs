@@ -28,7 +28,7 @@ namespace Adventure.Controller
         /// <summary>The flags for this <see cref="VerbPhrase"/>.</summary>
         public SyntFlag Flags { get; }
         /// <summary>The length of the <see cref="VerbPhrase"/>.</summary>
-        public int Length { get => structure.Count; }
+        public int Length => structure.Count;
 
         /// <summary>
         /// Create a new <see cref="VerbPhrase"/> with two wildcard arguments.

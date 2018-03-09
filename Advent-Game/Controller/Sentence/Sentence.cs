@@ -13,10 +13,14 @@ namespace Adventure.Controller
     public class Sentence : IReadOnlyList<Node>
     {
         /// <summary>The <see cref="Node"/> objects in the <see cref="Sentence"/>.</summary>
-        private List<Node> baseList;
+        private List<Node> baseList = new List<Node>();
 
-        /// <summary>The number of top-level nodes the <see cref="Sentence"/> contains.</summary>
+        /// <summary>The number of top-level nodes this <see cref="Sentence"/> contains.</summary>
         public int Length => baseList.Count;
+        /// <summary>The number of top-level nodes this <see cref="Sentence"/> contains.</summary>
+        int IReadOnlyCollection<Node>.Count => Length;
+        /// <summary>Gets the top-level <see cref="Node"/> in the <see cref="Sentence"/> at the specified index.</summary>
+        public Node this[int i] => baseList[i];
 
         /// <summary>
         /// Create a new <see cref="Sentence"/> from <paramref name="inputString"/>, using the <see cref="Glossary"/>.
@@ -33,7 +37,7 @@ namespace Adventure.Controller
             List<Token> tokenList = Tokenize(inputString, glossary, out errorMessage);
             if (errorMessage != null) return;
             // PARSING -- Construct a sentence out of tokens by converting them to meaningful nodes and organizing them syntactically.
-            baseList = ConvertToNodes(tokenList, glossary);
+            baseList = glossary.ConvertToNodes(tokenList);
             CollectAdjectives();
             CollectNouns();
         }
@@ -80,28 +84,6 @@ namespace Adventure.Controller
             // Input passed validation
             errorMessage = null;
             return tokenList;
-        }
-
-        /// <summary>
-        /// Converts the given <see cref="Token"/> list into a <see cref="Node"/> list using the given <see cref="Glossary"/>.
-        /// </summary>
-        /// <param name="tokenList">The <see cref="Tokens"/> to convert.</param>
-        /// <param name="glossary">The <see cref="Glossary"/> to reference for interpretation.</param>
-        private List<Node> ConvertToNodes(List<Token> tokenList, Glossary glossary)
-        {
-            List<Node> nodeList = new List<Node>();
-            for (int i = 0; i < tokenList.Count; i++)
-            {
-                Token token = tokenList[i];
-                Definition def = glossary.GetDefOfWord(token.LookupWord);
-                // Check if defined
-                if (def == null)
-                    nodeList.Add(new UnknownNode(token.OrigWord, glossary.UnknownID));
-                // use definition
-                else
-                    nodeList.Add(def.CreateNode(token.OrigWord));
-            }
-            return nodeList;
         }
 
         /// <summary>
@@ -171,18 +153,6 @@ namespace Adventure.Controller
                 }
             }
         }
-
-        /// <summary>
-        /// Returns the length of the <see cref="Sentence"/>, considering only one level of depth.
-        /// </summary>
-        int IReadOnlyCollection<Node>.Count => Length;
-
-        /// <summary>
-        /// Gets the top-level <see cref="Node"/> in the <see cref="Sentence"/> at the specified index.
-        /// </summary>
-        /// <param name="i">The index of the <see cref="Node"/> to get.</param>
-        /// <returns>The <see cref="Node"/> at index <paramref name="i"/>.</returns>
-        public Node this[int i] => baseList[i];
 
         /// <summary>
         /// Enumerates the top-level <see cref="Node"/> objects in the <see cref="Sentence"/>.
