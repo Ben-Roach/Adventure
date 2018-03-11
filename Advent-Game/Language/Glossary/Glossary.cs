@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Contains collections with all known words, and all properties associated with them,

@@ -1,5 +1,5 @@
 ﻿
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents a word input by the player that is not in the <see cref="Glossary"/>.

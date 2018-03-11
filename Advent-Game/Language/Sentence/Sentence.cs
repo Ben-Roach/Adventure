@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Adventure.View;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// An ordered <see cref="IReadOnlyList{T}"/> of <see cref="Node"/> objects that represents an interpretable sentence.

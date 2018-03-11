@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents the definition of a word.

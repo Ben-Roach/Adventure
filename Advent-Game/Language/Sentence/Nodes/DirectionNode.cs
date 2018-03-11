@@ -1,5 +1,5 @@
 ﻿
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents a word used by the player primarily for movement.

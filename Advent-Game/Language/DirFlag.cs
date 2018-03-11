@@ -1,5 +1,5 @@
 ﻿
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Directional flags used by <see cref="DirectionNode"/> objects.

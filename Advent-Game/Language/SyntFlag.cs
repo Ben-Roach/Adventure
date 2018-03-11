@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Flags used by <see cref="VerbPhrase"/> objects.

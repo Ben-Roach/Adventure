@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Used as the basis of specifying and finding diegetic game objects.

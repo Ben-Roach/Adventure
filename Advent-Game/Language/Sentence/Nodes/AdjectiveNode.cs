@@ -1,5 +1,5 @@
 ﻿
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Used with <see cref="NounNode"/> objects to make them more specific.

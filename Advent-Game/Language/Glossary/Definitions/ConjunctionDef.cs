@@ -1,7 +1,5 @@
 ﻿
-using System;
-
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents a known <see cref="ConjunctionNode"/> definition in the <see cref="Glossary"/>.

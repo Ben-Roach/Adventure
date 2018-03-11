@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents an ordered collection of nouns used collectively by the player.

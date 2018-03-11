@@ -1,5 +1,6 @@
-﻿using Adventure.Controller;
-using Adventure.Model;
+﻿
+using Adventure.Controller;
+using Adventure.Language;
 
 namespace Adventure
 {

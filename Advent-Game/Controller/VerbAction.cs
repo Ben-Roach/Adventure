@@ -1,7 +1,7 @@
 ﻿
-using Adventure.Controller;
+using Adventure.Language;
 
-namespace Adventure.Model
+namespace Adventure.Controller
 {
     /// <summary>
     /// Contains methods used with <see cref="VerbPhrase.VerbPhraseDelegate"/> delegates to enact a <see cref="VerbNode"/>.

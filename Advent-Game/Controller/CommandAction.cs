@@ -1,8 +1,8 @@
 ﻿
-namespace Adventure.Model
+namespace Adventure.Controller
 {
     /// <summary>
-    /// Contains methods used as delegates to enact a <see cref="Command"/>.
+    /// Contains methods used as delegates to enact a user command.
     /// </summary>
     static class CommandAction
     {

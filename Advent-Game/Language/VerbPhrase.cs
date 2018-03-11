@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// A <see cref="Glossary"/> element that represents a verb phrase in a <see cref="Sentence"/>, preceeded by a <see cref="VerbNode"/>.

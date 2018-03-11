@@ -1,8 +1,7 @@
 ﻿
 using System;
-using System.Collections.Generic;
 
-namespace Adventure.Controller
+namespace Adventure.Language
 {
     /// <summary>
     /// Represents a known <see cref="CommandNode"/> definition in the <see cref="Glossary"/>.
