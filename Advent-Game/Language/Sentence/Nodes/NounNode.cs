@@ -9,27 +9,25 @@ namespace Adventure.Language
     /// </summary>
     public sealed class NounNode : Node
     {
-        List<AdjectiveNode> containedAdjectives;
-        /// <summary><see cref="AdjectiveNode"/> objects associated with the <see cref="NounNode"/>.</summary>
-        public IReadOnlyCollection<AdjectiveNode> ContainedAdjectives { get => containedAdjectives.AsReadOnly(); }
+        List<NounModifierNode> modifiers = new List<NounModifierNode>();
+        /// <summary><see cref="Node"/> objects that modify the <see cref="NounNode"/>.</summary>
+        public IReadOnlyCollection<Node> Modifiers { get => modifiers.AsReadOnly(); }
 
         /// <summary>
         /// Create a new <see cref="NounNode"/>.
         /// </summary>
         public NounNode(string origWord, string id) : base(origWord, id)
-        {
-            containedAdjectives = new List<AdjectiveNode>();
-        }
+        { }
 
         /// <summary>
-        /// Adds an <see cref="AdjectiveNode"/> to <see cref="containedAdjectives"/>.
+        /// Adds a <see cref="NounModifierNode"/> to the <see cref="Noun"/> object's <see cref="Modifiers"/>.
         /// </summary>
-        /// <param name="adj">The <see cref="AdjectiveNode"/> to add.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="adj"/> is null.</exception>
-        public void AddAdjective(AdjectiveNode adj)
+        /// <param name="modifier">The <see cref="NounModifierNode"/> to add.</param>
+        /// <exception cref="ArgumentNullException">Thrown when any parameter is null.</exception>
+        public void AddModifier(NounModifierNode modifier)
         {
-            if (adj == null) throw new ArgumentNullException(nameof(adj));
-            containedAdjectives.Add(adj);
+            if (modifier == null) throw new ArgumentNullException(nameof(modifier));
+            modifiers.Add(modifier);
         }
     }
 

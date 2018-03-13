@@ -76,7 +76,7 @@
     <Compile Include="Language\Sentence\Token.cs" />
     <Compile Include="Language\SyntFlag.cs" />
     <Compile Include="Language\VerbPhrase.cs" />
-    <Compile Include="Language\Sentence\Nodes\AdjectiveNode.cs" />
+    <Compile Include="Language\Sentence\Nodes\NounModifierNode.cs" />
     <Compile Include="Language\Sentence\Nodes\CommandNode.cs" />
     <Compile Include="Language\Sentence\Nodes\DirectionNode.cs" />
     <Compile Include="Language\Sentence\Node.cs" />

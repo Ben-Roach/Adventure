@@ -62,14 +62,13 @@ namespace Adventure.Language
             if (errorMessage != null) return null;
             // PARSING -- Construct a sentence out of tokens by converting them to meaningful nodes and organizing them syntactically.
             List<Node> nodeList = glossary.ConvertToNodes(tokenList);
-            CollectAdjectives(nodeList);
+            CollectNounModifiers(nodeList);
             CollectNouns(nodeList);
             // FINISH -- Return new sentence
             return new Sentence(nodeList);
         }
 
         /// <summary>
-        /// Constructor helper method.
         /// Converts a player input string into a list of <see cref="Token"/> objects.
         /// </summary>
         /// <param name="inputString">The string input by the player.</param>
@@ -116,34 +115,42 @@ namespace Adventure.Language
         }
 
         /// <summary>
-        /// Constructor helper method.
-        /// Collects <see cref="AdjectiveNode"/> objects in <see paramref="nodeList"/> contiguous to each <see cref="NounNode"/>,
-        /// and adds them to the <see cref="NounNode"/>.
+        /// Collects <see cref="NounNode"/> objects acting as Noun Adjuncts and <see cref="NounModifierNode"/>
+        /// objects acting as Adjectives in <see paramref="nodeList"/> preceeding each <see cref="NounNode"/>,
+        /// and adds them to <see cref="NounNode.Modifiers"/> of the related <see cref="NounNode"/>.
         /// </summary>
-        private static void CollectAdjectives(List<Node> nodeList)
+        /// <remarks>
+        /// Any <see cref="NounNode"/> not directly followed by another <see cref="NounNode"/> is considered
+        /// a root noun. Any <see cref="NounNode"/> objects that preceed a <see cref="NounNode"/> without
+        /// other non-<see cref="NounNode"/> objects between them will be converted to <see cref="NounModifierNode"/>
+        /// objects and added to the root noun's <see cref="NounNode.Modifers"/>, then removed from <see paramref="nodeList"/>.
+        /// Then, any preceeding <see cref="NounModifierNode"/> objects with or without <see cref="ConjunctionNode"/>
+        /// objects between them will also be added to the root noun's <see cref="NounNode.Modifiers"/>.
+        /// </remarks>
+        private static void CollectNounModifiers(List<Node> nodeList)
         {
             for (int i = nodeList.Count - 1; i >= 0; i--)
             {
                 if (nodeList[i] is NounNode n)
                 {
-                    // collect preceeding Adjectives
-                    while (i - 1 >= 0 && nodeList[i - 1] is AdjectiveNode adj)
+                    // collect preceeding Noun adjuncts
+                    while (i - 1 >= 0 && nodeList[i - 1] is NounNode noun)
                     {
-                        n.AddAdjective(adj);
+                        // convert to noun modifier
+                        n.AddModifier(NounModifierNode.FromNoun(noun));
                         nodeList.RemoveAt(--i);
                     }
-                    // collect subsequent Adjectives
-                    while (i + 1 < nodeList.Count && nodeList[i + 1] is AdjectiveNode adj)
+                    // collect preceeding chained Adjectives
+                    while (i - 1 >= 0 && nodeList[i - 1] is NounModifierNode adj)
                     {
-                        n.AddAdjective(adj);
-                        nodeList.RemoveAt(i + 1);
+                        n.AddModifier(adj);
+                        nodeList.RemoveAt(--i);
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Constructor helper method.
         /// Collects chained <see cref="NounNode"/> objects in <see paramref="nodeList"/> (those with one or more
         /// <see cref="ConjunctionNode"/> objects between them), replacing the words with a new <see cref="NounGroupNode"/> object.
         /// </summary>

@@ -2,7 +2,7 @@
 namespace Adventure.Language
 {
     /// <summary>
-    /// Represents a known <see cref="AdjectiveNode"/> definition in the <see cref="Glossary"/>.
+    /// Represents a known <see cref="NounModifierNode"/> definition in the <see cref="Glossary"/>.
     /// </summary>
     public sealed class AdjectiveDef : Definition
     {
@@ -13,12 +13,12 @@ namespace Adventure.Language
         { }
 
         /// <summary>
-        /// Create a new <see cref="AdjectiveNode"/> from this entry.
+        /// Create a new <see cref="NounModifierNode"/> from this entry.
         /// </summary>
-        /// <returns>The new <see cref="AdjectiveNode"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="NounModifierNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origWord)
         {
-            return new AdjectiveNode(origWord, ID);
+            return new NounModifierNode(origWord, ID);
         }
     }
 }

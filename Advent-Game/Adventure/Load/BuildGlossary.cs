@@ -89,6 +89,8 @@ namespace Adventure
             // OTHER / TEST
             g.AddDef(new NounDef("LAMP"));
             g.AddWords(new[] { "lamp" }, "LAMP");
+            g.AddDef(new NounDef("ORK"));
+            g.AddWords(new[] { "ork" }, "ORK");
             g.AddDef(new AdjectiveDef("BRASS"));
             g.AddWords(new[] { "brass" }, "BRASS");
 
