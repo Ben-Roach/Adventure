@@ -10,8 +10,6 @@ namespace Adventure.Language
         /// Create a new <see cref="PrepositionNode"/>.
         /// </summary>
         public PrepositionNode(string origWord, string id) : base(origWord, id)
-        {
-
-        }
+        { }
     }
 }

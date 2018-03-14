@@ -19,36 +19,48 @@ namespace Adventure.Language
 
         /// <summary>The wildcard character used in <see cref="VerbUsage.Syntax"/> to represent variable words. Automatically considered
         /// an invalid character in <see cref="IsInvalidChar"/>.</summary>
-        public char Wildcard { get; }
+        public char Wildcard => '*';
         /// <summary>The string to use as the <see cref="Node.ID"/> for any word that is undefined in this
         /// <see cref="Glossary"/>. Same as <see cref="Wildcard"/>.</summary>
         public string UnknownID => Wildcard.ToString();
-        /// <summary>Normalizes player input and words in the <see cref="Glossary"/> so they match correctly.
-        /// Used before validation.</summary>
-        public Func<string, string> Normalize { get; }
-        /// <summary>Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.
-        /// Automatically considers <see cref="Wildcard"/> to be invalid.</summary>
-        public Func<char, bool> IsInvalidChar { get; }
-        /// <summary>Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</summary>
-        public Func<string, bool> IsInvalidWord { get; }
 
         /// <summary>
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
-        /// <param name="wildcard">The character that represents a wildcard in <see cref="VerbUsage.Syntax"/>.
-        /// Automatically considered an invalid character. Also used as <see cref="UnknownID"/>.</param>
-        /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
-        /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        public Glossary(char wildcard, Func<string, string> normalize, Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
+        public Glossary()
         {
             wordDefs = new Dictionary<string, string>();
             defIDs = new Dictionary<string, Definition>();
+        }
 
-            Wildcard = wildcard;
-            Normalize = normalize;
-            IsInvalidChar = (s => isInvalidChar(s) || s == Wildcard);
-            IsInvalidWord = isInvalidWord;
+        /// <summary>
+        /// Normalizes player input and words in the <see cref="Glossary"/> so they match correctly.
+        /// </summary>
+        public string Normalize(string s)
+        {
+            return s.Trim().ToLower();
+        }
+
+        /// <summary>
+        /// Reports if a character can be ignored in a word in player input and is invalid in the <see cref="Glossary"/>.
+        /// Automatically considers <see cref="Wildcard"/> to be invalid. Use after <see cref="Normalize(string)"/>.
+        /// </summary>
+        public bool IsInvalidChar(char c)
+        {
+            if (char.IsLetter(c) || char.IsNumber(c) || !char.IsWhiteSpace(c) || c == '&' || c == '?' || c == '\'' || c == '-')
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.
+        /// Use after <see cref="Normalize(string)"/> and <see cref="IsInvalidChar(char)"/>.
+        /// </summary>
+        public bool IsInvalidWord(string s)
+        {
+            if (s == "the" || s == "a" || s == "an" || s == "of")
+                return true;
+            return false;
         }
 
         /// <summary>

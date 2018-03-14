@@ -16,14 +16,13 @@ namespace Adventure.Language
         /// <summary>if <see cref="VerbUsage.Arg1"/> is a <see cref="NounGroupNode"/>, iterate through
         /// the contained <see cref="NounNode"/> objects and pass each to <see cref="VerbUsage.ActionDelegate"/>
         /// individually (while passing <see cref="VerbUsage.Arg2"/> intact each iteration).
-        /// <para><see cref="VerbUsage.Arg1"/> may also be a <see cref="NounNode"/> with no consiquence.
-        /// Don't use this with <see cref="MakeArg2Singular"/>.</para></summary>
+        /// <para><see cref="VerbUsage.Arg1"/> may also be a <see cref="NounNode"/> with no consiquence.</para></summary>
         MakeArg1Singular = 1 << 1,
         /// <summary>if <see cref="VerbUsage.Arg2"/> is a <see cref="NounGroupNode"/>, iterate through
         /// the contained <see cref="NounNode"/> objects and pass each to <see cref="VerbUsage.ActionDelegate"/>
         /// individually (while passing <see cref="VerbUsage.Arg1"/> intact each iteration).
         /// <para><see cref="VerbUsage.Arg2"/> may also be a <see cref="NounNode"/> with no consiquence.
-        /// Don't use this with <see cref="MakeArg1Singular"/>.</para></summary>
+        /// Will be ignored if <see cref="MakeArg1Singular"/> is set.</para></summary>
         MakeArg2Singular = 1 << 2,
     }
 }

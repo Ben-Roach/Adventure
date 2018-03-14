@@ -11,9 +11,7 @@ namespace Adventure
         /// </summary>
         public static Glossary BuildGlossary()
         {
-            Glossary g = new Glossary('*',  s => s.Trim().ToLower(),
-                c => !(char.IsLetter(c) || char.IsNumber(c) || c == '&' || c == '?' || c == '\'' || c == '-'),
-                s => (s == "the" || s == "a" || s == "an" || s == "of"));
+            Glossary g = new Glossary();
 
             // PREPOSITIONS
             g.AddDef(new PrepositionDef("at"));
