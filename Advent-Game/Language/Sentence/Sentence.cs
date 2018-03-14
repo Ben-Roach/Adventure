@@ -213,7 +213,7 @@ namespace Adventure.Language
                 // Verb
                 else if (sentence[i] is VerbNode verb)
                 {
-                    foreach (VerbPhrase syntax in verb.Syntaxes)
+                    foreach (VerbUsage syntax in verb.Usages)
                     {
 
                     }

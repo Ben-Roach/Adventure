@@ -9,22 +9,22 @@ namespace Adventure.Language
     /// </summary>
     public sealed class VerbNode : Node
     {
-        List<VerbPhrase> syntaxes;
+        private List<VerbUsage> usages;
         /// <summary>Syntaxes that are valid for the <see cref="VerbNode"/>.</summary>
-        public IReadOnlyCollection<VerbPhrase> Syntaxes { get => syntaxes.AsReadOnly(); }
+        public IReadOnlyCollection<VerbUsage> Usages { get => usages.AsReadOnly(); }
 
         /// <summary>
-        /// Create a new <see cref="VerbNode"/> that contains <see cref="VerbPhrase"/> objects.
+        /// Create a new <see cref="VerbNode"/> that contains <see cref="VerbUsage"/> objects.
         /// </summary>
-        /// <param name="syntaxes">Represent syntaxes that are valid for the <see cref="VerbNode"/>.</param>
-        /// <exception cref="ArgumentException">Thrown when <paramref name="syntaxes"/> is zero length or contains null items.</exception>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="syntaxes"/> is null.</exception>
-        public VerbNode(string origWord, string id, ICollection<VerbPhrase> syntaxes) : base(origWord, id)
+        /// <param name="usages">Represent syntaxes that are valid for the <see cref="VerbNode"/>.</param>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="usages"/> is zero length or contains null items.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="usages"/> is null.</exception>
+        public VerbNode(string origWord, string id, ICollection<VerbUsage> usages) : base(origWord, id)
         {
-            if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
-            else if (syntaxes.Count == 0) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
-            else if (syntaxes.ContainsNull()) throw new ArgumentException(nameof(syntaxes), "Cannot contain null items.");
-            else this.syntaxes = new List<VerbPhrase>(syntaxes);
+            if (usages == null) throw new ArgumentNullException(nameof(usages));
+            else if (usages.Count == 0) throw new ArgumentException(nameof(usages), "Cannot be zero-length.");
+            else if (usages.ContainsNull()) throw new ArgumentException(nameof(usages), "Cannot contain null items.");
+            else this.usages = new List<VerbUsage>(usages);
         }
     }
 }

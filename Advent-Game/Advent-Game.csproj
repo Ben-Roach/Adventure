@@ -74,8 +74,8 @@
     <Compile Include="Language\Glossary\Definition.cs" />
     <Compile Include="Language\Sentence\Nodes\ConjunctionNode.cs" />
     <Compile Include="Language\Sentence\Token.cs" />
-    <Compile Include="Language\SyntFlag.cs" />
-    <Compile Include="Language\VerbPhrase.cs" />
+    <Compile Include="Language\UsageFlag.cs" />
+    <Compile Include="Language\VerbUsage.cs" />
     <Compile Include="Language\Sentence\Nodes\NounModifierNode.cs" />
     <Compile Include="Language\Sentence\Nodes\CommandNode.cs" />
     <Compile Include="Language\Sentence\Nodes\DirectionNode.cs" />

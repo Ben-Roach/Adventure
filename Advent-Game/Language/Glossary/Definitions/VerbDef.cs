@@ -10,19 +10,19 @@ namespace Adventure.Language
     public sealed class VerbDef : Definition
     {
         /// <summary>Syntaxes that are valid for a <see cref="VerbNode"/>.</summary>
-        List<VerbPhrase> syntaxes;
+        List<VerbUsage> Usages;
 
         /// <summary>
         /// Create a new <see cref="VerbDef"/>.
         /// </summary>
         /// <param name="wordGroup">The words that each represent a new known <see cref="VerbNode"/>.</param>
-        /// <param name="syntaxes">Represent syntaxes that are valid for the words in <paramref name="wordGroup"/>.</param>
-        public VerbDef(string id, ICollection<VerbPhrase> syntaxes) : base(id)
+        /// <param name="usages">Represents valid verb phrases for the verbs in <paramref name="wordGroup"/>.</param>
+        public VerbDef(string id, ICollection<VerbUsage> usages) : base(id)
         {
-            if (syntaxes == null) throw new ArgumentNullException(nameof(syntaxes));
-            else if (syntaxes.Count == 0) throw new ArgumentException(nameof(syntaxes), "Cannot be zero-length.");
-            else if (syntaxes.ContainsNull()) throw new ArgumentException(nameof(syntaxes), "Cannot contain null items.");
-            else this.syntaxes = new List<VerbPhrase>(syntaxes);
+            if (usages == null) throw new ArgumentNullException(nameof(usages));
+            else if (usages.Count == 0) throw new ArgumentException(nameof(usages), "Cannot be zero-length.");
+            else if (usages.ContainsNull()) throw new ArgumentException(nameof(usages), "Cannot contain null items.");
+            else Usages = new List<VerbUsage>(usages);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Adventure.Language
         /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>
         public override Node CreateNode(string origWord)
         {
-            return new VerbNode(origWord, ID, syntaxes);
+            return new VerbNode(origWord, ID, Usages);
         }
     }
 }
