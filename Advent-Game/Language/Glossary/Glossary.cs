@@ -12,22 +12,22 @@ namespace Adventure.Language
     {
         /// <summary>A dictionary of all words usable by the player (keys) with the ID of each word's <see cref="Definition"/>
         /// (values) to use.</summary>
-        Dictionary<string, string> wordDefs;
+        private Dictionary<string, string> wordDefs;
         /// <summary>A dictionary of all <see cref="Definition.ID"/> strings (keys), with their respective <see cref="Definition"/>
         /// objects (values).</summary>
-        Dictionary<string, Definition> defIDs;
+        private Dictionary<string, Definition> defIDs;
 
-        /// <summary>The wildcard character used by syntaxes to represent variable words. Automatically considered
+        /// <summary>The wildcard character used in <see cref="VerbUsage.Syntax"/> to represent variable words. Automatically considered
         /// an invalid character in <see cref="IsInvalidChar"/>.</summary>
-        public char SyntaxWildcard { get; }
+        public char Wildcard { get; }
         /// <summary>The string to use as the <see cref="Node.ID"/> for any word that is undefined in this
-        /// <see cref="Glossary"/>.</summary>
-        public string UnknownID { get; }
+        /// <see cref="Glossary"/>. Same as <see cref="Wildcard"/>.</summary>
+        public string UnknownID => Wildcard.ToString();
         /// <summary>Normalizes player input and words in the <see cref="Glossary"/> so they match correctly.
         /// Used before validation.</summary>
         public Func<string, string> Normalize { get; }
         /// <summary>Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.
-        /// Automatically considers <see cref="SyntaxWildcard"/> to be invalid.</summary>
+        /// Automatically considers <see cref="Wildcard"/> to be invalid.</summary>
         public Func<char, bool> IsInvalidChar { get; }
         /// <summary>Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</summary>
         public Func<string, bool> IsInvalidWord { get; }
@@ -35,20 +35,19 @@ namespace Adventure.Language
         /// <summary>
         /// Create a new <see cref="Glossary"/>.
         /// </summary>
-        /// <param name="syntaxWildcard">The character that represents a wildcard in syntaxes. Automatically considered an invalid character.
-        /// Also used as <see cref="UnknownID"/>.</param>
+        /// <param name="wildcard">The character that represents a wildcard in <see cref="VerbUsage.Syntax"/>.
+        /// Automatically considered an invalid character. Also used as <see cref="UnknownID"/>.</param>
         /// <param name="normalize">Normalizes player input and words in the <see cref="Glossary"/>. Used before validation.</param>
         /// <param name="isInvalidChar">Reports if a character can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
         /// <param name="isInvalidWord">Reports if a word can be ignored in player input and is invalid in the <see cref="Glossary"/>.</param>
-        public Glossary(char syntaxWildcard, Func<string, string> normalize, Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
+        public Glossary(char wildcard, Func<string, string> normalize, Func<char, bool> isInvalidChar, Func<string, bool> isInvalidWord)
         {
             wordDefs = new Dictionary<string, string>();
             defIDs = new Dictionary<string, Definition>();
 
-            SyntaxWildcard = syntaxWildcard;
-            UnknownID = syntaxWildcard.ToString();
+            Wildcard = wildcard;
             Normalize = normalize;
-            IsInvalidChar = (s => isInvalidChar(s) || s == SyntaxWildcard);
+            IsInvalidChar = (s => isInvalidChar(s) || s == Wildcard);
             IsInvalidWord = isInvalidWord;
         }
 

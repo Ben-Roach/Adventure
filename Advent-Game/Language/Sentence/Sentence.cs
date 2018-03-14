@@ -121,11 +121,12 @@ namespace Adventure.Language
         /// </summary>
         /// <remarks>
         /// Any <see cref="NounNode"/> not directly followed by another <see cref="NounNode"/> is considered
-        /// a root noun. Any <see cref="NounNode"/> objects that preceed a <see cref="NounNode"/> without
+        /// a root noun. Any <see cref="NounNode"/> objects that preceeds a <see cref="NounNode"/> without
         /// other non-<see cref="NounNode"/> objects between them will be converted to <see cref="NounModifierNode"/>
         /// objects and added to the root noun's <see cref="NounNode.Modifers"/>, then removed from <see paramref="nodeList"/>.
         /// Then, any preceeding <see cref="NounModifierNode"/> objects with or without <see cref="ConjunctionNode"/>
-        /// objects between them will also be added to the root noun's <see cref="NounNode.Modifiers"/>.
+        /// objects between them will also be added to the root noun's <see cref="NounNode.Modifiers"/> and removed
+        /// from <see cref="Sentence"/>.
         /// </remarks>
         private static void CollectNounModifiers(List<Node> nodeList)
         {

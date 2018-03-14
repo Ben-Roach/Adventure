@@ -9,7 +9,7 @@ namespace Adventure.Language
     public sealed class CommandDef : Definition
     {
         /// <summary>The method to call on behalf of the <see cref="CommandNode"/>.</summary>
-        Action CommandDelegate;
+        public Action CommandDelegate { get; }
 
         /// <summary>
         /// Create a new <see cref="CommandDef"/>.

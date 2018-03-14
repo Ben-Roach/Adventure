@@ -17,9 +17,9 @@ namespace Adventure.Language
         /// <param name="indirectObject">The second argument of the method. Should be the indirect object (more or less).</param>
         public delegate void VerbActionDelegate(Node directObject, Node indirectObject);
 
-        List<string> structure;
+        private List<string> syntax;
         /// <summary>Contains wildcards and/or strings matching valid <see cref="Node.ID"/> values.</summary>
-        public IReadOnlyCollection<string> Structure { get => structure.AsReadOnly(); }
+        public IReadOnlyCollection<string> Syntax { get => syntax.AsReadOnly(); }
         /// <summary>The method to call when this <see cref="VerbUsage"/> is used in a <see cref="Sentence"/>.</summary>
         public VerbActionDelegate ActionDelegate { get; }
         /// <summary>The first wildcard's Type. Must be a <see cref="Node"/> type.</summary>
@@ -29,23 +29,23 @@ namespace Adventure.Language
         /// <summary>The flags for this <see cref="VerbUsage"/>.</summary>
         public UsageFlag Flags { get; }
         /// <summary>The length of the <see cref="VerbUsage"/>.</summary>
-        public int Length => structure.Count;
+        public int Length => syntax.Count;
 
         /// <summary>
         /// Create a new <see cref="VerbUsage"/> with two wildcard arguments.
         /// </summary>
-        /// <param name="structure">The represented phrase structure, in the form of a string.</param>
+        /// <param name="syntax">The represented phrase syntax, in the form of a string.</param>
         /// <param name="verbDelegate">The method to call when this <see cref="VerbUsage"/> is encountered in a <see cref="Sentence"/>.</param>
         /// <param name="arg1">The first wildcard's Type. Will be the direct object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="arg2">The second wildcard's Type. Will be the indirect object by default. Must be a <see cref="Node"/> Type or null.</param>
         /// <param name="flags">The flags for this <see cref="VerbUsage"/>.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="arg1"/> or <paramref name="arg2"/> are not types inherited from
         /// <see cref="Node"/> or null.</exception>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="structure"/> or <paramref name="verbDelegate"/> are null.</exception>
-        public VerbUsage(string structure, VerbActionDelegate verbDelegate, Type arg1=null, Type arg2=null, UsageFlag flags=UsageFlag.None)
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="syntax"/> or <paramref name="verbDelegate"/> are null.</exception>
+        public VerbUsage(string syntax, VerbActionDelegate verbDelegate, Type arg1=null, Type arg2=null, UsageFlag flags=UsageFlag.None)
         {
-            if (structure == null) throw new ArgumentNullException(nameof(structure));
-            this.structure = new List<string>(structure.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            if (syntax == null) throw new ArgumentNullException(nameof(syntax));
+            this.syntax = new List<string>(syntax.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
             ActionDelegate = verbDelegate ?? throw new ArgumentNullException(nameof(verbDelegate));
             Arg1 = (arg1 == null || typeof(Node).IsAssignableFrom(arg1)) ? arg1
                 : throw new ArgumentException(nameof(arg1), "Must be a type inherited from " + nameof(Node));
