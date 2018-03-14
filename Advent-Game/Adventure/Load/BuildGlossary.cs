@@ -15,8 +15,8 @@ namespace Adventure
                 c => !(char.IsLetter(c) || char.IsNumber(c) || c == '&' || c == '?' || c == '\'' || c == '-'),
                 s => (s == "the" || s == "a" || s == "an" || s == "of"));
 
-            // PARTICLES
-            g.AddDef(new ParticleDef("at"));
+            // PREPOSITIONS
+            g.AddDef(new PrepositionDef("at"));
             g.AddWords(new[] { "at" }, "at");
 
             // CONJUNCTIONS
