@@ -26,9 +26,9 @@ namespace Adventure.Language
         }
 
         /// <summary>
-        /// Create a new <see cref="VerbNode"/> from this entry.
+        /// Create a new <see cref="VerbNode"/> from this definition.
         /// </summary>
-        /// <returns>The new <see cref="VerbNode"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="VerbNode"/>, created from this definition.</returns>
         public override Node CreateNode(string origWord)
         {
             return new VerbNode(origWord, ID, Usages);

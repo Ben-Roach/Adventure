@@ -63,12 +63,11 @@
     <Compile Include="Adventure\ClassExtensions.cs" />
     <Compile Include="Adventure\Load\BuildGlossary.cs" />
     <Compile Include="Adventure\Game.cs" />
-    <Compile Include="Language\DirFlag.cs" />
+    <Compile Include="Language\PrepFlag.cs" />
     <Compile Include="Language\Glossary\Definitions\ConjunctionDef.cs" />
     <Compile Include="Language\Glossary\Definitions\VerbDef.cs" />
-    <Compile Include="Language\Glossary\Definitions\PrepositionDef.cs" />
     <Compile Include="Language\Glossary\Definitions\NounDef.cs" />
-    <Compile Include="Language\Glossary\Definitions\DirectionDef.cs" />
+    <Compile Include="Language\Glossary\Definitions\PrepositionDef.cs" />
     <Compile Include="Language\Glossary\Definitions\CommandDef.cs" />
     <Compile Include="Language\Glossary\Definitions\AdjectiveDef.cs" />
     <Compile Include="Language\Glossary\Definition.cs" />
@@ -78,10 +77,9 @@
     <Compile Include="Language\VerbUsage.cs" />
     <Compile Include="Language\Sentence\Nodes\NounModifierNode.cs" />
     <Compile Include="Language\Sentence\Nodes\CommandNode.cs" />
-    <Compile Include="Language\Sentence\Nodes\DirectionNode.cs" />
+    <Compile Include="Language\Sentence\Nodes\PrepositionNode.cs" />
     <Compile Include="Language\Sentence\Node.cs" />
     <Compile Include="Language\Sentence\Nodes\NounNode.cs" />
-    <Compile Include="Language\Sentence\Nodes\PrepositionNode.cs" />
     <Compile Include="Language\Sentence\Nodes\NounGroupNode.cs" />
     <Compile Include="Language\Sentence\Nodes\UnknownNode.cs" />
     <Compile Include="Language\Sentence\Nodes\VerbNode.cs" />

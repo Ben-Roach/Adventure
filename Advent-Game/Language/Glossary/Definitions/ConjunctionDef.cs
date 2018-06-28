@@ -13,9 +13,9 @@ namespace Adventure.Language
         { }
 
         /// <summary>
-        /// Create a new <see cref="ConjunctionNode"/> from this entry.
+        /// Create a new <see cref="ConjunctionNode"/> from this definition.
         /// </summary>
-        /// <returns>The new <see cref="ConjunctionNode"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="ConjunctionNode"/>, created from this definition.</returns>
         public override Node CreateNode(string origWord)
         {
             return new ConjunctionNode(origWord, ID);

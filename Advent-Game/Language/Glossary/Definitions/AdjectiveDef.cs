@@ -13,9 +13,9 @@ namespace Adventure.Language
         { }
 
         /// <summary>
-        /// Create a new <see cref="NounModifierNode"/> from this entry.
+        /// Create a new <see cref="NounModifierNode"/> from this definition.
         /// </summary>
-        /// <returns>The new <see cref="NounModifierNode"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="NounModifierNode"/>, created from this definition.</returns>
         public override Node CreateNode(string origWord)
         {
             return new NounModifierNode(origWord, ID);

@@ -14,38 +14,36 @@ namespace Adventure
             Glossary g = new Glossary();
 
             // PREPOSITIONS
-            g.AddDef(new PrepositionDef("at"));
-            g.AddWords(new[] { "at" }, "at");
+            g.AddDef(new PrepositionDef("NORTH", PrepFlag.North));
+            g.AddWords(new[] { "north", "n" }, "NORTH");
+            g.AddDef(new PrepositionDef("SOUTH", PrepFlag.South));
+            g.AddWords(new[] { "east", "e" }, "SOUTH");
+            g.AddDef(new PrepositionDef("EAST", PrepFlag.East));
+            g.AddWords(new[] { "south", "s" }, "EAST");
+            g.AddDef(new PrepositionDef("WEST", PrepFlag.West));
+            g.AddWords(new[] { "west", "w" }, "WEST");
+            g.AddDef(new PrepositionDef("NORTHEAST", PrepFlag.Northeast));
+            g.AddWords(new[] { "northeast", "ne" }, "NORTHEAST");
+            g.AddDef(new PrepositionDef("NORTHWEST", PrepFlag.Northwest));
+            g.AddWords(new[] { "northwest", "nw" }, "NORTHWEST");
+            g.AddDef(new PrepositionDef("SOUTHEAST", PrepFlag.Southeast));
+            g.AddWords(new[] { "southeast", "se" }, "SOUTHEAST");
+            g.AddDef(new PrepositionDef("SOUTHWEST", PrepFlag.Southwest));
+            g.AddWords(new[] { "southwest", "sw" }, "SOUTHWEST");
+            g.AddDef(new PrepositionDef("UP", PrepFlag.Up));
+            g.AddWords(new[] { "u", "up" }, "UP");
+            g.AddDef(new PrepositionDef("DOWN", PrepFlag.Down));
+            g.AddWords(new[] { "d", "down" }, "DOWN");
+            g.AddDef(new PrepositionDef("IN", PrepFlag.In));
+            g.AddWords(new[] { "i", "in", "inside" }, "IN");
+            g.AddDef(new PrepositionDef("OUT", PrepFlag.Out));
+            g.AddWords(new[] { "o", "out", "outside" }, "OUT");
+            g.AddDef(new PrepositionDef("at", PrepFlag.At));
+            g.AddWords(new[] { "at" }, "AT");
 
             // CONJUNCTIONS
             g.AddDef(new ConjunctionDef("and"));
-            g.AddWords(new[] { "and", "then", "&" }, "and");
-
-            // DIRECTIONS
-            g.AddDef(new DirectionDef("NORTH", DirFlag.North));
-            g.AddWords(new[] { "north", "n" }, "NORTH");
-            g.AddDef(new DirectionDef("SOUTH", DirFlag.South));
-            g.AddWords(new[] { "east", "e" }, "SOUTH");
-            g.AddDef(new DirectionDef("EAST", DirFlag.East));
-            g.AddWords(new[] { "south", "s" }, "EAST");
-            g.AddDef(new DirectionDef("WEST", DirFlag.West));
-            g.AddWords(new[] { "west", "w" }, "WEST");
-            g.AddDef(new DirectionDef("NORTHEAST", DirFlag.Northeast));
-            g.AddWords(new[] { "northeast", "ne" }, "NORTHEAST");
-            g.AddDef(new DirectionDef("NORTHWEST", DirFlag.Northwest));
-            g.AddWords(new[] { "northwest", "nw" }, "NORTHWEST");
-            g.AddDef(new DirectionDef("SOUTHEAST", DirFlag.Southeast));
-            g.AddWords(new[] { "southeast", "se" }, "SOUTHEAST");
-            g.AddDef(new DirectionDef("SOUTHWEST", DirFlag.Southwest));
-            g.AddWords(new[] { "southwest", "sw" }, "SOUTHWEST");
-            g.AddDef(new DirectionDef("UP", DirFlag.Up));
-            g.AddWords(new[] { "u", "up" }, "UP");
-            g.AddDef(new DirectionDef("DOWN", DirFlag.Down));
-            g.AddWords(new[] { "d", "down" }, "DOWN");
-            g.AddDef(new DirectionDef("IN", DirFlag.In));
-            g.AddWords(new[] { "i", "in", "inside" }, "IN");
-            g.AddDef(new DirectionDef("OUT", DirFlag.Out));
-            g.AddWords(new[] { "o", "out", "outside" }, "OUT");
+            g.AddWords(new[] { "and", "then", "&" }, "AND");
 
             // VERBS
             g.AddDef(new VerbDef("TAKE", new[] {
@@ -54,7 +52,7 @@ namespace Adventure
             g.AddWords(new[] { "take", "grab" }, "TAKE");
 
             g.AddDef(new VerbDef("GO", new[] {
-                    new VerbUsage("*", VerbAction.Placeholder, typeof(DirectionNode)),
+                    new VerbUsage("*", VerbAction.Placeholder, typeof(PrepositionNode)),
                 }));
             g.AddWords(new[] { "go", "walk", "climb" }, "GO");
 

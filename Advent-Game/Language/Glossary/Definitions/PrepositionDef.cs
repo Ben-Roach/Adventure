@@ -6,19 +6,25 @@ namespace Adventure.Language
     /// </summary>
     public sealed class PrepositionDef : Definition
     {
+        /// <summary>Signifies the direction/location represented.</summary>
+        PrepFlag prepType;
+
         /// <summary>
         /// Create a new <see cref="PrepositionDef"/>.
         /// </summary>
-        public PrepositionDef(string id) : base(id)
-        { }
+        /// <param name="prepType">Signifies the direction/location represented.</param>
+        public PrepositionDef(string id, PrepFlag prepType) : base(id)
+        {
+            this.prepType = prepType;
+        }
 
         /// <summary>
-        /// Create a new <see cref="PrepositionNode"/> from this entry.
+        /// Create a new <see cref="PrepositionNode"/> from this definition.
         /// </summary>
-        /// <returns>The new <see cref="PrepositionNode"/>, created from this entry.</returns>
+        /// <returns>The new <see cref="PrepositionNode"/>, created from this definition.</returns>
         public override Node CreateNode(string origWord)
         {
-            return new PrepositionNode(origWord, ID);
+            return new PrepositionNode(origWord, ID, prepType);
         }
     }
 }
